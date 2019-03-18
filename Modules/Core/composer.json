@@ -1,0 +1,21 @@
+{
+    "name": "nwidart/core",
+    "description": "",
+    "authors": [{
+        "name": "Nicolas Widart",
+        "email": "n.widart@gmail.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Modules\\Core\\": ""
+        }
+    },
+    "require": {
+        "cviebrock/eloquent-sluggable": "^4.6",
+        "intervention/image": "^2.3",
+        "zizaco/entrust": "5.2.x-dev",
+        "laravel/passport": "^3.0",
+        "yajra/laravel-datatables-oracle": "8.*",
+        "webpatser/laravel-uuid": "2.2.1"
+    }
+}

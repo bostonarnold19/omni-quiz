@@ -1,0 +1,14 @@
+{
+    "name": "Dump",
+    "alias": "dump",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Dump\\Providers\\DumpServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
