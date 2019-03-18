@@ -1,22 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateQuestionTables extends Migration
-{
+class CreateQuestionTables extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('group_questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('type')->nullable();
+            $table->string('is_published')->nullable();
             $table->longtext('description')->nullable();
             $table->timestamps();
         });
@@ -52,8 +51,7 @@ class CreateQuestionTables extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('group_question');
         Schema::dropIfExists('questions');
         Schema::dropIfExists('question_options');
