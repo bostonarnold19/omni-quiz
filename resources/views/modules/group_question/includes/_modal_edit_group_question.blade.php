@@ -2,13 +2,13 @@
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Group Question</h5>
+                <h5 class="modal-title">Edit Group Question</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="save-form" method="POST" action="{{ route('group-question.update','update') }}">
+                <form id="edit-form" method="POST" action="{{ route('group-question.update','update') }}">
                     @csrf
                     @method('patch')
                     <div class="row">
@@ -88,7 +88,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                <button type="submit" form="save-form" class="btn btn-sm btn-secondary">Save</button>
+                <button type="submit" form="edit-form" class="btn btn-sm btn-secondary">Save</button>
             </div>
         </div>
     </div>
