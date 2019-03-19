@@ -24,7 +24,7 @@ class CreateQuestionTables extends Migration {
             $table->increments('id');
             $table->string('question')->nullable();
             $table->string('type')->nullable();
-            $table->string('group_question_id')->nullable();
+            $table->string('time')->nullable();
             $table->timestamps();
         });
 

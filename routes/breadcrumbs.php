@@ -21,3 +21,15 @@ Breadcrumbs::for ('permission.index', function ($trail) {
     $trail->parent('dashboard');
     $trail->push('Permission', route('permission.index'));
 });
+
+//------------ Group Question ------------//
+Breadcrumbs::for ('group-question.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Group Question', route('group-question.index'));
+});
+
+//------------ Question ------------//
+Breadcrumbs::for ('question.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Question', route('question.index'));
+});
