@@ -28,6 +28,11 @@ class CreateQuestionTables extends Migration {
             $table->timestamps();
         });
 
+        Schema::create('group_question_question', function (Blueprint $table) {
+            $table->string('group_question_id')->nullable();
+            $table->string('question_id')->nullable();
+        });
+
         Schema::create('question_options', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description')->nullable();
