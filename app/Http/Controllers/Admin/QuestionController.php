@@ -111,7 +111,11 @@ class QuestionController extends Controller {
     public function destroy($id) {
         try {
             DB::beginTransaction();
-            $this->question->destroy($id);
+            $question = $this->question->find($id);
+            foreach ($question->options as $v) {
+                $v->delete();
+            }
+            $question->delete();
             $status = 'success';
             $message = 'Question has been deleted.';
             DB::commit();
