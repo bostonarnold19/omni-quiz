@@ -17,4 +17,9 @@ class Question extends Model
     	return $this->belongsToMany('App\GroupQuestion');
     }
 
+    public function options()
+    {
+    	return $this->hasMany('App\QuestionOption');
+    }
+
 }

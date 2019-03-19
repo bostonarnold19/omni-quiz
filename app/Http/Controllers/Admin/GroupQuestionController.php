@@ -28,7 +28,7 @@ class GroupQuestionController extends Controller {
         $data = $request->all();
         try {
             DB::beginTransaction();
-            $this->group_question->save($data);
+            $this->group_question->create($data);
             DB::commit();
             $status = 'success';
             $message = 'Group Question has been created.';
