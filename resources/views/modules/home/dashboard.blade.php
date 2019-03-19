@@ -22,31 +22,31 @@
         <div class="block-content">
             <table class="table table-striped table-borderless table-vcenter">
                 <tbody>
-                    @for ($i = 1; $i < 11; $i++)
+                    @foreach($group_questions as $key => $group_question)
                     <tr>
                         <td class="text-center w-25 d-none d-md-table-cell">
                             <a class="item item-circle bg-primary text-white font-size-h2 mx-auto" href="javascript:void(0)">
-                                {{ $i }}
+                                {{ $key+1 }}
                             </a>
                         </td>
                         <td>
                             <div class="py-4">
                                 <div class="font-size-sm font-w700 text-uppercase mb-2">
-                                    <span class="text-muted mr-3">Quiz {{ $i }}</span>
+                                    <span class="text-muted mr-3">{{ $group_question->type }}</span>
                                     <span class="text-primary">
-                                        <i class="fa fa-clock"></i> 05:00
+                                        <i class="fa fa-puzzle-piece"></i> {{ $group_question->questions->count() }}
                                     </span>
                                 </div>
                                 <a class="link-fx h4 mb-2 d-inline-block text-dark" href="javascript:void(0)">
-                                    Sample Quiz {{ $i }}
+                                    {{ $group_question->title }}
                                 </a>
                                 <p class="text-muted mb-0">
-                                    Ligula hendrerit nibh, ac cursus nibh sapien in purus. Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus.
+                                    {{ $group_question->description }}
                                 </p>
                             </div>
                         </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
