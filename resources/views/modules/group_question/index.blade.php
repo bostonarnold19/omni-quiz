@@ -88,7 +88,15 @@
 
         var AccountsJsonString = JSON.stringify(matches);
         $('[id=edit_questions_'+g_id+']').val(AccountsJsonString)
-        // alert(AccountsJsonString);
+    });
+
+    $(".validate-number-only").inputFilter(function(value) {
+      return /^\d*$/.test(value);
+    });
+
+    $(document).on('change', '.validate-number-only', function(){
+        var value =  $(this).val();
+        console.log(value)
     });
 </script>
 @endsection

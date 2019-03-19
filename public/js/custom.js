@@ -10,6 +10,8 @@ const app = new Vue({
                 id:'',
                 question:'',
                 time:'',
+                minute:'',
+                second:'',
                 is_correct:'',
                 question_options:[],
             },
