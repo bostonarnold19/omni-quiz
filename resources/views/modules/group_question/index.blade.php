@@ -15,6 +15,7 @@
                     <tr>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Items</th>
                         <th>Published</th>
                         <th>Action</th>
                     </tr>
@@ -24,10 +25,11 @@
                     <tr>
                         <td>{{ $group_question->title }}</td>
                         <td>{{ $group_question->description }}</td>
+                        <td>{{ $group_question->questions->count() }}</td>
                         <td>{{ $group_question->is_published }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-secondary">Edit</a>
-                            <form style="display:inline;" method="POST" action="#{{-- {{ route('group-question.destroy', $group_question->id) }} --}}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
+                            <a href="{{ route('group-question.edit', $group_question->id) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $group_question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-sm btn-secondary">Delete</button>

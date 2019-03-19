@@ -35,7 +35,7 @@ class QuestionController extends Controller {
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
         }
-        return redirect()->route('group-question.index')->with($status, $message);
+        return redirect()->route('question.index')->with($status, $message);
     }
 
     public function show($id) {
@@ -60,13 +60,13 @@ class QuestionController extends Controller {
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
         }
-        return redirect()->route('group-question.index')->with($status, $message);
+        return redirect()->route('question.index')->with($status, $message);
     }
 
     public function destroy($id) {
         try {
             DB::beginTransaction();
-            $this->question->delete($id);
+            $this->question->destroy($id);
             $status = 'success';
             $message = 'Question has been deleted.';
             DB::commit();
@@ -75,6 +75,6 @@ class QuestionController extends Controller {
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
         }
-        return redirect()->route('group-question.index')->with($status, $message);
+        return redirect()->route('question.index')->with($status, $message);
     }
 }

@@ -68,7 +68,7 @@ class GroupQuestionController extends Controller {
     public function destroy($id) {
         try {
             DB::beginTransaction();
-            $this->group_question->delete($id);
+            $this->group_question->destroy($id);
             $status = 'success';
             $message = 'Group Question has been deleted.';
             DB::commit();
