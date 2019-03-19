@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\GroupQuestion;
 use App\Http\Controllers\Controller;
 use App\UserQuestion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class QuestionnaireController extends Controller {
@@ -19,12 +20,23 @@ class QuestionnaireController extends Controller {
     }
 
     public function create(Request $request) {
-        $group_question = $this->group_question->find($request->questionnaire_id);
-        $user_question = $this->user_question->where('group_question_id', $request->questionnaire_id)->pluck('question_id');
-        $questions = $group_question->questions->except($user_question);
-
-        dd($questions);
-        return view('modules.questionnaire.create', compact('group_question', 'questions'));
+        if ($request->ajax()) {
+            $group_question = $this->group_question->find($request->questionnaire_id);
+            $user_question = $this->user_question
+                ->where('group_question_id', $request->questionnaire_id)
+                ->whereDate('time_end', '<=', Carbon::now())
+                ->pluck('question_id');
+            $question = $group_question->questions->except($user_question)->first();
+            return response()->json([
+                'question' => $question,
+                'options' => $question->options,
+            ], 200);
+        } else {
+            $group_question = $this->group_question->find($request->questionnaire_id);
+            // $user_question = $this->user_question->where('group_question_id', $request->questionnaire_id)->pluck('question_id');
+            // $questions = $group_question->questions->except($user_question);
+            return view('modules.questionnaire.create', compact('group_question'));
+        }
     }
 
     public function store(Request $request) {
