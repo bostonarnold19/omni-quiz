@@ -33,3 +33,15 @@ Breadcrumbs::for ('question.index', function ($trail) {
     $trail->parent('dashboard');
     $trail->push('Question', route('question.index'));
 });
+
+//------------ Result ------------//
+Breadcrumbs::for ('result.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Result', route('result.index'));
+});
+
+//------------ Result ------------//
+Breadcrumbs::for ('questionnaire.create', function ($trail, $group_question) {
+    $trail->parent('dashboard');
+    $trail->push('Questionnaire ' . $group_question->title, route('questionnaire.create'));
+});

@@ -30,4 +30,10 @@ return [
     ['name' => 'add-question'],
     ['name' => 'edit-question'],
     ['name' => 'delete-question'],
+
+    //result
+    ['name' => 'manage-result'],
+
+    //questionnaire
+    ['name' => 'take-questionnaire'],
 ];

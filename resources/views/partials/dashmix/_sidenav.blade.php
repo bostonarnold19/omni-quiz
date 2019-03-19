@@ -61,5 +61,13 @@
             </a>
         </li>
         @endpermission
+        @permission('manage-result')
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('result') ? 'active' : '' }}" href="{{ route('result.index') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Result</span>
+            </a>
+        </li>
+        @endpermission
     </ul>
 </div>
