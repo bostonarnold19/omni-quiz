@@ -15,6 +15,6 @@ class GroupQuestion extends Model
 
     public function questions()
     {
-    	return $this->hasMany('App\Question');
+    	return $this->belongsToMany('App\Question');
     }
 }

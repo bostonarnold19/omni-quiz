@@ -32,6 +32,41 @@ class QuestionsTableSeeder extends Seeder
             'time'=> '5:00',
         ];
         $question = new Question;
-        $gq = $question->create($data);
+        $q = $question->create($data);
+        $gq->questions()->attach($q);
+
+        $data = [
+            'description'=> 'Magellan',
+            'is_correct'=> '1',
+            'question_id'=> $q->id,
+        ];
+        $questionOption = new QuestionOption;
+        $qO = $questionOption->create($data);
+
+        $data = [
+            'description'=> 'Rajah Sikatuna',
+            'is_correct'=> null,
+            'question_id'=> $q->id,
+        ];
+        $questionOption = new QuestionOption;
+        $qO = $questionOption->create($data);
+
+        $data = [
+            'description'=> 'Rajah Di Mabuntis',
+            'is_correct'=> null,
+            'question_id'=> $q->id,
+        ];
+        $questionOption = new QuestionOption;
+        $qO = $questionOption->create($data);
+
+        $data = [
+            'description'=> 'Datu Puti Soy sauce',
+            'is_correct'=> null,
+            'question_id'=> $q->id,
+        ];
+        $questionOption = new QuestionOption;
+        $qO = $questionOption->create($data);
+
+
     }
 }
