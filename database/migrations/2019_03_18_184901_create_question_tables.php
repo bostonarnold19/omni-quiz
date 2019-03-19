@@ -47,6 +47,8 @@ class CreateQuestionTables extends Migration {
             $table->string('group_question_id')->nullable();
             $table->string('question_id')->nullable();
             $table->string('question_option_id')->nullable();
+            $table->dateTime('time_start')->nullable();
+            $table->dateTime('time_end')->nullable();
             $table->timestamps();
         });
     }
