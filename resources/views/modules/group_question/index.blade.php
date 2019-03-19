@@ -7,7 +7,7 @@
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
             <h3 class="block-title">Group Question</h3>
-            <a href="#" class="btn btn-outline-primary push">Add New Group Question</a>
+            <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Group Question</a>
         </div>
         <div class="block-content block-content-full">
             <table class="table table-bordered table-striped table-vcenter" id="datatable">
@@ -42,6 +42,9 @@
         </div>
     </div>
 </div>
+<div id="app">
+    @include('modules.group_question.includes._modal_add_group_question')
+</div>
 @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
@@ -50,4 +53,10 @@
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('js/datatable.js') }}">
+<script src="{{ asset('js/datatable.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
+<script >
+    $('.question_tables').DataTable( );
+</script>
 @endsection

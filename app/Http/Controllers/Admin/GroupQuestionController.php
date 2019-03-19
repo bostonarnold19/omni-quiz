@@ -17,7 +17,8 @@ class GroupQuestionController extends Controller {
 
     public function index() {
         $group_questions = $this->group_question->all();
-        return view('modules.group_question.index', compact('group_questions'));
+        $questions = $this->question->all();
+        return view('modules.group_question.index', compact('group_questions','questions'));
     }
 
     public function create() {
@@ -26,6 +27,7 @@ class GroupQuestionController extends Controller {
 
     public function store(Request $request) {
         $data = $request->all();
+        dd($data);
         try {
             DB::beginTransaction();
             $this->group_question->create($data);
