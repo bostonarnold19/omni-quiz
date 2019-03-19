@@ -1,20 +1,22 @@
-<div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
+<div class="modal fade" id="edit-modal-{{$group_question->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Group Question</h5>
+                <h5 class="modal-title">Add Group Question</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="save-form" method="POST" action="{{ route('group-question.store') }}">
+                <form id="save-form" method="POST" action="{{ route('group-question.update','update') }}">
                     @csrf
+                    @method('patch')
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
+                                <input type="hidden" name="id" value="{{$group_question->id}}">
                                 <label>Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="Title" required>
+                                <input type="text" class="form-control" name="title" placeholder="Title" value="{{$group_question->title}}" required>
                             </div>
                         </div>
                     </div>
@@ -22,7 +24,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <input type="text" class="form-control" name="type" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="type" placeholder="Subject" value="{{$group_question->type}}" required>
                             </div>
                         </div>
                     </div>
@@ -30,10 +32,10 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" class="form-control"></textarea>
+                                <textarea name="description" class="form-control">{{$group_question->description}}</textarea>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="is_published" value="1" id="is_published">
+                                <input class="form-check-input" type="checkbox" name="is_published" value="1" id="is_published" {{empty($group_question->is_published) ? null : "checked='checked'" }}>
                                 <label class="form-check-label" for="is_published">
                                     Publish
                                 </label>
@@ -55,7 +57,7 @@
                                 <tbody>
                                     @foreach($questions as $question)
                                     <tr>
-                                        <td><input type="checkbox" class="add-checkbox-question" value="{{$question->id}}"></td>
+                                        <td><input type="checkbox" class="edit-checkbox-question group-id-{{ $group_question->id }}" data-id="{{ $group_question->id }}" value="{{$question->id}}" {{ !in_array($question->id, $ids) ?  null : "checked='checked'" }}></td>
                                         <td>{{$question->question}}</td>
                                         <td>
                                             @foreach($question->options as $key => $options)
@@ -75,7 +77,13 @@
                             </table>
                         </div>
                     </div>
-                    <input type="hidden" name="questions" id="add_questions">
+                    @php
+                        $ids = [];
+                        foreach ($group_question->questions as $question) {
+                            $ids[] = $question->id;
+                        }
+                    @endphp
+                    <input type="hidden" name="questions" id="edit_questions_{{$group_question->id}}" value="{{json_encode($ids)}}">
                 </form>
             </div>
             <div class="modal-footer">

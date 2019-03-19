@@ -28,7 +28,15 @@
                         <td>{{ $group_question->questions->count() }}</td>
                         <td>{{ $group_question->is_published }}</td>
                         <td>
-                            <a href="{{ route('group-question.edit', $group_question->id) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{{ route('group-question.edit', $group_question->id) }}"  data-toggle="modal" data-target="#edit-modal-{{$group_question->id}}" class="btn btn-sm btn-secondary">Edit</a>
+                            @php
+                                $ids = [];
+                                foreach ($group_question->questions as $question) {
+                                    $ids[] = $question->id;
+                                }
+                            @endphp
+                            @include('modules.group_question.includes._modal_edit_group_question')
+
                             <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $group_question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
                                 @csrf
                                 @method('delete')
@@ -57,6 +65,30 @@
 <script src="{{ asset('js/datatable.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
 <script >
-    $('.question_tables').DataTable( );
+    var add_table = $('.question_tables').DataTable();
+    $(document).on('click','.add-checkbox-question', function(){
+        var matches = [];
+        var checkedcollection = add_table.$(".add-checkbox-question:checked", { "page": "all" });
+        checkedcollection.each(function (index, elem) {
+            matches.push($(elem).val());
+        });
+
+        var AccountsJsonString = JSON.stringify(matches);
+        $('[id=add_questions]').val(AccountsJsonString)
+        // alert(AccountsJsonString);
+    });
+
+    $(document).on('click','.edit-checkbox-question', function(){
+        var matches = [];
+        var g_id = $(this).data('id')
+        var checkedcollection = add_table.$(".group-id-"+g_id+":checked", { "page": "all" });
+        checkedcollection.each(function (index, elem) {
+            matches.push($(elem).val());
+        });
+
+        var AccountsJsonString = JSON.stringify(matches);
+        $('[id=edit_questions_'+g_id+']').val(AccountsJsonString)
+        // alert(AccountsJsonString);
+    });
 </script>
 @endsection
