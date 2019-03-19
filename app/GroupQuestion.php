@@ -10,6 +10,7 @@ class GroupQuestion extends Model
         'title',
         'type',
         'description',
+        'is_published',
     ];
 
     public function questions()

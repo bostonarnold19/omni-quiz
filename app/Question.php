@@ -9,7 +9,7 @@ class Question extends Model
     public $fillable = [
         'question',
         'type',
-        'group_question_id',
+        'time',
     ];
 
     public function group_question()

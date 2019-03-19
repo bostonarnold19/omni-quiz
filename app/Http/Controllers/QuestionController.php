@@ -11,19 +11,14 @@ use App\UserQuestion;
 
 class QuestionController extends Controller
 {
-    public function __construct(
-        User $user_model,
-        GroupQuestion $group_question,
-        Question $question,
-        QuestionOption $question_option,
-        UserQuestion $user_question
-    ) {
-        $this->user_model      = $user_model;
-        $this->group_question  = $group_question;
-        $this->question        = $question;
-        $this->question_option = $question_option;
-        $this->user_question   = $user_question;
+    public function __construct() {
+        $this->user_model      = new User;
+        $this->group_question  = new GroupQuestion;
+        $this->question        = new Question;
+        $this->question_option = new QuestionOption;
+        $this->user_question   = new UserQuestion;
     } 
+    // create functions start
 
     public function questionCreate(Request $request)
     {
@@ -53,7 +48,9 @@ class QuestionController extends Controller
         return redirect()->back();
     }
 
+    // create functions end
 
+    // update functions start
     public function questionUpdate(Request $request, $id)
     {
         $data = $request->all();
@@ -92,6 +89,9 @@ class QuestionController extends Controller
         return redirect()->back();
     }
 
+    // update functions end
+
+    // delete question start
 
     public function questionDelete(Request $request, $id)
     {
@@ -127,5 +127,8 @@ class QuestionController extends Controller
         $question_o->delete();
         return redirect()->back();
     }
+
+    // delete question end
+
 
 }
