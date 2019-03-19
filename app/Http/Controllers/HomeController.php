@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller
-{
+use App\GroupQuestion;
+
+class HomeController extends Controller {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
+        $this->group_question = new GroupQuestion;
         $this->middleware('auth');
     }
 
@@ -19,8 +20,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('modules.home.dashboard');
+    public function index() {
+        $group_questions = $this->group_question->where('is_published', 1)->get();
+        return view('modules.home.dashboard', compact('group_questions'));
     }
 }

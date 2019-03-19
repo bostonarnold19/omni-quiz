@@ -10,18 +10,7 @@
     </div>
 </div>
 <div class="content-side content-side-full bg-black-10 text-center">
-    <button type="button" class="btn btn-sm btn-outline-secondary">
-    <i class="fa fa-fw fa-user-circle"></i>
-    </button>
-    <button type="button" class="btn btn-sm btn-outline-secondary">
-    <i class="fa fa-fw fa-pencil-alt"></i>
-    </button>
-    <button type="button" class="btn btn-sm btn-outline-secondary">
-    <i class="fa fa-fw fa-file-alt"></i>
-    </button>
-    <button type="button" class="btn btn-sm btn-outline-secondary">
-    <i class="fa fa-fw fa-cog"></i>
-    </button>
+    <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ auth()->user()->profile_picture }}" alt="">
 </div>
 <div class="content-side content-side-full">
     <ul class="nav-main">
@@ -69,6 +58,14 @@
             <a class="nav-main-link {{ Request::is('question*') ? 'active' : '' }}" href="{{ route('question.index') }}">
                 <i class="nav-main-link-icon far fa-dot-circle"></i>
                 <span class="nav-main-link-name">Question</span>
+            </a>
+        </li>
+        @endpermission
+        @permission('manage-result')
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('result') ? 'active' : '' }}" href="{{ route('result.index') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Result</span>
             </a>
         </li>
         @endpermission
