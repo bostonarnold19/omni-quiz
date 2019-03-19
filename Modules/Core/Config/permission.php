@@ -18,4 +18,16 @@ return [
     ['name' => 'add-permission'],
     ['name' => 'edit-permission'],
     ['name' => 'delete-permission'],
+
+    //group-question
+    ['name' => 'manage-group-question'],
+    ['name' => 'add-group-question'],
+    ['name' => 'edit-group-question'],
+    ['name' => 'delete-group-question'],
+
+    //question
+    ['name' => 'manage-question'],
+    ['name' => 'add-question'],
+    ['name' => 'edit-question'],
+    ['name' => 'delete-question'],
 ];

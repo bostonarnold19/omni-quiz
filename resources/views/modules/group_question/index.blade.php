@@ -7,7 +7,7 @@
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
             <h3 class="block-title">Group Question</h3>
-            <a href="#" type="button" class="btn btn-outline-primary push">Add New Group Question</a>
+            <a href="#" class="btn btn-outline-primary push">Add New Group Question</a>
         </div>
         <div class="block-content block-content-full">
             <table class="table table-bordered table-striped table-vcenter" id="datatable">
@@ -34,6 +34,7 @@
                             </form>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
