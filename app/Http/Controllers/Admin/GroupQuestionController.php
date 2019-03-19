@@ -83,6 +83,7 @@ class GroupQuestionController extends Controller {
             $status = 'success';
             $message = 'Group Question has been updated.';
         } catch (\Exception $e) {
+
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();

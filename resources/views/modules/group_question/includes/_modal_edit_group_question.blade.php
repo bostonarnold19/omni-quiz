@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="edit-form" method="POST" action="{{ route('group-question.update','update') }}">
+                <form id="edit-form-{{$group_question->id}}" method="POST" action="{{ route('group-question.update','update') }}">
                     @csrf
                     @method('patch')
                     <div class="row">
@@ -88,7 +88,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                <button type="submit" form="edit-form" class="btn btn-sm btn-secondary">Save</button>
+                <button type="submit" form="edit-form-{{$group_question->id}}" class="btn btn-sm btn-secondary">Save</button>
             </div>
         </div>
     </div>
