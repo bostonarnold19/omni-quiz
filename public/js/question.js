@@ -19,7 +19,7 @@ const app = new Vue({
             items: 0,
             user_questions: [],
             done: false,
-            ans: '',
+            ans: null,
             user_questions_taken: [],
         }
     },
@@ -41,6 +41,8 @@ const app = new Vue({
                     _this.options = response.options;
                     _this.user_question = response.user_question;
                     _this.user_questions_taken = response.user_questions_taken
+
+                    _this.timer(_this.user_question.time_end.date);
                 }
             },
         });
@@ -49,11 +51,37 @@ const app = new Vue({
     created: function(){
     },
     methods:{
+        timer: function(time){
+            var _this = this;
+            clearInterval(window.x);
+            var deadline = new Date(time).getTime();
+            window.x = setInterval(function() {
+                var now = new Date().getTime();
+                var t = deadline - now;
+                var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60));
+                var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((t % (1000 * 60)) / 1000);
+                document.getElementById("demo").innerHTML = minutes + "m " + seconds + "s ";
+                    if (t < 0) {
+                        clearInterval(window.x);
+                        _this.nextBtn()
+                    }
+            }, 1000);
+        },
         nextBtn:function(){
             var _this = this;
+
+            if(_this.ans == null) {
+                _this.ans = 'x';
+            }
+
             var data = _this.user_question;
             data.question_option_id = _this.ans;
             data.user_questions_taken = _this.user_questions_taken;
+
+            _this.ans = null;
+
             data._token = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
@@ -72,6 +100,7 @@ const app = new Vue({
                             _this.options = response.options;
                             _this.user_question = response.user_question;
                             _this.user_questions_taken = response.user_questions_taken
+                            _this.timer(_this.user_question.time_end.date);
                         }
 
                 },

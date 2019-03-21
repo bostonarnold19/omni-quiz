@@ -27,8 +27,8 @@ class QuestionnaireController extends Controller {
             $user_questions_taken = $this->user_question
                 ->where('user_id', $auth->id)
                 ->where('group_question_id', $request->questionnaire_id)
-                ->orWhereNotNull('question_option_id')
                 ->where('time_end', '<=', Carbon::now())
+                ->orWhereNotNull('question_option_id')
                 ->pluck('question_id')
                 ->toArray();
 
@@ -49,7 +49,7 @@ class QuestionnaireController extends Controller {
 
                     $time_end = Carbon::now();
                     $time_end->addMinutes($time_q[0]);
-                    $time_end->addSeconds($time_q[1]);
+                    $time_end->addSeconds($time_q[1] + 2);
 
                     $data = [
                         'user_id' => $auth->id,
@@ -60,7 +60,11 @@ class QuestionnaireController extends Controller {
                     ];
 
                     $user_question = $this->user_question->create($data);
+
                 }
+
+                $user_question->time_start = Carbon::parse($user_question->time_start);
+                $user_question->time_end = Carbon::parse($user_question->time_end);
 
                 return response()->json([
                     'user_questions_taken' => $user_questions_taken,
@@ -134,7 +138,7 @@ class QuestionnaireController extends Controller {
 
                 $time_end = Carbon::now();
                 $time_end->addMinutes($time_q[0]);
-                $time_end->addSeconds($time_q[1]);
+                $time_end->addSeconds($time_q[1] + 2);
 
                 $data = [
                     'user_id' => $auth->id,
@@ -146,6 +150,10 @@ class QuestionnaireController extends Controller {
 
                 $user_question = $this->user_question->create($data);
             }
+
+            $user_question->time_start = Carbon::parse($user_question->time_start);
+            $user_question->time_end = Carbon::parse($user_question->time_end);
+
             return response()->json([
                 'user_questions_taken' => $user_questions_taken,
                 'question' => $question,
