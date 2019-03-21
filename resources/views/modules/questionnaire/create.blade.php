@@ -45,11 +45,14 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
 @endsection
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/js/vue.js') }}"></script>
+<script src="{{ asset('/js/main.js') }}"></script>
+<script src="{{ asset('/js/vue-countdown.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
     window.groupQuestion = @json($group_question);
