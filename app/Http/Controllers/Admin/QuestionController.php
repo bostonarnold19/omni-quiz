@@ -28,6 +28,7 @@ class QuestionController extends Controller {
         $data = $request->all();
         try {
             DB::beginTransaction();
+            $data['time'] = $data['minute'].":".$data['second'];
             $question = $this->question->create($data);
             foreach ($data['description'] as $key => $value) {
                 $insert_options = [
@@ -60,6 +61,8 @@ class QuestionController extends Controller {
             'id' => $question->id,
             'question'=> $question->question,
             'time'=> $question->time,
+            'minute'=> explode(":", $question->time)[0],
+            'second'=> explode(":", $question->time)[1],
         ];
         foreach ($question->options as $key => $value) {
             if (!empty($value->is_correct)) {
@@ -80,6 +83,7 @@ class QuestionController extends Controller {
         try {
             DB::beginTransaction();
             $question = $this->question->find($data['id']);
+            $data['time'] = $data['minute'].":".$data['second'];
             $question->fill($data);
             $question->save();
             foreach ($question->options as $v) {
