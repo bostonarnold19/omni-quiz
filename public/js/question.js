@@ -6,13 +6,18 @@ const app = new Vue({
             url:{
                 routeGetQuestion: window.publicUrl+"/questionnaire/create?questionnaire_id=" + window.groupQuestion.id,
             },
-            question:{
-                id:'',
-                question:'',
-                time:'',
-                is_correct:'',
-                question_options:[],
+            question: {
+                question: '',
             },
+            options: [],
+            user_question: {
+                time_start: null,
+                time_end: null,
+            },
+            score: 0,
+            items: 0,
+            user_questions: [],
+            done: false,
         }
     },
     mounted: function(){
@@ -23,8 +28,16 @@ const app = new Vue({
             url: _this.url.routeGetQuestion,
             jsonp: false,
             success: function(response){
-                var result = response.data;
-                console.log(result);
+                if(response.done) {
+                    _this.done = response.done;
+                    _this.score = response.score;
+                    _this.items = response.items;
+                    _this.user_questions = response.user_questions;
+                } else {
+                    _this.question = response.question;
+                    _this.options = response.options;
+                    _this.user_question = response.user_question;
+                }
             },
         });
 

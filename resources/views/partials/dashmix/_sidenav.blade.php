@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="content-side content-side-full bg-black-10 text-center">
-    <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ auth()->user()->profile_picture }}" alt="">
+    <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset(auth()->user()->profile_picture) }}" alt="">
 </div>
 <div class="content-side content-side-full">
     <ul class="nav-main">
