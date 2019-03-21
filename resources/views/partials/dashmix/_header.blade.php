@@ -15,7 +15,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
                 <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                    <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ auth()->user()->profile_picture }}" alt="">
+                    <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset(auth()->user()->profile_picture) }}" alt="">
                     <div class="pt-2">
                         <a class="text-white font-w600" href="#">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</a>
                     </div>
