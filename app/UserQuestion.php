@@ -27,6 +27,6 @@ class UserQuestion extends Model {
     }
 
     public function answer() {
-        return $this->belongsTo('App\QuestionOption');
+        return $this->belongsTo('App\QuestionOption', 'question_option_id');
     }
 }

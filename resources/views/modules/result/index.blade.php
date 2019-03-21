@@ -27,7 +27,9 @@
                         <td>{{ $user_question->group_question->questions->count() }}</td>
                         <td>{{ $user_question->group_question->is_published }}</td>
                         <td>
-
+                            <a class="btn btn-sm btn-secondary" href="{{ route('omni-questionnaire.create', ['questionnaire_id' => $user_question->group_question_id]) }}">
+                                Show
+                            </a>
                         </td>
                     </tr>
                     @endforeach

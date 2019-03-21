@@ -1,6 +1,6 @@
 @extends('layouts.dashmix')
 @section('breadcrumbs')
-{{ Breadcrumbs::render('questionnaire.create', $group_question) }}
+{{ Breadcrumbs::render('omni-questionnaire.create', $group_question) }}
 @endsection
 @section('content')
 <div class="content">
@@ -25,14 +25,15 @@
                                 <ol>
                                   <li type="a" v-for="(option_v, option_k) in options">
                                     <div class="custom-control custom-radio custom-control-primary mb-1">
-                                        <input type="radio" class="custom-control-input" name="ans" :id="option_k">
+                                        <input type="radio" class="custom-control-input" v-model="ans" name="ans" :id="option_k" :value="option_v.id">
                                         <label class="custom-control-label" :for="option_k">@{{ option_v.description }}</label>
                                     </div>
                                   </li>
                                 </ol>
-
-
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button v-on:click="nextBtn" class="btn btn-lg btn-success">Next</button>
                         </div>
                     </div>
                 </div>

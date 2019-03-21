@@ -37,7 +37,7 @@
                                         <i class="fa fa-puzzle-piece"></i> {{ $group_question->questions->count() }}
                                     </span>
                                 </div>
-                                <a class="link-fx h4 mb-2 d-inline-block text-dark" href="{{ route('questionnaire.create', ['questionnaire_id' => $group_question->id]) }}">
+                                <a class="link-fx h4 mb-2 d-inline-block text-dark" href="{{ route('omni-questionnaire.create', ['questionnaire_id' => $group_question->id]) }}">
                                     {{ $group_question->title }}
                                 </a>
                                 <p class="text-muted mb-0">

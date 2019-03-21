@@ -4,7 +4,8 @@ const app = new Vue({
         return {
             question_options:[],
             url:{
-                routeGetQuestion: window.publicUrl+"/questionnaire/create?questionnaire_id=" + window.groupQuestion.id,
+                routeGetQuestion: window.publicUrl+"/omni-questionnaire/create?questionnaire_id=" + window.groupQuestion.id,
+                routeAnsQuestion: window.publicUrl+"/omni-questionnaire",
             },
             question: {
                 question: '',
@@ -18,6 +19,8 @@ const app = new Vue({
             items: 0,
             user_questions: [],
             done: false,
+            ans: '',
+            user_questions_taken: [],
         }
     },
     mounted: function(){
@@ -37,6 +40,7 @@ const app = new Vue({
                     _this.question = response.question;
                     _this.options = response.options;
                     _this.user_question = response.user_question;
+                    _this.user_questions_taken = response.user_questions_taken
                 }
             },
         });
@@ -45,21 +49,34 @@ const app = new Vue({
     created: function(){
     },
     methods:{
-        addOption:function(){
-            var _this = this
-            _this.question_options.push([]);
-        },
-        removeOption: function(key){
-            var _this = this
-            _this.question_options.splice(key,1);
-        },
-        addEditOption:function(){
-            var _this = this
-            _this.question.question_options.push([]);
-        },
-        removeEditOption: function(key){
-            var _this = this
-            _this.question.question_options.splice(key,1);
+        nextBtn:function(){
+            var _this = this;
+            var data = _this.user_question;
+            data.question_option_id = _this.ans;
+            data.user_questions_taken = _this.user_questions_taken;
+            data._token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                method: 'POST',
+                url: _this.url.routeAnsQuestion,
+                data: data,
+                jsonp: false,
+                success: function(response){
+                      if(response.done) {
+                            _this.done = response.done;
+                            _this.score = response.score;
+                            _this.items = response.items;
+                            _this.user_questions = response.user_questions;
+                        } else {
+                            _this.question = response.question;
+                            _this.options = response.options;
+                            _this.user_question = response.user_question;
+                            _this.user_questions_taken = response.user_questions_taken
+                        }
+
+                },
+            });
+
         }
     }
 });

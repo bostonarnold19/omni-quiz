@@ -23,7 +23,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     ]);
 
     Route::resource('result', 'Student\ResultController');
-    Route::resource('questionnaire', 'Student\QuestionnaireController');
+    Route::resource('omni-questionnaire', 'Student\QuestionnaireController');
 
     Route::resource('group-question', 'Admin\GroupQuestionController');
     Route::resource('question', 'Admin\QuestionController');
