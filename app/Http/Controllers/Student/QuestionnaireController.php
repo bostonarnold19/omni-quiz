@@ -24,11 +24,14 @@ class QuestionnaireController extends Controller {
         $user_questions_taken = [];
         if ($request->ajax()) {
             $group_question = $this->group_question->find($request->questionnaire_id);
+            $time_now = Carbon::now();
             $user_questions_taken = $this->user_question
                 ->where('user_id', $auth->id)
                 ->where('group_question_id', $request->questionnaire_id)
-                ->where('time_end', '<=', Carbon::now())
-                ->orWhereNotNull('question_option_id')
+                ->where(function ($query) use ($time_now){
+                    $query->where('time_end', '<=', $time_now)
+                    ->orWhereNotNull('question_option_id');
+                })
                 ->pluck('question_id')
                 ->toArray();
 
