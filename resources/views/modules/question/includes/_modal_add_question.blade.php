@@ -22,17 +22,16 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
-                                <label>Time</label><br>
-                                <div class="row">
-                                    <div class="col-xl-3">
-                                        <label>Minute</label>
-                                        <input type="number" max="59" class="form-control validate-number-only" name="minute" required>
-                                    </div>
-                                    <div class="col-xl-3">
-                                        <label>Second</label>
-                                        <input type="number" max="59" min="0" class="form-control validate-number-only" name="second" required>
-                                    </div>
-                                </div>
+                                <label>Subject</label>
+                                <input type="text" class="form-control" name="subject" v-model="question.subject" placeholder="Subject" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Course</label>
+                                <input type="text" class="form-control" name="course" v-model="question.course" placeholder="Course" required>
                             </div>
                         </div>
                     </div>
@@ -52,7 +51,7 @@
                                 <div class="col-sm-3">
                                     <span class="is_correct_btn" :data-id="key">Correct Answer</span>
                                     <span style="color:red;cursor:pointer" v-on:click="removeOption(key)">Remove</span>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                     </div>

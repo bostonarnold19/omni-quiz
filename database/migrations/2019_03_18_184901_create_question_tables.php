@@ -50,7 +50,7 @@ class CreateQuestionTables extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('questionnaire_question', function (Blueprint $table) {
+        Schema::create('question_questionnaire', function (Blueprint $table) {
             $table->string('questionnaire_id')->nullable();
             $table->string('question_id')->nullable();
         });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\GroupQuestion;
+use App\Questionnaire;
 
 class HomeController extends Controller {
     /**
@@ -11,7 +11,7 @@ class HomeController extends Controller {
      * @return void
      */
     public function __construct() {
-        $this->group_question = new GroupQuestion;
+        $this->group_question = new Questionnaire;
         $this->middleware('auth');
     }
 

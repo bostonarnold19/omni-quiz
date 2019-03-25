@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Group Question</h5>
+                <h5 class="modal-title">Add Questionaire</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -22,7 +22,37 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <input type="text" class="form-control" name="type" placeholder="Subject" required>
+                                <select name="select_subject" class="form-control">
+                                    <option value="">Select Subject Course</option>
+                                    @foreach($subjects as $subject)
+                                    <option >{{$subject}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Question Count</label>
+                                <input type="number" name="question_count" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Time</label><br>
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <label>Minute</label>
+                                        <input type="number"  min="00" class="form-control validate-number-only" name="minute" required>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label>Second</label>
+                                        <input type="number" max="59" min="00" class="form-control validate-number-only" name="second" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -39,43 +69,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div><br>
-                    <h4>Questions</h4>
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <table  class="table table-bordered table-striped table-vcenter question_tables">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Question</th>
-                                        <th>Options</th>
-                                        <th>Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($questions as $question)
-                                    <tr>
-                                        <td><input type="checkbox" class="add-checkbox-question" value="{{$question->id}}"></td>
-                                        <td>{{$question->question}}</td>
-                                        <td>
-                                            @foreach($question->options as $key => $options)
-                                            @if($key !=0 )
-                                            <br>
-                                            @endif
-                                            {{$options->description}}
-                                            @if(!empty($options->is_correct))
-                                            <b>(correct answer)</b>
-                                            @endif
-                                            @endforeach
-                                        </td>
-                                        <td>{{$question->created_at->format('M d, Y H:i A')}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                    <input type="hidden" name="questions" id="add_questions">
                 </form>
             </div>
             <div class="modal-footer">

@@ -3,6 +3,7 @@
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Questionnaire;
 use DB;
 use Illuminate\Http\Request;
 use Modules\User\Interfaces\RoleRepositoryInterface;
@@ -17,6 +18,8 @@ class UserController extends Controller
     public function __construct(UserRepositoryInterface $user_repository, RoleRepositoryInterface $role_repository)
     {
         $this->user_repository = $user_repository->model;
+        $this->questionnaire = new Questionnaire;
+
         $this->role_repository = $role_repository->model;
         $this->middleware('permission:manage-user', ['only' => ['index', 'show']]);
         $this->middleware('permission:add-user', ['only' => ['store']]);
@@ -46,7 +49,8 @@ class UserController extends Controller
                 ->toJson();
         } else {
             $roles = $this->role_repository->all();
-            return view('user::index', compact('roles'));
+            $questionnaires = $this->questionnaire->all();
+            return view('user::index', compact('roles','questionnaires'));
         }
     }
 

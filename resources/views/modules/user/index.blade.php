@@ -30,6 +30,7 @@
 </div>
 @include('user::includes._modal_edit')
 @include('user::includes._modal_add')
+@include('user::includes._modal_add_questionnaire_code')
 @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/select2/css/select2.min.css') }}">
@@ -89,6 +90,15 @@
             });
         }
     });
+    $(document).on('click', '.btn-questionaire', function(){
+        var id  = $(this).data('id')
+        var generated_code = $('[id=questionaire-code-'+id+']').val();
+        $('[id=question-user_codes]').val(generated_code);
+        $('[id=show-generated-code]').html(generated_code);
+
+        $('[id=question-user_id]').val(id);
+    });
+    
     jQuery(".js-select2:not(.js-select2-enabled)").each(function(e, a) {
         var t = jQuery(a);
         t.addClass("js-select2-enabled").select2({

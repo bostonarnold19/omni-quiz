@@ -6,8 +6,8 @@
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Group Question</h3>
-            <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Group Question</a>
+            <h3 class="block-title">Questionnaire</h3>
+            <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Questionnaire</a>
         </div>
         <div class="block-content block-content-full">
             <table class="table table-bordered table-striped table-vcenter" id="datatable">
@@ -21,23 +21,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($group_questions as $group_question)
+                    @foreach($questionaires as $questionaire)
                     <tr>
-                        <td>{{ $group_question->title }}</td>
-                        <td>{{ $group_question->description }}</td>
-                        <td>{{ $group_question->questions->count() }}</td>
-                        <td>{{ $group_question->is_published }}</td>
+                        <td>{{ $questionaire->title }}</td>
+                        <td>{{ $questionaire->description }}</td>
+                        <td>{{ $questionaire->questions->count() }}</td>
+                        <td>{{ $questionaire->is_published }}</td>
                         <td>
-                            <a href="{{ route('group-question.edit', $group_question->id) }}"  data-toggle="modal" data-target="#edit-modal-{{$group_question->id}}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{{ route('group-question.edit', $questionaire->id) }}"  data-toggle="modal" data-target="#edit-modal-{{$questionaire->id}}" class="btn btn-sm btn-secondary">Edit</a>
                             @php
                                 $ids = [];
-                                foreach ($group_question->questions as $question) {
+                                foreach ($questionaire->questions as $question) {
                                     $ids[] = $question->id;
                                 }
                             @endphp
                             @include('modules.group_question.includes._modal_edit_group_question')
 
-                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $group_question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
+                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-sm btn-secondary">Delete</button>

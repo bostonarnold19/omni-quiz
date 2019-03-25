@@ -14,7 +14,8 @@
                 <thead>
                     <tr>
                         <th>Question</th>
-                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Course</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -22,7 +23,8 @@
                     @foreach($questions as $question)
                     <tr>
                         <td>{{ $question->question }}</td>
-                        <td>{{ $question->time }}</td>
+                        <td>{{ $question->subject }}</td>
+                        <td>{{ $question->course }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-secondary button-edit" data-id="{{$question->id}}">Edit</a>
                             <form style="display:inline;" method="POST" action="{{ route('question.destroy', $question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">

@@ -28,6 +28,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('group-question', 'Admin\GroupQuestionController');
     Route::resource('question', 'Admin\QuestionController');
 
+    Route::resource('questionnaire-code', 'Admin\QuestionnaireCodeController');
+
 });
 
 Auth::routes();

@@ -49,7 +49,7 @@
         <li class="nav-main-item">
             <a class="nav-main-link {{ Request::is('group-question*') ? 'active' : '' }}" href="{{ route('group-question.index') }}">
                 <i class="nav-main-link-icon far fa-dot-circle"></i>
-                <span class="nav-main-link-name">Group Question</span>
+                <span class="nav-main-link-name">Questionnaire</span>
             </a>
         </li>
         @endpermission

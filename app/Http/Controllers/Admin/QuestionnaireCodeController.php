@@ -4,53 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use App\Questionnaire;
 use App\QuestionOption;
+use App\QuestionnaireCode;
 use App\Http\Controllers\Controller;
 use App\Question;
 use DB;
 use Illuminate\Http\Request;
 
-class GroupQuestionController extends Controller {
+class QuestionnaireCodeController extends Controller {
 
     public function __construct() {
-        $this->group_question  = new Questionnaire;
-        $this->question        = new Question;
-        $this->question_option = new QuestionOption;
+        $this->group_question     = new Questionnaire;
+        $this->question           = new Question;
+        $this->question_option    = new QuestionOption;
+        $this->questionnaire_code = new QuestionnaireCode;
     }
 
     public function index() {
-        $questionaires = $this->group_question->all();
-        $questions = $this->question->all();
-        $subjects = $this->parseSubjects($questions);
-        return view('modules.group_question.index', compact('questionaires','questions','subjects'));
     }
 
     public function create() {
-        return view('modules.group_question.create');
     }
 
     public function store(Request $request) {
         $data = $request->all();
-        $data['time'] = $data['minute'].":".$data['second'];
-        $subjects = explode(" | ", $data['select_subject']);
-        $data['subject'] = $subjects[0];
-        $data['course'] = $subjects[1];
-        $questions = $this->question->query()->where('subject', $subjects[0])
-                        ->where('course', $subjects[1])
-                        ->take((int) $data['question_count'])
-                            ->orderByRaw(DB::raw('RAND()'))->get();
         try {
             DB::beginTransaction();
-            if (isset($data['is_published'])) {
-                $data['is_published'] = 1;
-            } else {
-                $data['is_published'] = null;
-            }
-            $group_q = $this->group_question->create($data);
-            if ($questions) {
-                foreach ($questions as $q) {
-                    $group_q->questions()->attach($q);
-                }
-            }
+            $this->questionnaire_code->create($data);
             DB::commit();
             $status = 'success';
             $message = 'Group Question has been created.';
@@ -59,7 +38,7 @@ class GroupQuestionController extends Controller {
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
         }
-        return redirect()->route('group-question.index')->with($status, $message);
+        return redirect()->back()->with($status, $message);
     }
 
     public function show($id) {

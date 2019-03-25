@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit-modal-{{$group_question->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
+<div class="modal fade" id="edit-modal-{{$questionaire->id}}" tabindex="-1" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,23 +8,53 @@
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="edit-form-{{$group_question->id}}" method="POST" action="{{ route('group-question.update','update') }}">
+                <form id="edit-form-{{$questionaire->id}}" method="POST" action="{{ route('group-question.update','update') }}">
                     @csrf
                     @method('patch')
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
-                                <input type="hidden" name="id" value="{{$group_question->id}}">
+                                <input type="hidden" name="id" value="{{$questionaire->id}}">
                                 <label>Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="Title" value="{{$group_question->title}}" required>
+                                <input type="text" class="form-control" name="title" placeholder="Title" value="{{$questionaire->title}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Subject</label><br>
+                                <span><b>{{$questionaire->subject}}</b></span>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Course</label><br>
+                                <span><b>{{$questionaire->course}}</b></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
-                                <label>Subject</label>
-                                <input type="text" class="form-control" name="type" placeholder="Subject" value="{{$group_question->type}}" required>
+                                <label>Time</label><br>
+                                <div class="row">
+                                    <div class="col-xl-3">
+                                        <label>Minute</label>
+                                        @php
+                                            $time = explode(':', $questionaire->time);
+                                        @endphp
+                                        <input type="number"  min="00" class="form-control validate-number-only" name="minute" value="{{$time[0]}}" required>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label>Second</label>
+                                        <input type="number" max="59" min="00" class="form-control validate-number-only" name="second"  value="{{$time[1]}}" required>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <label>Question Count</label><br>
+                                        <span><b>{{$questionaire->questions()->count()}}</b></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -32,63 +62,21 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea name="description" class="form-control">{{$group_question->description}}</textarea>
+                                <textarea name="description" class="form-control">{{$questionaire->description}}</textarea>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="is_published" value="1" id="is_published" {{empty($group_question->is_published) ? null : "checked='checked'" }}>
+                                <input class="form-check-input" type="checkbox" name="is_published" value="1" id="is_published" {{empty($questionaire->is_published) ? null : "checked='checked'" }}>
                                 <label class="form-check-label" for="is_published">
                                     Publish
                                 </label>
                             </div>
                         </div>
                     </div><br>
-                    <h4>Questions</h4>
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <table  class="table table-bordered table-striped table-vcenter question_tables">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Question</th>
-                                        <th>Options</th>
-                                        <th>Created</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($questions as $question)
-                                    <tr>
-                                        <td><input type="checkbox" class="edit-checkbox-question group-id-{{ $group_question->id }}" data-id="{{ $group_question->id }}" value="{{$question->id}}" {{ !in_array($question->id, $ids) ?  null : "checked='checked'" }}></td>
-                                        <td>{{$question->question}}</td>
-                                        <td>
-                                            @foreach($question->options as $key => $options)
-                                            @if($key !=0 )
-                                            <br>
-                                            @endif
-                                            {{$options->description}}
-                                            @if(!empty($options->is_correct))
-                                            <b>(correct answer)</b>
-                                            @endif
-                                            @endforeach
-                                        </td>
-                                        <td>{{$question->created_at->format('M d, Y H:i A')}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    @php
-                        $ids = [];
-                        foreach ($group_question->questions as $question) {
-                            $ids[] = $question->id;
-                        }
-                    @endphp
-                    <input type="hidden" name="questions" id="edit_questions_{{$group_question->id}}" value="{{json_encode($ids)}}">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
-                <button type="submit" form="edit-form-{{$group_question->id}}" class="btn btn-sm btn-secondary">Save</button>
+                <button type="submit" form="edit-form-{{$questionaire->id}}" class="btn btn-sm btn-secondary">Save</button>
             </div>
         </div>
     </div>

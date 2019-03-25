@@ -12,5 +12,6 @@ return [
     'copyright' => '2019',
 
     'password_generated' => 'oq' . '-' . mt_rand(5, 99999),
+    'code_generator' =>  'OMNI' . mt_rand(5, 99999),
 
 ];
