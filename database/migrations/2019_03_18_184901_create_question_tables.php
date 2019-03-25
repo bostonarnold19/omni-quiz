@@ -11,26 +11,36 @@ class CreateQuestionTables extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('group_questions', function (Blueprint $table) {
+
+        Schema::create('questionnaire_codes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('user_id')->nullable();
+            $table->string('user_id')->nullable();
+            $table->string('questionnaire_id')->nullable();
+            $table->string('codes')->nullable();
+            $table->string('retake')->nullable();
+            $table->dateTime('time_start')->nullable();
+            $table->dateTime('time_end')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('questionnaires', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->nullable();
-            $table->string('type')->nullable();
-            $table->string('is_published')->nullable();
             $table->longtext('description')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('course')->nullable();
+            $table->string('time')->nullable();
+            $table->string('is_published')->nullable();
             $table->timestamps();
         });
 
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('question')->nullable();
-            $table->string('type')->nullable();
-            $table->string('time')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('course')->nullable();
             $table->timestamps();
-        });
-
-        Schema::create('group_question_question', function (Blueprint $table) {
-            $table->string('group_question_id')->nullable();
-            $table->string('question_id')->nullable();
         });
 
         Schema::create('question_options', function (Blueprint $table) {
@@ -41,14 +51,17 @@ class CreateQuestionTables extends Migration {
             $table->timestamps();
         });
 
+        Schema::create('questionnaire_question', function (Blueprint $table) {
+            $table->string('questionnaire_id')->nullable();
+            $table->string('question_id')->nullable();
+        });
+
         Schema::create('user_questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id')->nullable();
-            $table->string('group_question_id')->nullable();
+            $table->string('questionnaire_code_id')->nullable();
             $table->string('question_id')->nullable();
             $table->string('question_option_id')->nullable();
-            $table->dateTime('time_start')->nullable();
-            $table->dateTime('time_end')->nullable();
             $table->timestamps();
         });
     }
@@ -59,7 +72,7 @@ class CreateQuestionTables extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('group_question');
+        Schema::dropIfExists('');
         Schema::dropIfExists('questions');
         Schema::dropIfExists('question_options');
         Schema::dropIfExists('user_questions');
