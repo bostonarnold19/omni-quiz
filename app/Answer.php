@@ -4,22 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserQuestion extends Model {
+class Answer extends Model {
     public $fillable = [
         'user_id',
-        'group_question_id',
+        'questionnaire_code_id',
         'question_id',
         'question_option_id',
-        'time_start',
-        'time_end',
     ];
 
     public function user() {
         return $this->belongsTo('Modules\User\Entities\User');
     }
 
-    public function group_question() {
-        return $this->belongsTo('App\GroupQuestion');
+    public function questionnaireCode() {
+        return $this->belongsTo('App\QuestionnaireCode');
     }
 
     public function question() {

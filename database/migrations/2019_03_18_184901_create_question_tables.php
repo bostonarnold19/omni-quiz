@@ -15,7 +15,6 @@ class CreateQuestionTables extends Migration {
         Schema::create('questionnaire_codes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id')->nullable();
-            $table->string('user_id')->nullable();
             $table->string('questionnaire_id')->nullable();
             $table->string('codes')->nullable();
             $table->string('retake')->nullable();
@@ -56,7 +55,7 @@ class CreateQuestionTables extends Migration {
             $table->string('question_id')->nullable();
         });
 
-        Schema::create('user_questions', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id')->nullable();
             $table->string('questionnaire_code_id')->nullable();

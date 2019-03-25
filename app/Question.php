@@ -4,22 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
-{
+class Question extends Model {
     public $fillable = [
         'question',
-        'type',
-        'time',
+        'subject',
+        'course',
     ];
 
-    public function group_question()
-    {
-    	return $this->belongsToMany('App\GroupQuestion');
+    public function questionnaires() {
+        return $this->belongsToMany('App\Questionnaire');
     }
 
-    public function options()
-    {
-    	return $this->hasMany('App\QuestionOption');
+    public function options() {
+        return $this->hasMany('App\QuestionOption');
     }
 
 }
