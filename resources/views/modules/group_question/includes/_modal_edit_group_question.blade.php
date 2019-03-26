@@ -12,6 +12,15 @@
                     @csrf
                     @method('patch')
                     <div class="row">
+                        <div class="col-sm-12">
+                            <label>Type</label>
+                            <select name="type" class="form-control">
+                                <option {{ $questionaire->type == "Exam" ? 'selected=selected' : null  }}>Exam</option>
+                                <option {{ $questionaire->type == "Quiz" ? 'selected=selected' : null  }}>Quiz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <input type="hidden" name="id" value="{{$questionaire->id}}">

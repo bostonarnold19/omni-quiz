@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Questionnaire extends Model {
     public $fillable = [
+        'type',
         'title',
         'description',
         'subject',

@@ -38,6 +38,7 @@ class GroupQuestionController extends Controller {
                         ->where('course', $subjects[1])
                         ->take((int) $data['question_count'])
                             ->orderByRaw(DB::raw('RAND()'))->get();
+
         try {
             DB::beginTransaction();
             if (isset($data['is_published'])) {
@@ -74,6 +75,7 @@ class GroupQuestionController extends Controller {
     public function update(Request $request, $id) {
         $data = $request->all();
         $data['time'] = $data['minute'].":".$data['second'];
+        dd($data);
         try {
             DB::beginTransaction();
             $group_q = $this->group_question->find($data['id']);

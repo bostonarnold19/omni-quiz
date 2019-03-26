@@ -11,6 +11,15 @@
                 <form id="save-form" method="POST" action="{{ route('group-question.store') }}">
                     @csrf
                     <div class="row">
+                        <div class="col-sm-12">
+                            <label>Type</label>
+                            <select name="type" class="form-control">
+                                <option>Exam</option>
+                                <option>Quiz</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Title</label>
