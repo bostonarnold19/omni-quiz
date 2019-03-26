@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     public $fillable = [
+        'student_id',
         'first_name',
         'last_name',
         'middle_name',
@@ -30,6 +31,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password_crack',
         'password',
+
     ];
 
     protected $dates = ['deleted_at'];

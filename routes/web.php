@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::resource('questionnaire-code', 'Admin\QuestionnaireCodeController');
 
+    Route::match(['get', 'post'], '/import', 'HomeController@import')->name('import');
+
 });
 
 Auth::routes();

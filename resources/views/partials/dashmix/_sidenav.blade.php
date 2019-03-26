@@ -60,6 +60,12 @@
                 <span class="nav-main-link-name">Question</span>
             </a>
         </li>
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('import') ? 'active' : '' }}" href="{{ route('import') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Import</span>
+            </a>
+        </li>
         @endpermission
         @permission('manage-result')
         <li class="nav-main-item">
