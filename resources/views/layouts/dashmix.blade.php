@@ -16,6 +16,7 @@
             </header>
             <main id="main-container">
                 @yield('breadcrumbs')
+                @include('includes._alert')
                 @yield('content')
             </main>
             <footer id="page-footer" class="bg-white">

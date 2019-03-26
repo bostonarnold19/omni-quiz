@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\GroupQuestion;
+use App\Answer;
 use App\Http\Controllers\Controller;
-use App\UserQuestion;
+use App\QuestionnaireCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class QuestionnaireController extends Controller {
 
     public function __construct() {
-        $this->user_question = new UserQuestion;
-        $this->group_question = new GroupQuestion;
+        $this->answer = new Answer;
+        $this->questionnaire_code = new QuestionnaireCode;
     }
 
     public function index() {
@@ -21,73 +21,79 @@ class QuestionnaireController extends Controller {
 
     public function create(Request $request) {
         $auth = auth()->user();
-        $user_questions_taken = [];
+        $data = $request->all();
+        $answers = [];
         if ($request->ajax()) {
-            $group_question = $this->group_question->find($request->questionnaire_id);
-            $time_now = Carbon::now();
-            $user_questions_taken = $this->user_question
+
+            $questionnaire_code = $this->questionnaire_code
+                ->where('codes', $data['codes'])
                 ->where('user_id', $auth->id)
-                ->where('group_question_id', $request->questionnaire_id)
-                ->where(function ($query) use ($time_now){
-                    $query->where('time_end', '<=', $time_now)
-                    ->orWhereNotNull('question_option_id');
-                })
+                ->first();
+            $time_now = Carbon::now();
+
+            if (isset($questionnaire_code) && empty($questionnaire_code->time_start)) {
+                $questionnaire_code->time_start = $time_now;
+
+                $time_q = explode(':', $questionnaire_code->questionnaire->time);
+
+                $time_end = Carbon::now();
+                $time_end->addMinutes($time_q[0]);
+                $time_end->addSeconds($time_q[1] + 2);
+
+                $questionnaire_code->time_start = $time_now;
+                $questionnaire_code->time_end = $time_end;
+
+                $questionnaire_code->update();
+            }
+
+            $answers = $this->answer
+                ->where('user_id', $auth->id)
+                ->where('questionnaire_code_id', $questionnaire_code->id)
+                ->whereNotNull('question_option_id')
                 ->pluck('question_id')
                 ->toArray();
 
-            $question = $group_question->questions->except($user_questions_taken)->first();
+            $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
 
             if (!empty($question)) {
 
-                //GET ITEM EXAM
-
-                $user_question = $this->user_question
+                $answer = $this->answer
                     ->where('user_id', $auth->id)
                     ->where('question_id', $question->id)
-                    ->where('group_question_id', $group_question->id)->first();
+                    ->where('questionnaire_code_id', $questionnaire_code->id)->first();
 
-                if (empty($user_question)) {
-
-                    $time_q = explode(':', $question->time);
-
-                    $time_end = Carbon::now();
-                    $time_end->addMinutes($time_q[0]);
-                    $time_end->addSeconds($time_q[1] + 2);
+                if (empty($answer)) {
 
                     $data = [
                         'user_id' => $auth->id,
                         'question_id' => $question->id,
-                        'group_question_id' => $group_question->id,
-                        'time_start' => Carbon::now(),
-                        'time_end' => $time_end,
+                        'questionnaire_code_id' => $questionnaire_code->id,
                     ];
 
-                    $user_question = $this->user_question->create($data);
-
+                    $answer = $this->answer->create($data);
                 }
 
-                $user_question->time_start = Carbon::parse($user_question->time_start);
-                $user_question->time_end = Carbon::parse($user_question->time_end);
+                $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
+                $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
 
                 return response()->json([
-                    'user_questions_taken' => $user_questions_taken,
+                    'questionnaire_code' => $questionnaire_code,
+                    'answers' => $answers,
                     'question' => $question,
                     'options' => $question->options,
-                    'user_question' => $user_question,
+                    'answer' => $answer,
                 ], 200);
 
             } else {
 
                 //SCORE
-
-                $user_questions = $this->user_question
+                $answers = $this->answer
                     ->where('user_id', $auth->id)
-                    ->where('group_question_id', $request->questionnaire_id)
-                    ->get();
+                    ->where('questionnaire_code_id', $questionnaire_code->id)->get();
 
                 $score = 0;
-                foreach ($user_questions as $key => $user_question) {
-                    if (isset($user_question->answer) && $user_question->answer->is_correct == 1) {
+                foreach ($answers as $key => $v_answer) {
+                    if (isset($v_answer->answer) && $v_answer->answer->is_correct == 1) {
                         $score++;
                     }
                 }
@@ -95,87 +101,83 @@ class QuestionnaireController extends Controller {
                 return response()->json([
                     'done' => true,
                     'score' => $score,
-                    'items' => $group_question->questions->count(),
-                    'user_questions' => $user_questions,
+                    'items' => $questionnaire_code->questionnaire->questions->count(),
+                    'answers' => $answers,
                 ], 200);
             }
 
         } else {
-            $group_question = $this->group_question->find($request->questionnaire_id);
-            return view('modules.questionnaire.create', compact('group_question'));
+            $questionnaire_code = $this->questionnaire_code
+                ->where('codes', $data['codes'])
+                ->where('user_id', $auth->id)
+                ->first();
+            if (isset($questionnaire_code) && !empty($questionnaire_code)) {
+                return view('modules.questionnaire.create', compact('questionnaire_code'));
+            } else {
+                return redirect('dashboard')->withError('Invalid Code');
+            }
         }
     }
 
     public function store(Request $request) {
         $data = $request->all();
-        $user_questions_taken = [];
+        $answers = [];
 
         unset($data['time_start']);
         unset($data['time_end']);
 
         $auth = auth()->user();
 
-        $put_ans = $this->user_question->find($data['id']);
+        $put_ans = $this->answer->find($data['id']);
         $put_ans->update($data);
 
-        $data['user_questions_taken'][] = $put_ans->question_id;
+        $data['answers'][] = $put_ans->question_id;
 
-        $user_questions_taken = $data['user_questions_taken'];
+        $answers = $data['answers'];
 
-        $group_question = $this->group_question->find($data['group_question_id']);
+        $questionnaire_code = $this->questionnaire_code->find($data['questionnaire_code']['id']);
 
-        $question = $group_question->questions->except($user_questions_taken)->first();
+        $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
 
         if (!empty($question)) {
 
-            //GET ITEM EXAM
-            //Next question
-            $user_question = $this->user_question
+            $answer = $this->answer
                 ->where('user_id', $auth->id)
                 ->where('question_id', $question->id)
-                ->where('group_question_id', $group_question->id)->first();
+                ->where('questionnaire_code_id', $questionnaire_code->id)->first();
 
-            if (empty($user_question)) {
-
-                $time_q = explode(':', $question->time);
-
-                $time_end = Carbon::now();
-                $time_end->addMinutes($time_q[0]);
-                $time_end->addSeconds($time_q[1] + 2);
+            if (empty($answer)) {
 
                 $data = [
                     'user_id' => $auth->id,
                     'question_id' => $question->id,
-                    'group_question_id' => $group_question->id,
-                    'time_start' => Carbon::now(),
-                    'time_end' => $time_end,
+                    'questionnaire_code_id' => $questionnaire_code->id,
                 ];
 
-                $user_question = $this->user_question->create($data);
+                $answer = $this->answer->create($data);
             }
 
-            $user_question->time_start = Carbon::parse($user_question->time_start);
-            $user_question->time_end = Carbon::parse($user_question->time_end);
+            $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
+            $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
 
             return response()->json([
-                'user_questions_taken' => $user_questions_taken,
+                'questionnaire_code' => $questionnaire_code,
+                'answers' => $answers,
                 'question' => $question,
                 'options' => $question->options,
-                'user_question' => $user_question,
+                'answer' => $answer,
             ], 200);
 
         } else {
 
             //SCORE
-
-            $user_questions = $this->user_question
+            $answers = $this->answer
                 ->where('user_id', $auth->id)
-                ->where('group_question_id', $data['group_question_id'])
-                ->get();
+                ->where('questionnaire_code_id', $questionnaire_code->id)->get();
 
             $score = 0;
-            foreach ($user_questions as $key => $user_question) {
-                if (isset($user_question->answer) && $user_question->answer->is_correct == 1) {
+            foreach ($answers as $key => $v_answer) {
+                if (isset($v_answer->answer) && $v_answer->answer->is_correct == 1) {
                     $score++;
                 }
             }
@@ -183,14 +185,10 @@ class QuestionnaireController extends Controller {
             return response()->json([
                 'done' => true,
                 'score' => $score,
-                'items' => $group_question->questions->count(),
-                'user_questions' => $user_questions,
+                'items' => $questionnaire_code->questionnaire->questions->count(),
+                'answers' => $answers,
             ], 200);
         }
-
-        return response()->json([
-            'xx' => 'xx',
-        ], 200);
     }
 
     public function show($id) {

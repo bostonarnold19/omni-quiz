@@ -4,23 +4,21 @@ const app = new Vue({
         return {
             question_options:[],
             url:{
-                routeGetQuestion: window.publicUrl+"/omni-questionnaire/create?questionnaire_id=" + window.groupQuestion.id,
+                routeGetQuestion: window.publicUrl+"/omni-questionnaire/create?codes=" + window.questionnaireCode.codes,
                 routeAnsQuestion: window.publicUrl+"/omni-questionnaire",
             },
             question: {
                 question: '',
             },
+            questionnaire_code: {},
             options: [],
-            user_question: {
-                time_start: null,
-                time_end: null,
+            answer: {
             },
             score: 0,
             items: 0,
-            user_questions: [],
+            answers: [],
             done: false,
             ans: null,
-            user_questions_taken: [],
         }
     },
     mounted: function(){
@@ -35,14 +33,15 @@ const app = new Vue({
                     _this.done = response.done;
                     _this.score = response.score;
                     _this.items = response.items;
-                    _this.user_questions = response.user_questions;
+                    _this.answers = response.answers;
                 } else {
                     _this.question = response.question;
                     _this.options = response.options;
-                    _this.user_question = response.user_question;
-                    _this.user_questions_taken = response.user_questions_taken
+                    _this.answer = response.answer;
+                    _this.answers = response.answers
+                    _this.questionnaire_code = response.questionnaire_code;
 
-                    _this.timer(_this.user_question.time_end.date);
+                    _this.timer(_this.questionnaire_code.time_end.date);
                 }
             },
         });
@@ -76,9 +75,10 @@ const app = new Vue({
                 _this.ans = 'x';
             }
 
-            var data = _this.user_question;
+            var data = _this.answer;
             data.question_option_id = _this.ans;
-            data.user_questions_taken = _this.user_questions_taken;
+            data.answers = _this.answers;
+            data.questionnaire_code = _this.questionnaire_code;
 
             _this.ans = null;
 
@@ -94,13 +94,13 @@ const app = new Vue({
                             _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
-                            _this.user_questions = response.user_questions;
+                            _this.answers = response.answers;
                         } else {
                             _this.question = response.question;
                             _this.options = response.options;
-                            _this.user_question = response.user_question;
-                            _this.user_questions_taken = response.user_questions_taken
-                            _this.timer(_this.user_question.time_end.date);
+                            _this.answer = response.answer;
+                            _this.answers = response.answers
+                            _this.timer(_this.answer.time_end.date);
                         }
 
                 },

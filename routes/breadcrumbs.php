@@ -25,7 +25,7 @@ Breadcrumbs::for ('permission.index', function ($trail) {
 //------------ Group Question ------------//
 Breadcrumbs::for ('group-question.index', function ($trail) {
     $trail->parent('dashboard');
-    $trail->push('Group Question', route('group-question.index'));
+    $trail->push('Questionnaire', route('group-question.index'));
 });
 
 //------------ Question ------------//
@@ -43,5 +43,5 @@ Breadcrumbs::for ('result.index', function ($trail) {
 //------------ Result ------------//
 Breadcrumbs::for ('omni-questionnaire.create', function ($trail, $group_question) {
     $trail->parent('dashboard');
-    $trail->push('Questionnaire ' . $group_question->title, route('omni-questionnaire.create'));
+    $trail->push($group_question->title, route('omni-questionnaire.create'));
 });

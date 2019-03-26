@@ -21,7 +21,6 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        $group_questions = $this->group_question->where('is_published', 1)->get();
-        return view('modules.home.dashboard', compact('group_questions'));
+        return view('modules.home.dashboard');
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.dashmix')
 @section('breadcrumbs')
-{{ Breadcrumbs::render('omni-questionnaire.create', $group_question) }}
+{{ Breadcrumbs::render('omni-questionnaire.create', $questionnaire_code->questionnaire) }}
 @endsection
 @section('content')
 <div class="content">
@@ -53,7 +53,7 @@
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
-    window.groupQuestion = @json($group_question);
+    window.questionnaireCode = @json($questionnaire_code);
 </script>
 <script src="{{ asset('/js/question.js') }}"></script>
 @endsection
