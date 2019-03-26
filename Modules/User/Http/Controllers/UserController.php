@@ -10,13 +10,11 @@ use Modules\User\Interfaces\RoleRepositoryInterface;
 use Modules\User\Interfaces\UserRepositoryInterface;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     protected $user_repository;
     protected $role_repository;
 
-    public function __construct(UserRepositoryInterface $user_repository, RoleRepositoryInterface $role_repository)
-    {
+    public function __construct(UserRepositoryInterface $user_repository, RoleRepositoryInterface $role_repository) {
         $this->user_repository = $user_repository->model;
         $this->questionnaire = new Questionnaire;
 
@@ -27,10 +25,9 @@ class UserController extends Controller
         $this->middleware('permission:delete-user', ['only' => ['destroy']]);
     }
 
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         if ($request->ajax()) {
-            $users = $this->user_repository->select(['id', 'first_name', 'last_name', 'email', 'username', 'password_crack', 'profile_picture'])->get();
+            $users = $this->user_repository->select(['id', 'student_id', 'first_name', 'last_name', 'email', 'username', 'password_crack', 'profile_picture'])->get();
             return Datatables::of($users)
                 ->editColumn('profile_picture', function ($user) {
                     return view('user::includes._profile_picture', compact('user'))->render();
@@ -50,17 +47,15 @@ class UserController extends Controller
         } else {
             $roles = $this->role_repository->all();
             $questionnaires = $this->questionnaire->all();
-            return view('user::index', compact('roles','questionnaires'));
+            return view('user::index', compact('roles', 'questionnaires'));
         }
     }
 
-    public function create()
-    {
+    public function create() {
         //
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $data = $request->all();
         try {
             DB::beginTransaction();
@@ -81,8 +76,7 @@ class UserController extends Controller
         return redirect()->route('user.index')->with($status, $message);
     }
 
-    public function show(Request $request, $id)
-    {
+    public function show(Request $request, $id) {
         if ($request->ajax()) {
             $user = $this->user_repository->find($id);
             $user->roles = $user->roles()->pluck('id')->toArray();
@@ -92,13 +86,11 @@ class UserController extends Controller
         }
     }
 
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $data = $request->all();
         try {
             DB::beginTransaction();
@@ -116,8 +108,7 @@ class UserController extends Controller
         return redirect()->route('user.index')->with($status, $message);
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         try {
             DB::beginTransaction();
             $this->user_repository->destroy($id);

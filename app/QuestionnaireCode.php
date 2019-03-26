@@ -23,6 +23,6 @@ class QuestionnaireCode extends Model {
     }
 
     public function answers() {
-        return $this->hasMany('App\Answer');
+        return $this->hasMany('App\Answer', 'question_option_id');
     }
 }

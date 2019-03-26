@@ -2,22 +2,29 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Answer;
 use App\Http\Controllers\Controller;
-use App\UserQuestion;
-use DB;
+use App\QuestionnaireCode;
 use Illuminate\Http\Request;
 
 class ResultController extends Controller {
 
     public function __construct() {
-        $this->user_questions = new UserQuestion;
+        $this->answer = new Answer;
+        $this->questionnaire_code = new QuestionnaireCode;
+    }
+
+    private function result() {
+
     }
 
     public function index() {
-        $user_questions = $this->user_questions
-            ->select('group_question_id', DB::raw('count(*) as total'))
-            ->groupBy('group_question_id')->get();
-        return view('modules.result.index', compact('user_questions'));
+        $auth = auth()->user();
+        $questionnaire_codes = $this->questionnaire_code->where('user_id', $auth->id)
+            ->get()
+            ->groupBy('questionnaire_id');
+
+        return view('modules.result.index', compact('questionnaire_codes'));
     }
 
     public function create() {

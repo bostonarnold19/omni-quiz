@@ -19,6 +19,7 @@ const app = new Vue({
             answers: [],
             done: false,
             ans: null,
+            skip: 0,
         }
     },
     mounted: function(){
@@ -36,7 +37,7 @@ const app = new Vue({
                     _this.answers = response.answers;
                 } else {
                     _this.question = response.question;
-                    _this.options = response.options;
+                    _this.options = _this.fisherYates(response.options);
                     _this.answer = response.answer;
                     _this.answers = response.answers
                     _this.questionnaire_code = response.questionnaire_code;
@@ -45,6 +46,7 @@ const app = new Vue({
                 }
             },
         });
+
 
     },
     created: function(){
@@ -68,6 +70,66 @@ const app = new Vue({
                     }
             }, 1000);
         },
+        fisherYates: function( array ){
+         var count = array.length,
+             randomnumber,
+             temp;
+         while( count ){
+          randomnumber = Math.random() * count-- | 0;
+          temp = array[count];
+          array[count] = array[randomnumber];
+          array[randomnumber] = temp
+         }
+         return array;
+        },
+
+        skipSS:function(){
+            var _this = this;
+
+            _this.ans = null;
+            $('[id=btn-skip]').attr('disabled',true);
+            var data = _this.answer;
+            data.question_option_id = _this.ans;
+            data.answers = _this.answers;
+            data.questionnaire_code = _this.questionnaire_code;
+
+            _this.skip++;
+
+            data.skip = _this.skip;
+
+            _this.ans = null;
+
+            data._token = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                method: 'POST',
+                url: _this.url.routeAnsQuestion,
+                data: data,
+                jsonp: false,
+                success: function(response){
+            $('[id=btn-skip]').removeAttr('disabled');
+
+                      if(response.done) {
+                            _this.done = response.done;
+                            _this.score = response.score;
+                            _this.items = response.items;
+                            _this.answers = response.answers;
+                        } else {
+                            _this.question = response.question;
+                            _this.options = _this.fisherYates(response.options);
+                            _this.answer = response.answer;
+                            _this.answers = response.answers
+                            _this.skip = response.skip
+                            _this.timer(_this.answer.time_end.date);
+                        }
+
+                },
+            });
+
+        },
+
+
+
         nextBtn:function(){
             var _this = this;
 
@@ -97,7 +159,7 @@ const app = new Vue({
                             _this.answers = response.answers;
                         } else {
                             _this.question = response.question;
-                            _this.options = response.options;
+                            _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
                             _this.answers = response.answers
                             _this.timer(_this.answer.time_end.date);

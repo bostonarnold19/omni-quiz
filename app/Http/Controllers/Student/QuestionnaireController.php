@@ -22,6 +22,8 @@ class QuestionnaireController extends Controller {
     public function create(Request $request) {
         $auth = auth()->user();
         $data = $request->all();
+
+        $question = null;
         $answers = [];
         if ($request->ajax()) {
 
@@ -29,6 +31,7 @@ class QuestionnaireController extends Controller {
                 ->where('codes', $data['codes'])
                 ->where('user_id', $auth->id)
                 ->first();
+
             $time_now = Carbon::now();
 
             if (isset($questionnaire_code) && empty($questionnaire_code->time_start)) {
@@ -46,14 +49,16 @@ class QuestionnaireController extends Controller {
                 $questionnaire_code->update();
             }
 
-            $answers = $this->answer
-                ->where('user_id', $auth->id)
-                ->where('questionnaire_code_id', $questionnaire_code->id)
-                ->whereNotNull('question_option_id')
-                ->pluck('question_id')
-                ->toArray();
+            if ($questionnaire_code->time_end > Carbon::now()) {
+                $answers = $this->answer
+                    ->where('user_id', $auth->id)
+                    ->where('questionnaire_code_id', $questionnaire_code->id)
+                    ->whereNotNull('question_option_id')
+                    ->pluck('question_id')
+                    ->toArray();
 
-            $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
+                $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
+            }
 
             if (!empty($question)) {
 
@@ -98,6 +103,9 @@ class QuestionnaireController extends Controller {
                     }
                 }
 
+                $questionnaire_code->result = $score;
+                $questionnaire_code->update();
+
                 return response()->json([
                     'done' => true,
                     'score' => $score,
@@ -122,6 +130,11 @@ class QuestionnaireController extends Controller {
     public function store(Request $request) {
         $data = $request->all();
         $answers = [];
+        $question = null;
+
+        $skip = 0;
+
+        $skip = @$data['skip'];
 
         unset($data['time_start']);
         unset($data['time_end']);
@@ -131,13 +144,35 @@ class QuestionnaireController extends Controller {
         $put_ans = $this->answer->find($data['id']);
         $put_ans->update($data);
 
-        $data['answers'][] = $put_ans->question_id;
+        if (!isset($data['skip'])) {
 
-        $answers = $data['answers'];
+            $data['answers'][] = $put_ans->question_id;
+
+            $answers = $data['answers'];
+        }
 
         $questionnaire_code = $this->questionnaire_code->find($data['questionnaire_code']['id']);
 
-        $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
+        if ($questionnaire_code->time_end > Carbon::now()) {
+            $question = null;
+            $questions_execpts = $questionnaire_code->questionnaire->questions->except($answers);
+
+            $c_q = $questions_execpts->count();
+
+            if ($c_q === (int) $skip) {
+                $skip = 0;
+
+            }
+
+            foreach ($questions_execpts as $k => $q) {
+                if ($k < (int) $skip) {
+                    continue;
+                }
+                $question = $q;
+                break;
+            }
+
+        }
 
         if (!empty($question)) {
 
@@ -166,6 +201,7 @@ class QuestionnaireController extends Controller {
                 'question' => $question,
                 'options' => $question->options,
                 'answer' => $answer,
+                'skip' => @$skip,
             ], 200);
 
         } else {
@@ -181,6 +217,9 @@ class QuestionnaireController extends Controller {
                     $score++;
                 }
             }
+
+            $questionnaire_code->result = $score;
+            $questionnaire_code->update();
 
             return response()->json([
                 'done' => true,

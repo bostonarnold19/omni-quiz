@@ -17,6 +17,7 @@
                     <tr>
                         <th><i class="far fa-user"></i></th>
                         <th>Name</th>
+                        <th>Student ID</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Role</th>
@@ -49,6 +50,7 @@
         columns : [
             {data: 'profile_picture', orderable: false, searchable: false},
             {data: 'name'},
+            {data: 'student_id'},
             {data: 'username'},
             {data: 'email'},
             {data: 'role'},
@@ -82,6 +84,7 @@
                     $('[id=id]').val(result.id);
                     $('[id=first_name]').val(result.first_name);
                     $('[id=last_name]').val(result.last_name);
+                    $('[id=student_id]').val(result.student_id);
                     $('[id=email]').val(result.email);
                     $("[id=roles]").val(result.roles).trigger("change");
                     $("[id=update-form]").attr("action", update_route);
@@ -98,7 +101,7 @@
 
         $('[id=question-user_id]').val(id);
     });
-    
+
     jQuery(".js-select2:not(.js-select2-enabled)").each(function(e, a) {
         var t = jQuery(a);
         t.addClass("js-select2-enabled").select2({

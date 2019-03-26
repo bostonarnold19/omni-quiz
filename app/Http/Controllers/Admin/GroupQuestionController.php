@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Questionnaire;
-use App\QuestionOption;
 use App\Http\Controllers\Controller;
 use App\Question;
+use App\Questionnaire;
+use App\QuestionOption;
 use DB;
 use Illuminate\Http\Request;
 
 class GroupQuestionController extends Controller {
 
     public function __construct() {
-        $this->group_question  = new Questionnaire;
-        $this->question        = new Question;
+        $this->group_question = new Questionnaire;
+        $this->question = new Question;
         $this->question_option = new QuestionOption;
     }
 
@@ -21,7 +21,7 @@ class GroupQuestionController extends Controller {
         $questionaires = $this->group_question->all();
         $questions = $this->question->all();
         $subjects = $this->parseSubjects($questions);
-        return view('modules.group_question.index', compact('questionaires','questions','subjects'));
+        return view('modules.group_question.index', compact('questionaires', 'questions', 'subjects'));
     }
 
     public function create() {
@@ -30,14 +30,14 @@ class GroupQuestionController extends Controller {
 
     public function store(Request $request) {
         $data = $request->all();
-        $data['time'] = $data['minute'].":".$data['second'];
+        $data['time'] = $data['minute'] . ":" . $data['second'];
         $subjects = explode(" | ", $data['select_subject']);
         $data['subject'] = $subjects[0];
         $data['course'] = $subjects[1];
         $questions = $this->question->query()->where('subject', $subjects[0])
-                        ->where('course', $subjects[1])
-                        ->take((int) $data['question_count'])
-                            ->orderByRaw(DB::raw('RAND()'))->get();
+            ->where('course', $subjects[1])
+            ->take((int) $data['question_count'])
+            ->orderByRaw(DB::raw('RAND()'))->get();
 
         try {
             DB::beginTransaction();
@@ -74,8 +74,7 @@ class GroupQuestionController extends Controller {
 
     public function update(Request $request, $id) {
         $data = $request->all();
-        $data['time'] = $data['minute'].":".$data['second'];
-        dd($data);
+        $data['time'] = $data['minute'] . ":" . $data['second'];
         try {
             DB::beginTransaction();
             $group_q = $this->group_question->find($data['id']);
@@ -117,17 +116,16 @@ class GroupQuestionController extends Controller {
         return redirect()->route('group-question.index')->with($status, $message);
     }
 
-    private function parseSubjects($questions)
-    {
+    private function parseSubjects($questions) {
         if (empty($questions)) {
             return [];
         }
-        $datas = []; 
+        $datas = [];
         foreach ($questions as $key => $value) {
-            if (in_array($value->subject." | ".$value->course, $datas)) {
+            if (in_array($value->subject . " | " . $value->course, $datas)) {
                 continue;
             }
-            $datas[] = $value->subject." | ".$value->course;
+            $datas[] = $value->subject . " | " . $value->course;
         }
         return $datas;
     }

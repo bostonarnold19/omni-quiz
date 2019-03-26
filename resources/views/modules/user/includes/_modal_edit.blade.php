@@ -27,6 +27,15 @@
                             </div>
                         </div>
                     </div>
+                                        <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="student_id">Student ID</label>
+                                <input type="text" class="form-control" id="student_id" name="student_id" placeholder="Student ID" required>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">

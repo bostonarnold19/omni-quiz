@@ -1,12 +1,9 @@
 @extends('layouts.dashmix')
-@section('breadcrumbs')
-{{ Breadcrumbs::render('group-question.index') }}
-@endsection
 @section('content')
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Import</h3>
+            <h1>Import</h1>
         </div>
         <div class="block-content block-content-full">
             <form id="save-form" method="POST" action="{{ route('import') }}" enctype="multipart/form-data">
@@ -28,7 +25,7 @@
                 </div><br>
                 <div class="row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn">Begin Export!</button>
+                        <button type="submit" class="btn">Begin Import!</button>
                     </div>
                 </div>
 

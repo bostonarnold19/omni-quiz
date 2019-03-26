@@ -35,6 +35,7 @@
                         </div>
                         <div class="col-md-12">
                             <button v-on:click="nextBtn" class="btn btn-lg btn-success">Next</button>
+                            <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button>
                         </div>
                     </div>
                 </div>
