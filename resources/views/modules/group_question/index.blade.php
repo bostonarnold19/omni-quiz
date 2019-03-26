@@ -13,6 +13,7 @@
             <table class="table table-bordered table-striped table-vcenter" id="datatable">
                 <thead>
                     <tr>
+                        <th>Type</th>
                         <th>Title</th>
                         <th>Description</th>
                         <th>Items</th>
@@ -23,6 +24,7 @@
                 <tbody>
                     @foreach($questionaires as $questionaire)
                     <tr>
+                        <td>{{ $questionaire->type }}</td>
                         <td>{{ $questionaire->title }}</td>
                         <td>{{ $questionaire->description }}</td>
                         <td>{{ $questionaire->questions->count() }}</td>
