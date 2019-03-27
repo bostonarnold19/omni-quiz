@@ -37,10 +37,10 @@ const app = new Vue({
 
                 } else {
                     _this.question = response.question;
-                    _this.options = _this.fisherYates(response.options);
+                    // _this.options = _this.fisherYates(response.options);
+                    _this.options = response.options;
                     _this.answer = response.answer;
-                                        _this.questionnaire_code = response.questionnaire_code;
-
+                    _this.questionnaire_code = response.questionnaire_code;
                     _this.timer(_this.questionnaire_code.time_end.date);
                 }
             },
@@ -115,9 +115,10 @@ const app = new Vue({
 
                         } else {
                             _this.question = response.question;
-                            _this.options = _this.fisherYates(response.options);
+                            _this.options = response.options;
+                            // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
-                                                        _this.skip = response.skip
+                            _this.skip = response.skip
                             _this.timer(_this.answer.time_end.date);
                         }
 

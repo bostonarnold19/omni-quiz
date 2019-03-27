@@ -26,7 +26,7 @@
                         <td>{{ $questionnaire_code->user->first_name }} {{ $questionnaire_code->user->last_name }}</td>
                         <td>{{ $questionnaire_code->codes }}</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary">Print Questionnaire</button>
+                            <a target="_blank" href="{{ route('omni-questionnaire.show', $questionnaire_code->id) }}" class="btn btn-sm btn-secondary">Print Questionnaire</a>
                         </td>
                     </tr>
                     @endforeach

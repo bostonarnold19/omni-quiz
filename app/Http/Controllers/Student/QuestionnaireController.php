@@ -236,7 +236,12 @@ class QuestionnaireController extends Controller {
     }
 
     public function show($id) {
-        //
+        $questionnaire_code = $this->questionnaire_code->find($id);
+
+        $answers = $this->answer
+            ->where('questionnaire_code_id', $questionnaire_code->id)->get();
+
+        return view('modules.result.print', compact('questionnaire_code', 'answers'));
     }
 
     public function edit($id) {
