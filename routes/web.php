@@ -22,6 +22,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         'as' => 'dashboard',
     ]);
 
+    Route::get('/codes', [
+        'uses' => 'Student\QuestionnaireController@index',
+        'as' => 'codes',
+    ]);
+
     Route::resource('result', 'Student\ResultController');
     Route::resource('omni-questionnaire', 'Student\QuestionnaireController');
 

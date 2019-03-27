@@ -36,4 +36,7 @@ return [
 
     //questionnaire
     ['name' => 'take-questionnaire'],
+
+    ['name' => 'codes'],
+
 ];

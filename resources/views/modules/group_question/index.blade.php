@@ -63,10 +63,13 @@
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('js/datatable.js') }}">
-<script src="{{ asset('js/datatable.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
 <script >
+    $(document).ready(function() {
+    var table = $('#datatable').DataTable( {
+    } );
+
+    new $.fn.dataTable.FixedHeader( table );
+} );
     var add_table = $('.question_tables').DataTable();
     $(document).on('click','.add-checkbox-question', function(){
         var matches = [];

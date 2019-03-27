@@ -41,6 +41,12 @@ Breadcrumbs::for ('result.index', function ($trail) {
 });
 
 //------------ Result ------------//
+Breadcrumbs::for ('codes', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Codes', route('codes'));
+});
+
+//------------ Result ------------//
 Breadcrumbs::for ('omni-questionnaire.create', function ($trail, $group_question) {
     $trail->parent('dashboard');
     $trail->push($group_question->title, route('omni-questionnaire.create'));

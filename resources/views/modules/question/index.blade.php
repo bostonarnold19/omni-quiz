@@ -64,6 +64,12 @@
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
+    $(document).ready(function() {
+    var table = $('#datatable').DataTable( {
+    } );
+
+    new $.fn.dataTable.FixedHeader( table );
+} );
 </script>
 <script src="{{ asset('/js/custom.js') }}"></script>
 @endsection
