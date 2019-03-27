@@ -46,14 +46,22 @@
                         <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
                         <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
                         <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
+                        @if($f_correct != 0)
                         <td>{{  number_format((($f_correct / $items) * 100), 2) }} % </td>
+                        @else
+                        <td> 0 % </td>
+                        @endif
                         <td>{{$f_correct}}</td>
                         <td>{{ $items }}</td>
-                        <td> {{$f_correct}} / {{$items}} </td>
+                        <td> {{ $f_correct != 0 ? $f_correct : '0'}} / {{$items}} </td>
                         <td> {{ $questionnaire_code->first()->questionnaire->created_at->format('d/m/Y') }}</td>
                         <td> {{ $questionnaire_code->last()->questionnaire->created_at->format('d/m/Y') }}</td>
-                        <td> {{$l_correct}} / {{$items}} </td>
+                        <td> {{ $l_correct != 0 ? $l_correct : '0'}} / {{$items}} </td>
+                        @if($l_correct != 0)
                         <td> {{  number_format((($l_correct / $items) * 100), 2) }} %  </td>
+                        @else
+                        <td> 0 % </td>
+                        @endif
                         <td> {{ $questionnaire_code->count() }} </td>
                     @endforeach
                 </tbody>
