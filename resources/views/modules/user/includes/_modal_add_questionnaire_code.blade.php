@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-question-code" tabindex="-1" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
+<div class="modal fade" id="add-question-code" role="dialog" aria-labelledby="modal-default-slideright" aria-hidden="true">
     <div class="modal-dialog modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,7 +19,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Questionnaire</label>
-                                <select name="questionnaire_id" class="form-control" required>
+                                <select name="questionnaire_id" class="form-control js-select2">
                                     <option value="">Select Question</option>
                                     @foreach($questionnaires as $questionnaire)
                                     <option value="{{$questionnaire->id}}">{{$questionnaire->title}} || {{$questionnaire->subject}} || {{$questionnaire->course}}</option>
