@@ -34,13 +34,12 @@ const app = new Vue({
                     _this.done = response.done;
                     _this.score = response.score;
                     _this.items = response.items;
-                    _this.answers = response.answers;
+
                 } else {
                     _this.question = response.question;
                     _this.options = _this.fisherYates(response.options);
                     _this.answer = response.answer;
-                    _this.answers = response.answers
-                    _this.questionnaire_code = response.questionnaire_code;
+                                        _this.questionnaire_code = response.questionnaire_code;
 
                     _this.timer(_this.questionnaire_code.time_end.date);
                 }
@@ -113,13 +112,12 @@ const app = new Vue({
                             _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
-                            _this.answers = response.answers;
+
                         } else {
                             _this.question = response.question;
                             _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
-                            _this.answers = response.answers
-                            _this.skip = response.skip
+                                                        _this.skip = response.skip
                             _this.timer(_this.answer.time_end.date);
                         }
 
@@ -156,13 +154,12 @@ const app = new Vue({
                             _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
-                            _this.answers = response.answers;
+
                         } else {
                             _this.question = response.question;
                             _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
-                            _this.answers = response.answers
-                            _this.timer(_this.answer.time_end.date);
+                                                        _this.timer(_this.answer.time_end.date);
                         }
 
                 },

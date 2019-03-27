@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Questionnaire;
-use App\QuestionOption;
-use App\QuestionnaireCode;
+use App\Answer;
 use App\Http\Controllers\Controller;
 use App\Question;
+use App\Questionnaire;
+use App\QuestionnaireCode;
+use App\QuestionOption;
 use DB;
 use Illuminate\Http\Request;
 
 class QuestionnaireCodeController extends Controller {
 
     public function __construct() {
-        $this->group_question     = new Questionnaire;
-        $this->question           = new Question;
-        $this->question_option    = new QuestionOption;
+        $this->group_question = new Questionnaire;
+        $this->question = new Question;
+        $this->answer = new Answer;
+        $this->question_option = new QuestionOption;
         $this->questionnaire_code = new QuestionnaireCode;
     }
 
@@ -29,7 +31,19 @@ class QuestionnaireCodeController extends Controller {
         $data = $request->all();
         try {
             DB::beginTransaction();
-            $this->questionnaire_code->create($data);
+            $questionnaire_code = $this->questionnaire_code->create($data);
+
+            $questions = $questionnaire_code->questionnaire->questions()->inRandomOrder()->get();
+
+            foreach ($questions as $q) {
+                $data = [
+                    'user_id' => $questionnaire_code->user_id,
+                    'question_id' => $q->id,
+                    'questionnaire_code_id' => $questionnaire_code->id,
+                ];
+                $answer = $this->answer->create($data);
+            }
+
             DB::commit();
             $status = 'success';
             $message = 'Group Question has been created.';
@@ -52,7 +66,7 @@ class QuestionnaireCodeController extends Controller {
 
     public function update(Request $request, $id) {
         $data = $request->all();
-        $data['time'] = $data['minute'].":".$data['second'];
+        $data['time'] = $data['minute'] . ":" . $data['second'];
         try {
             DB::beginTransaction();
             $group_q = $this->group_question->find($data['id']);
@@ -94,17 +108,16 @@ class QuestionnaireCodeController extends Controller {
         return redirect()->route('group-question.index')->with($status, $message);
     }
 
-    private function parseSubjects($questions)
-    {
+    private function parseSubjects($questions) {
         if (empty($questions)) {
             return [];
         }
-        $datas = []; 
+        $datas = [];
         foreach ($questions as $key => $value) {
-            if (in_array($value->subject." | ".$value->course, $datas)) {
+            if (in_array($value->subject . " | " . $value->course, $datas)) {
                 continue;
             }
-            $datas[] = $value->subject." | ".$value->course;
+            $datas[] = $value->subject . " | " . $value->course;
         }
         return $datas;
     }

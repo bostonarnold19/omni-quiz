@@ -25,7 +25,7 @@ class QuestionnaireController extends Controller {
         $data = $request->all();
 
         $question = null;
-        $answers = [];
+        // $answers = [];
         if ($request->ajax()) {
 
             $questionnaire_code = $this->questionnaire_code
@@ -54,11 +54,15 @@ class QuestionnaireController extends Controller {
                 $answers = $this->answer
                     ->where('user_id', $auth->id)
                     ->where('questionnaire_code_id', $questionnaire_code->id)
-                    ->whereNotNull('question_option_id')
-                    ->pluck('question_id')
-                    ->toArray();
+                    ->whereNull('question_option_id')
+                    ->first();
 
-                $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
+                // $question = $questionnaire_code->questionnaire->questions->except($answers)->first();
+
+                if ($answers) {
+                    $question = $answers->question;
+                }
+
             }
 
             if (!empty($question)) {
@@ -84,7 +88,7 @@ class QuestionnaireController extends Controller {
 
                 return response()->json([
                     'questionnaire_code' => $questionnaire_code,
-                    'answers' => $answers,
+                    // 'answers' => $answers,
                     'question' => $question,
                     'options' => $question->options,
                     'answer' => $answer,
@@ -111,7 +115,7 @@ class QuestionnaireController extends Controller {
                     'done' => true,
                     'score' => $score,
                     'items' => $questionnaire_code->questionnaire->questions->count(),
-                    'answers' => $answers,
+                    // 'answers' => $answers,
                 ], 200);
             }
 
@@ -130,7 +134,7 @@ class QuestionnaireController extends Controller {
 
     public function store(Request $request) {
         $data = $request->all();
-        $answers = [];
+        // $answers = [];
         $question = null;
 
         $skip = 0;
@@ -145,32 +149,32 @@ class QuestionnaireController extends Controller {
         $put_ans = $this->answer->find($data['id']);
         $put_ans->update($data);
 
-        if (!isset($data['skip'])) {
+        // if (!isset($data['skip'])) {
 
-            $data['answers'][] = $put_ans->question_id;
+        //     $data['answers'][] = $put_ans->question_id;
 
-            $answers = $data['answers'];
-        }
+        //     $answers = $data['answers'];
+        // }
 
         $questionnaire_code = $this->questionnaire_code->find($data['questionnaire_code']['id']);
 
         if ($questionnaire_code->time_end > Carbon::now()) {
             $question = null;
-            $questions_execpts = $questionnaire_code->questionnaire->questions->except($answers);
 
-            $c_q = $questions_execpts->count();
+            $answers = $this->answer
+                ->where('user_id', $auth->id)
+                ->where('questionnaire_code_id', $questionnaire_code->id)
+                ->whereNull('question_option_id');
+
+            $c_q = $answers->count();
 
             if ($c_q === (int) $skip) {
                 $skip = 0;
 
             }
 
-            foreach ($questions_execpts as $k => $q) {
-                if ($k < (int) $skip) {
-                    continue;
-                }
-                $question = $q;
-                break;
+            if ($answers->skip($skip)->first()) {
+                $question = $answers->skip($skip)->first()->question;
             }
 
         }
@@ -198,7 +202,7 @@ class QuestionnaireController extends Controller {
 
             return response()->json([
                 'questionnaire_code' => $questionnaire_code,
-                'answers' => $answers,
+                // 'answers' => $answers,
                 'question' => $question,
                 'options' => $question->options,
                 'answer' => $answer,
@@ -226,7 +230,7 @@ class QuestionnaireController extends Controller {
                 'done' => true,
                 'score' => $score,
                 'items' => $questionnaire_code->questionnaire->questions->count(),
-                'answers' => $answers,
+                // 'answers' => $answers,
             ], 200);
         }
     }
