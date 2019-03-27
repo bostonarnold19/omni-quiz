@@ -66,33 +66,82 @@ class HomeController extends Controller {
         if ($data['type'] == 'Student') {
             $role = $this->role->where('name','student')->first();
         }
+        $counter = 0;
+        $choices = [
+            'a' => 4,
+            'b' => 5,
+            'c' => 6,
+            'd' => 7,
+        ];
         while ($column = fgetcsv($file)) {
             if (!$column[0] || !$column[1]) {
                 continue;
             }
-            if ($data['type'] == 'Questions' && sizeof($column) == 7) {
+            if ($column[0] == "1 + 1 ?") {
+                continue;
+            }
+            if ($data['type'] == 'Questions' && sizeof($column) == 8) {
+                $check = explode('.', $column[0]);
+                if (ctype_digit($check[0])) {
+                    unset($check[0]);
+                    $check = implode('.', $check);
+                }
+
+                $check = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $check);
+                $check = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $check);
+                $check = preg_replace( '/[^[:print:]]/', '',$check);
 
                 $insert = [
-                    'question' => $column[0],
+                    'question' => trim($check),
                     'subject' => $column[1],
                     'course' => $column[2],
                 ];
+                if (empty(trim($check))) {
+                    continue;
+                }
                 try {
                     DB::beginTransaction();
                     $question = $this->question->create($insert);
                     foreach ($column as $key => $value) {
-                        if ($key <= 2) {
+                        if ($key <= 3) {
+                            continue;
+                        }
+                        if (empty($value)) {
+                            continue;
+                        }
+                        $qoption = [];
+                        $value = explode('.', $value);
+                        if (strlen($value[0]) == 1) {
+                            $orig_answer = strtolower(trim($column[3]));
+                            $answer = @$choices[strtolower(trim($column[3]))];
+                            unset($value[0]);
+                            $value = implode('.', $value);
+                            if (@$choices[strtolower(trim($column[3]))] == $key) {
+                                $qoption['is_correct'] = 1; 
+                            }
+                        }else{
+                            $value = implode('.', $value);
+                        }
+                        $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
+                        $value = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $value);
+                        $value = preg_replace( '/[^[:print:]]/', '',$value);
+                        if (empty(trim($value))) {
+                            DB::rollBack();
                             continue;
                         }
                         $qoption = [
-                            'description' => $value,
+                            'description' => trim($value),
                             'question_id' => $question->id,
                         ];
-                        if ($key == 3) {
-                            $qoption['is_correct'] = 1;
+                        $option = $this->question_option->create($qoption);
+                        if ($option) {
+                            if (@$choices[strtolower(trim($column[3]))] == $key) {
+                                $option->is_correct = 1; 
+                                $option->save(); 
+                            }
                         }
-                        $this->question_option->create($qoption);
                     }
+                    $counter++;
                     DB::commit();
                 } catch (\Exception $e) {
                     DB::rollBack();
@@ -125,7 +174,7 @@ class HomeController extends Controller {
             }
             $cleanedData[] = $data;
         }
-
+        
         return $cleanedData;
     }
 }
