@@ -73,6 +73,7 @@ class HomeController extends Controller {
             'c' => 6,
             'd' => 7,
         ];
+        $cleanedData = [];
         while ($column = fgetcsv($file)) {
             if (!$column[0] || !$column[1]) {
                 continue;
@@ -174,7 +175,7 @@ class HomeController extends Controller {
             }
             $cleanedData[] = $data;
         }
-        
+
         return $cleanedData;
     }
 }

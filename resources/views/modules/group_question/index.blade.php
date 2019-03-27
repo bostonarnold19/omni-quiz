@@ -38,12 +38,13 @@
                                 }
                             @endphp
                             @include('modules.group_question.includes._modal_edit_group_question')
-
-                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
-                            </form>
+                            @php
+                            // <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
+                            //     @csrf
+                            //     @method('delete')
+                            //     <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
+                            // </form>
+                            @endphp
                         </td>
                     </tr>
                     @endforeach

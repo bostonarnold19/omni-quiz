@@ -27,11 +27,13 @@
                         <td>{{ $question->course }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-secondary button-edit" data-id="{{$question->id}}">Edit</a>
-                            <form style="display:inline;" method="POST" action="{{ route('question.destroy', $question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
-                            </form>
+                            @php
+                            // <form style="display:inline;" method="POST" action="{{ route('question.destroy', $question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
+                            //     @csrf
+                            //     @method('delete')
+                            //     <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
+                            // </form>
+                            @endphp
                         </td>
                     </tr>
                     @endforeach
