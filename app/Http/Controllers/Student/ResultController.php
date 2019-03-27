@@ -20,9 +20,16 @@ class ResultController extends Controller {
 
     public function index() {
         $auth = auth()->user();
-        $questionnaire_codes = $this->questionnaire_code->where('user_id', $auth->id)
-            ->get()
-            ->groupBy('questionnaire_id');
+
+        if ($auth->hasRole('admin')) {
+            $questionnaire_codes = $this->questionnaire_code->all()
+                ->groupBy('questionnaire_id');
+
+        } else {
+            $questionnaire_codes = $this->questionnaire_code->where('user_id', $auth->id)
+                ->get()
+                ->groupBy('questionnaire_id');
+        }
 
         return view('modules.result.index', compact('questionnaire_codes'));
     }

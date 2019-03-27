@@ -16,7 +16,8 @@ class QuestionnaireController extends Controller {
     }
 
     public function index() {
-        //
+        $questionnaire_codes = $this->questionnaire_code->all();
+        return view('modules.result.codes', compact('questionnaire_codes'));
     }
 
     public function create(Request $request) {

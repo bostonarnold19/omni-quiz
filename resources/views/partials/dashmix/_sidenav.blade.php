@@ -75,5 +75,13 @@
             </a>
         </li>
         @endpermission
+        @permission('codes')
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('codes') ? 'active' : '' }}" href="{{ route('codes') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Codes</span>
+            </a>
+        </li>
+        @endpermission
     </ul>
 </div>
