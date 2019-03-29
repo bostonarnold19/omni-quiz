@@ -35,11 +35,12 @@ class ResultController extends Controller {
     }
 
     public function create() {
-        //
     }
 
     public function store(Request $request) {
-        //
+        $data = $request->all();
+
+        dd($data);
     }
 
     public function show($id) {

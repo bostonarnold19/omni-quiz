@@ -16,7 +16,7 @@ class QuestionController extends Controller {
     }
 
     public function index() {
-        $questions = $this->question->all();
+        $questions = $this->question->whereNull('deleted')->get();
         return view('modules.question.index', compact('questions'));
     }
 
@@ -118,10 +118,8 @@ class QuestionController extends Controller {
         try {
             DB::beginTransaction();
             $question = $this->question->find($id);
-            foreach ($question->options as $v) {
-                $v->delete();
-            }
-            $question->delete();
+            $question->deleted = date('Y-m-d');
+            $question->save();
             $status = 'success';
             $message = 'Question has been deleted.';
             DB::commit();

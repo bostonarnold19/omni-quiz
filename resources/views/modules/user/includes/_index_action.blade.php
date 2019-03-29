@@ -9,5 +9,5 @@
 </form>
 {{-- @endability --}}
 
-<button type="button" data-id="{{ $user->id }}" data-toggle="modal" data-target="#add-question-code" class="btn btn-sm btn-secondary btn-questionaire">Select Questionnaire</button>
+<button type="button" data-id="{{ $user->id }}" data-toggle="modal" data-target="#add-question-code" class="btn btn-sm btn-secondary btn-questionaire">Assign Exam</button>
 <input type="hidden" id="questionaire-code-{{$user->id}}" value="{{ config('core.code_generator') }}">

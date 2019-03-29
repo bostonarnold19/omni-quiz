@@ -46,7 +46,7 @@ class UserController extends Controller {
                 ->toJson();
         } else {
             $roles = $this->role_repository->all();
-            $questionnaires = $this->questionnaire->all();
+            $questionnaires = $this->questionnaire->whereNull('deleted')->get();
             return view('user::index', compact('roles', 'questionnaires'));
         }
     }

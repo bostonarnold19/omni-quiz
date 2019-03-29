@@ -12,6 +12,8 @@ class Questionnaire extends Model {
         'subject',
         'course',
         'time',
+        'passing',
+        'deleted',
         'is_published',
     ];
 

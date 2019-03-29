@@ -18,7 +18,7 @@ class GroupQuestionController extends Controller {
     }
 
     public function index() {
-        $questionaires = $this->group_question->all();
+        $questionaires = $this->group_question->whereNull('deleted')->get();
         $questions = $this->question->all();
         $subjects = $this->parseSubjects($questions);
         return view('modules.group_question.index', compact('questionaires', 'questions', 'subjects'));
@@ -36,6 +36,7 @@ class GroupQuestionController extends Controller {
         $data['course'] = $subjects[1];
         $questions = $this->question->query()->where('subject', $subjects[0])
             ->where('course', $subjects[1])
+            ->whereNull('deleted')
             ->take((int) $data['question_count'])
             ->orderByRaw(DB::raw('RAND()'))->get();
 
@@ -91,7 +92,6 @@ class GroupQuestionController extends Controller {
             $status = 'success';
             $message = 'Group Question has been updated.';
         } catch (\Exception $e) {
-
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
@@ -103,8 +103,10 @@ class GroupQuestionController extends Controller {
         try {
             DB::beginTransaction();
             $group_q = $this->group_question->find($id);
-            $group_q->questions()->detach();
-            $this->group_question->destroy($id);
+            $group_q->deleted = date('Y-m-d');
+            $group_q->save();
+            // $group_q->questions()->detach();
+            // $this->group_question->destroy($id);
             $status = 'success';
             $message = 'Group Question has been deleted.';
             DB::commit();

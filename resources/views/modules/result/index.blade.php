@@ -41,6 +41,7 @@
                         $l_correct = $questionnaire_code->last()->result;
                     }
                     @endphp
+                    <tr>
                         <td>{{ $questionnaire_code->first()->user->student_id }}</td>
                         <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
                         <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
@@ -63,6 +64,7 @@
                         <td> 0 % </td>
                         @endif
                         <td> {{ $questionnaire_code->count() }} </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -73,17 +75,35 @@
 @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') 
+}}">
+<link rel="stylesheet" href="{{asset('css/datatable-button.css')}}">
+
+
 @endsection
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{asset('js/datatable-button.js')}}"></script>
+<script src="{{asset('js/datatable-print.js')}}"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
     var table = $('#datatable').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'print'
+        ]
     } );
 
-    new $.fn.dataTable.FixedHeader( table );
+    $('#datatable input').attr('name', 'search_text');
+    // new $.fn.dataTable.FixedHeader( table );
+
 } );
+
+    $(document).on('click', '#btn-print-report', function(){
+        var val = $(this).val();
+        var query = $('#dataTables_filter input.form-controlform-control-sm').val()
+    });
 </script>
 @endsection

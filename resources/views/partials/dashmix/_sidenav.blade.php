@@ -1,5 +1,5 @@
 <div class="content-header justify-content-lg-center">
-    <a class="link-fx font-size-lg text-dual" href="index.html">
+    <a class="link-fx font-size-lg text-dual" href="/">
         <span class="text-white-75">{{ config('core.title_primary') }}</span>
         {{ config('core.title_extension') }}
     </a>
@@ -49,7 +49,7 @@
         <li class="nav-main-item">
             <a class="nav-main-link {{ Request::is('group-question*') ? 'active' : '' }}" href="{{ route('group-question.index') }}">
                 <i class="nav-main-link-icon far fa-dot-circle"></i>
-                <span class="nav-main-link-name">Questionnaire</span>
+                <span class="nav-main-link-name">Exams</span>
             </a>
         </li>
         @endpermission

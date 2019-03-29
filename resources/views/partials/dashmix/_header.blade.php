@@ -1,11 +1,13 @@
 <div class="content-header">
     <div>
-        <button type="button" class="btn btn-dual mr-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
-        <i class="fa fa-fw fa-bars"></i>
-        </button>
-        <button type="button" class="btn btn-dual" data-toggle="layout" data-action="header_search_on">
-        <i class="fa fa-fw fa-search"></i> <span class="ml-1 d-none d-sm-inline-block">Search Account..</span>
-        </button>
+        @php
+        // <button type="button" class="btn btn-dual mr-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
+        // <i class="fa fa-fw fa-bars"></i>
+        // </button>
+        // <button type="button" class="btn btn-dual" data-toggle="layout" data-action="header_search_on">
+        // <i class="fa fa-fw fa-search"></i> <span class="ml-1 d-none d-sm-inline-block">Search Account..</span>
+        // </button>
+        @endphp
     </div>
     <div>
         <div class="dropdown d-inline-block">

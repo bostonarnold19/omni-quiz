@@ -6,8 +6,8 @@
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Questionnaire</h3>
-            <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Questionnaire</a>
+            <h3 class="block-title">Exam</h3>
+            <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Exam</a>
         </div>
         <div class="block-content block-content-full">
             <table class="table table-bordered table-striped table-vcenter" id="datatable">
@@ -16,6 +16,7 @@
                         <th>Type</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Passing Grade</th>
                         <th>Items</th>
                         <th>Published</th>
                         <th>Action</th>
@@ -27,6 +28,7 @@
                         <td>{{ $questionaire->type }}</td>
                         <td>{{ $questionaire->title }}</td>
                         <td>{{ $questionaire->description }}</td>
+                        <td>{{ $questionaire->passing ? $questionaire->passing : '0' }} %</td>
                         <td>{{ $questionaire->questions->count() }}</td>
                         <td>{{ $questionaire->is_published }}</td>
                         <td>
@@ -38,13 +40,11 @@
                                 }
                             @endphp
                             @include('modules.group_question.includes._modal_edit_group_question')
-                            @php
-                            // <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
-                            //     @csrf
-                            //     @method('delete')
-                            //     <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
-                            // </form>
-                            @endphp
+                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

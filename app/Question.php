@@ -9,6 +9,7 @@ class Question extends Model {
         'question',
         'subject',
         'course',
+        'deleted',
     ];
 
     public function questionnaires() {

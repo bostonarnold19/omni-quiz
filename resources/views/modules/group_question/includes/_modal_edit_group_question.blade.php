@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Questionnaire</h5>
+                <h5 class="modal-title">Edit Exam</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -40,6 +40,14 @@
                             <div class="form-group">
                                 <label>Course</label><br>
                                 <span><b>{{$questionaire->course}}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Passing Grade %</label>
+                                <input type="number" name="passing" value="{{$questionaire->passing}}" max="100" min="0" class="form-control" required>
                             </div>
                         </div>
                     </div>

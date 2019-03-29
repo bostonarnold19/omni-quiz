@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-slideright" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Questionnaire</h5>
+                <h5 class="modal-title">Add Exam</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -31,7 +31,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <select name="select_subject" class="form-control">
+                                <select name="select_subject" class="form-control" required>
                                     <option value="">Select Subject Course</option>
                                     @foreach($subjects as $subject)
                                     <option >{{$subject}}</option>
@@ -41,10 +41,16 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-6">
                             <div class="form-group">
                                 <label>Question Count</label>
-                                <input type="number" name="question_count" class="form-control">
+                                <input type="number" name="question_count" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label>Passing Grade %</label>
+                                <input type="number" name="passing" max="100" min="0" class="form-control" required>
                             </div>
                         </div>
                     </div>
