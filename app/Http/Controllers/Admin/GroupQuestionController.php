@@ -15,6 +15,12 @@ class GroupQuestionController extends Controller {
         $this->group_question = new Questionnaire;
         $this->question = new Question;
         $this->question_option = new QuestionOption;
+
+        $this->middleware('permission:manage-group-question', ['only' => ['index', 'show']]);
+        $this->middleware('permission:add-group-question', ['only' => ['store']]);
+        $this->middleware('permission:edit-group-question', ['only`' => ['update']]);
+        $this->middleware('permission:delete-group-question', ['only' => ['destroy']]);
+
     }
 
     public function index() {

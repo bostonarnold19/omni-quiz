@@ -12,6 +12,7 @@ class ResultController extends Controller {
     public function __construct() {
         $this->answer = new Answer;
         $this->questionnaire_code = new QuestionnaireCode;
+        $this->middleware('permission:manage-result', ['only' => ['index']]);
     }
 
     private function result() {

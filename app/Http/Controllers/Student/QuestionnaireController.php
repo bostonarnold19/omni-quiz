@@ -12,6 +12,10 @@ class QuestionnaireController extends Controller {
 
     public function __construct() {
         $this->answer = new Answer;
+        $this->middleware('permission:codes', ['only' => ['index']]);
+        $this->middleware('permission:take-questionnaire', ['only' => ['create', 'store']]);
+        $this->middleware('permission:codes', ['only' => ['show']]);
+
         $this->questionnaire_code = new QuestionnaireCode;
     }
 

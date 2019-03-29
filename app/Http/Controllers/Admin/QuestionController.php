@@ -11,8 +11,13 @@ use Illuminate\Http\Request;
 class QuestionController extends Controller {
 
     public function __construct() {
-        $this->question        = new Question;
+        $this->question = new Question;
         $this->question_option = new QuestionOption;
+
+        $this->middleware('permission:manage-question', ['only' => ['index', 'show']]);
+        $this->middleware('permission:add-question', ['only' => ['store']]);
+        $this->middleware('permission:edit-question', ['only`' => ['update']]);
+        $this->middleware('permission:delete-question', ['only' => ['destroy']]);
     }
 
     public function index() {
@@ -59,9 +64,9 @@ class QuestionController extends Controller {
         $question = $this->question->find($id);
         $data = [
             'id' => $question->id,
-            'question'=> $question->question,
-            'subject'=> $question->subject,
-            'course'=> $question->course,
+            'question' => $question->question,
+            'subject' => $question->subject,
+            'course' => $question->course,
             // 'time'=> $question->time,
             // 'minute'=> explode(":", $question->time)[0],
             // 'second'=> explode(":", $question->time)[1],
@@ -85,7 +90,7 @@ class QuestionController extends Controller {
         try {
             DB::beginTransaction();
             $question = $this->question->find($data['id']);
-            $data['time'] = $data['minute'].":".$data['second'];
+            $data['time'] = $data['minute'] . ":" . $data['second'];
             $question->fill($data);
             $question->save();
             foreach ($question->options as $v) {
