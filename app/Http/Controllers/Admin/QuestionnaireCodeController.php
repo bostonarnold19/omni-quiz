@@ -19,6 +19,8 @@ class QuestionnaireCodeController extends Controller {
         $this->answer = new Answer;
         $this->question_option = new QuestionOption;
         $this->questionnaire_code = new QuestionnaireCode;
+        $this->middleware('permission:codes', ['only' => ['store']]);
+
     }
 
     public function index() {
