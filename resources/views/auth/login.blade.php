@@ -5,7 +5,7 @@
         <div class="hero-static col-md-6 d-flex align-items-center bg-white">
             <div class="p-3 w-100">
                 <div class="mb-3 text-center">
-                    <a class="link-fx font-w700 font-size-h1" href="#">
+                    <a class="font-w700 font-size-h1" href="#">
                         <span class="text-dark">
                             <img src="{{ asset('img/airline-training.png') }}" class="img-fluid" width="500">
                             {{-- {{ config('core.title_primary') }}</span><span class="text-primary">{{ config('core.title_extension') }} --}}

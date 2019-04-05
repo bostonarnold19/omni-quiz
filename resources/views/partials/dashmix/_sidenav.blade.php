@@ -1,4 +1,4 @@
-<div class="content-header justify-content-lg-center" style="background-color: #bbb;">
+<div class="content-header justify-content-lg-center">
     <a class="link-fx font-size-lg text-dual" href="/">
                             <img src="{{ asset('img/airline-training.png') }}" class="img-fluid" width="500">
 

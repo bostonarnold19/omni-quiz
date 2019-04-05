@@ -2,9 +2,17 @@
 <html lang="en">
     <head>
         @include('partials.dashmix._head')
+        <style type="text/css">
+            .content {
+    width: 100%;
+    margin: 0 auto;
+     padding: 0px;
+    overflow-x: visible;
+}
+        </style>
     </head>
     <body>
-        <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed main-content-narrow">
+        <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-fixed page-header-dark main-content-narrow side-trans-enabled">
             <aside id="side-overlay">
                 @include('partials.dashmix._aside')
             </aside>
