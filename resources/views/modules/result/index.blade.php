@@ -9,101 +9,100 @@
             <h3 class="block-title">Result</h3>
         </div>
         <div class="block-content block-content-full">
-             <div class="table-responsive">
-            <table class="table table-bordered table-striped table-vcenter" id="datatable">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Course</th>
-                        <th>EXAMINATION TYPE</th>
-                        <th>Subject</th>
-                        <th>Rating</th>
-                        <th>CORRECT ANSWERS</th>
-                        <th>NO. of Items</th>
-                        <th>Result</th>
-                        <th>Exam Date</th>
-                        <th>Last Date taken</th>
-                        <th>Result</th>
-                        <th>Rating</th>
-                        <th>No. of Takes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($questionnaire_codes as $questionnaire_code)
-                    @php
-                    $f_answers = $questionnaire_code->first()->answers;
-                    $f_correct = 0;
-                    $l_correct = 0;
-                    $items = $questionnaire_code->last()->questionnaire->questions()->count();
-                    $f_correct = $questionnaire_code->first()->result;
-                    if ($questionnaire_code->count()) {
-                        $l_correct = $questionnaire_code->last()->result;
-                    }
-                    @endphp
-                    <tr>
-                        <td>{{ $questionnaire_code->first()->user->student_id }}</td>
-                        <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
-                        <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
-                        <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
-                        <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
-                        @if($f_correct != 0)
-                        <td>{{  number_format((($f_correct / $items) * 100), 2) }} % </td>
-                        @else
-                        <td> 0 % </td>
-                        @endif
-                        <td>{{$f_correct}}</td>
-                        <td>{{ $items }}</td>
-                        <td> {{ $f_correct != 0 ? $f_correct : '0'}} / {{$items}} </td>
-                        <td> {{ $questionnaire_code->first()->questionnaire->created_at->format('d/m/Y') }}</td>
-                        <td> {{ $questionnaire_code->last()->questionnaire->created_at->format('d/m/Y') }}</td>
-                        <td> {{ $l_correct != 0 ? $l_correct : '0'}} / {{$items}} </td>
-                        @if($l_correct != 0)
-                        <td> {{  number_format((($l_correct / $items) * 100), 2) }} %  </td>
-                        @else
-                        <td> 0 % </td>
-                        @endif
-                        <td> {{ $questionnaire_code->count() }} </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>EXAMINATION TYPE</th>
+                            <th>Subject</th>
+                            <th width="100">Rating</th>
+                            <th>CORRECT ANSWERS</th>
+                            <th>Result</th>
+                            <th>Exam Date</th>
+                            <th>No. of Takes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($questionnaire_codes as $questionnaire_code)
+                        @php
+                        $items = $questionnaire_code->last()->questionnaire->questions()->count();
+                        @endphp
+                        <tr>
+                            <td>{{ $questionnaire_code->first()->user->student_id }}</td>
+                            <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
+                            <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
+                            <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
+                            <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
+                            <td>
+                                @foreach($questionnaire_code as $question)
+                                @if($question->result != 0)
+                                {{  number_format((($question->result / $items) * 100), 2) }} % <br>
+                                @else
+                                0 % <br>
+                                @endif
+                                @endforeach
+                            </td>
+
+
+                            <td>
+                                @foreach($questionnaire_code as $question)
+                                {{ $question->result == null ? 0 : $question->result }} <br>
+                                @endforeach
+                            </td>
+
+
+                            <td>
+                                @foreach($questionnaire_code as $question)
+                                {{ $question->result != 0 ? $question->result : '0'}} / {{$items}}<br>
+                                @endforeach
+                            </td>
+
+
+
+                            <td>
+                                @foreach($questionnaire_code as $question)
+                                {{ $question->created_at->format('d/m/Y') }}<br>
+                                @endforeach
+                            </td>
+
+                            <td> {{ $questionnaire_code->count() }} </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
-<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') 
-}}">
-<link rel="stylesheet" href="{{asset('css/datatable-button.css')}}">
-
-
-@endsection
-@section('scripts')
-<script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{asset('js/datatable-button.js')}}"></script>
-<script src="{{asset('js/datatable-print.js')}}"></script>
-
-<script type="text/javascript">
-$(document).ready(function() {
+<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css')
+    }}">
+    <link rel="stylesheet" href="{{asset('css/datatable-button.css')}}">
+    @endsection
+    @section('scripts')
+    <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{asset('js/datatable-button.js')}}"></script>
+    <script src="{{asset('js/datatable-print.js')}}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
     var table = $('#datatable').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'print'
-        ]
+    dom: 'Bfrtip',
+    buttons: [
+    'print'
+    ]
     } );
-
     $('#datatable input').attr('name', 'search_text');
     // new $.fn.dataTable.FixedHeader( table );
-
-} );
-
+    } );
     $(document).on('click', '#btn-print-report', function(){
-        var val = $(this).val();
-        var query = $('#dataTables_filter input.form-controlform-control-sm').val()
+    var val = $(this).val();
+    var query = $('#dataTables_filter input.form-controlform-control-sm').val()
     });
-</script>
-@endsection
+    </script>
+    @endsection

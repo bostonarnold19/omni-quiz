@@ -19,6 +19,7 @@ const app = new Vue({
             answers: [],
             done: false,
             ans: null,
+            passing: null,
             skip: 0,
         }
     },
@@ -34,6 +35,7 @@ const app = new Vue({
                     _this.done = response.done;
                     _this.score = response.score;
                     _this.items = response.items;
+                    _this.passing = response.passing;
 
                 } else {
                     _this.question = response.question;
@@ -155,6 +157,7 @@ const app = new Vue({
                             _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
+                            _this.passing = response.passing;
 
                         } else {
                             _this.question = response.question;

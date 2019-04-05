@@ -3,16 +3,20 @@
 {{ Breadcrumbs::render('omni-questionnaire.create', $questionnaire_code->questionnaire) }}
 @endsection
 @section('content')
+<style type="text/css">
+    [v-cloak] {display: none}
+</style>
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
         </div>
         <div class="block-content block-content-full">
-            <div id="app">
+            <div id="app" v-cloak>
                 <div v-if="done">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h1 style="font-size: 10em;">@{{ score }}/@{{ items }}</h1>
+                            <h2 style="font-size: 10em;" v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h2>
+                            <h2 style="font-size: 10em;" v-else>@{{ ((score/items) * 100) }} % <br> Failed</h2>
                             <h4></h4>
                         </div>
                     </div>

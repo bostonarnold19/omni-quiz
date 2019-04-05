@@ -118,6 +118,7 @@ class QuestionnaireController extends Controller {
                 return response()->json([
                     'done' => true,
                     'score' => $score,
+                    'passing' => $questionnaire_code->questionnaire->passing,
                     'items' => $questionnaire_code->questionnaire->questions->count(),
                     // 'answers' => $answers,
                 ], 200);
@@ -233,6 +234,7 @@ class QuestionnaireController extends Controller {
             return response()->json([
                 'done' => true,
                 'score' => $score,
+                'passing' => $questionnaire_code->questionnaire->passing,
                 'items' => $questionnaire_code->questionnaire->questions->count(),
                 // 'answers' => $answers,
             ], 200);

@@ -5,10 +5,13 @@
         <div class="hero-static col-md-6 d-flex align-items-center bg-white">
             <div class="p-3 w-100">
                 <div class="mb-3 text-center">
-                    <a class="link-fx font-w700 font-size-h1" href="index.html">
-                        <span class="text-dark">{{ config('core.title_primary') }}</span><span class="text-primary">{{ config('core.title_extension') }}</span>
+                    <a class="link-fx font-w700 font-size-h1" href="#">
+                        <span class="text-dark">
+                            <img src="{{ asset('img/airline-training.png') }}" class="img-fluid" width="500">
+                            {{-- {{ config('core.title_primary') }}</span><span class="text-primary">{{ config('core.title_extension') }} --}}
+                        </span>
                     </a>
-                    <p class="text-uppercase font-w700 font-size-sm text-muted">Sign In</p>
+                    <p class="text-uppercase font-w700 font-size-sm text-muted mt-3">Sign In</p>
                 </div>
                 <div class="row no-gutters justify-content-center">
                     <div class="col-sm-8 col-xl-6">
@@ -26,11 +29,11 @@
                                 <button type="submit" class="btn btn-block btn-hero-lg btn-hero-primary">
                                 <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Sign In
                                 </button>
-                                <p class="mt-3 mb-0 d-lg-flex justify-content-lg-between">
+{{--                                 <p class="mt-3 mb-0 d-lg-flex justify-content-lg-between">
                                     <a class="btn btn-sm btn-light d-block d-lg-inline-block mb-1" href="{{ route('password.request') }}">
                                         <i class="fa fa-exclamation-triangle text-muted mr-1"></i> Forgot password
                                     </a>
-                                </p>
+                                </p> --}}
                             </div>
                         </form>
                     </div>

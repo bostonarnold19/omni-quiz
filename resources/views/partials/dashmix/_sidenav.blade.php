@@ -1,7 +1,9 @@
-<div class="content-header justify-content-lg-center">
+<div class="content-header justify-content-lg-center" style="background-color: #bbb;">
     <a class="link-fx font-size-lg text-dual" href="/">
-        <span class="text-white-75">{{ config('core.title_primary') }}</span>
-        {{ config('core.title_extension') }}
+                            <img src="{{ asset('img/airline-training.png') }}" class="img-fluid" width="500">
+
+{{--         <span class="text-white-75">{{ config('core.title_primary') }}</span>
+        {{ config('core.title_extension') }} --}}
     </a>
     <div class="d-lg-none">
         <a class="text-white ml-2" data-toggle="layout" data-action="sidebar_close" href="javascript:void(0)">
