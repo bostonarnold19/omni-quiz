@@ -15,8 +15,8 @@
                 <div v-if="done">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h2 style="font-size: 10em;" v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h2>
-                            <h2 style="font-size: 10em;" v-else>@{{ ((score/items) * 100) }} % <br> Failed</h2>
+                            <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h3>
+                            <h3 v-else>@{{ ((score/items) * 100) }} % <br> Failed</h3>
                             <h4></h4>
                         </div>
                     </div>
@@ -51,10 +51,12 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
 @endsection
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/sweetalert2/dist/sweetalert2.js') }}"></script>
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";

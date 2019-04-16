@@ -23,6 +23,7 @@
         "vue": "^2.5.17"
     },
     "dependencies": {
-        "lodash.shuffle": "^4.2.0"
+        "lodash.shuffle": "^4.2.0",
+        "sweetalert2": "^8.8.5"
     }
 }

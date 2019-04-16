@@ -37,6 +37,22 @@ const app = new Vue({
                     _this.items = response.items;
                     _this.passing = response.passing;
 
+                    var grade = ((_this.score/_this.items) * 100) >= _this.passing;
+                    var msg = 'Congrats';
+                    var type = 'success';
+                    var ave = ((_this.score/_this.items) * 100) + "%";
+
+                    if(grade == false) {
+                        msg = 'Failed';
+                        type = 'error';
+                    }
+
+                    Swal.fire(
+                      msg,
+                      ave,
+                      type
+                    );
+
                 } else {
                     _this.question = response.question;
                     // _this.options = _this.fisherYates(response.options);
@@ -51,9 +67,11 @@ const app = new Vue({
 
     },
     created: function(){
+
     },
     methods:{
         timer: function(time){
+
             var _this = this;
             clearInterval(window.x);
             var deadline = new Date(time).getTime();
@@ -115,6 +133,7 @@ const app = new Vue({
                             _this.score = response.score;
                             _this.items = response.items;
 
+
                         } else {
                             _this.question = response.question;
                             _this.options = response.options;
@@ -138,6 +157,7 @@ const app = new Vue({
                 _this.ans = 'x';
             }
 
+
             var data = _this.answer;
             data.question_option_id = _this.ans;
             data.answers = _this.answers;
@@ -159,9 +179,26 @@ const app = new Vue({
                             _this.items = response.items;
                             _this.passing = response.passing;
 
+                            var grade = ((_this.score/_this.items) * 100) >= _this.passing;
+                    var msg = 'Congrats';
+                    var type = 'success';
+                    var ave = ((_this.score/_this.items) * 100) + "%";
+
+                    if(grade == false) {
+                        msg = 'Failed';
+                        type = 'error';
+                    }
+
+                    Swal.fire(
+                      msg,
+                      ave,
+                      type
+                    );
+
+
                         } else {
                             _this.question = response.question;
-                            _this.options = _this.fisherYates(response.options);
+                            // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
                                                         _this.timer(_this.answer.time_end.date);
                         }
