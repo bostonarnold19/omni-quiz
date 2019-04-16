@@ -42,10 +42,14 @@ class HomeController extends Controller {
         $data = $request->all();
 
         if (!$request->hasFile('csv_file') || empty($request)) {
-            return redirect()->back();
+            $status = 'error';
+            $message = 'Unable to import csv file';
+            return redirect()->back()->with($status, $message);
         }
         $datas = $this->csvToArray($request);
-        return redirect()->back();
+        $status = 'success';
+        $message = 'Import finished!';
+        return redirect()->back()->with($status, $message);
     }
 
     private function csvToArray($request)
@@ -91,13 +95,12 @@ class HomeController extends Controller {
                 $check = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $check);
                 $check = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $check);
                 $check = preg_replace( '/[^[:print:]]/', '',$check);
-
                 $insert = [
-                    'question' => trim($check),
+                    'question' => trim(is_array($check) ? $check[0] : $check),
                     'subject' => $column[1],
                     'course' => $column[2],
                 ];
-                if (empty(trim($check))) {
+                if (empty(trim(is_array($check) ? $check[0] : $check))) {
                     continue;
                 }
                 try {
@@ -110,15 +113,23 @@ class HomeController extends Controller {
                         if (empty($value)) {
                             continue;
                         }
+
+                        if ($value == "") {
+                            continue;
+                        }
                         $qoption = [];
                         $value = explode('.', $value);
+                        
                         if (strlen($value[0]) == 1) {
-                            $orig_answer = strtolower(trim($column[3]));
-                            $answer = @$choices[strtolower(trim($column[3]))];
-                            unset($value[0]);
-                            $value = implode('.', $value);
-                            if (@$choices[strtolower(trim($column[3]))] == $key) {
-                                $qoption['is_correct'] = 1; 
+                            $answer_real = explode('/', $column[3]);
+
+                            foreach ($answer_real as $let) {
+                                $orig_answer = strtolower(trim($let));
+                                $answer = @$choices[strtolower(trim($let))];
+                                $value = implode('.', $value);
+                                if (@$choices[strtolower(trim($let))] == $key) {
+                                    $qoption['is_correct'] = 1; 
+                                }
                             }
                         }else{
                             $value = implode('.', $value);
