@@ -23,7 +23,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <input type="text" class="form-control" name="subject" v-model="question.subject" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
                             </div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Course</label>
-                                <input type="text" class="form-control" name="course" v-model="question.course" placeholder="Course" required>
+                                <input type="text" class="form-control" name="course" placeholder="Course" required>
                             </div>
                         </div>
                     </div>
@@ -43,13 +43,13 @@
                                     <span class="btn btn-outline-primary" v-on:click="addOption" style="float:right">Add Options</span>
                                 </div>
                             </div>
-                            <input type="hidden" name="is_correct" id="is_correct">
+                            <input type="hidden" name="is_correct" id="is_correct" value="[]">
                             <div class="questions_options row" v-for="(options, key) in question_options">
                                 <div class="col-sm-9">
                                     <input type="text" name="description[]" class="form-control">
                                 </div>
                                 <div class="col-sm-3">
-                                    <span class="is_correct_btn" :data-id="key">Correct Answer</span>
+                                    <span class="is_correct_btn" :data-id="key" data-text="#is_correct">Correct Answer</span>
                                     <span style="color:red;cursor:pointer" v-on:click="removeOption(key)">Remove</span>
                                 </div>
                             </div>
