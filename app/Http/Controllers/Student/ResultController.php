@@ -40,6 +40,8 @@ class ResultController extends Controller
                 ->first();
         }
 
+        dd($questionnaire_codes);
+
         // foreach ($data_questionnaire_codes as $group) {
         //     $questionnaire_codes[] = $group->groupBy('questionnaire_id');
         // }

@@ -140,7 +140,7 @@ const app = new Vue({
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
                             _this.skip = response.skip
-                            _this.timer(_this.answer.time_end.date);
+                            // _this.timer(_this.answer.time_end.date);
                         }
 
                 },
@@ -197,10 +197,12 @@ const app = new Vue({
 
 
                         } else {
+                            // console.log(response.answer);
                             _this.question = response.question;
+                    _this.options = response.options;
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
-                                                        _this.timer(_this.answer.time_end.date);
+                            // _this.timer(_this.answer);
                         }
 
                 },

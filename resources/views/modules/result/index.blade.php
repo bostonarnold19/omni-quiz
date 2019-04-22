@@ -27,6 +27,7 @@
                     </thead>
                     <tbody>
                         @foreach($questionnaire_codes as $questionnaire_code)
+
                         @php
                         $items = $questionnaire_code->last()->questionnaire->questions()->count();
                         @endphp
@@ -36,6 +37,7 @@
                             <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
                             <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
                             <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
+
                             <td>
                                 @foreach($questionnaire_code as $question)
                                 @if($question->result != 0)
