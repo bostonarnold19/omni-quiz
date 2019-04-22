@@ -120,20 +120,17 @@ class HomeController extends Controller {
                         $qoption = [];
                         $value = explode('.', $value);
                         
-                        if (strlen($value[0]) == 1) {
-                            $answer_real = explode('/', $column[3]);
-
-                            foreach ($answer_real as $let) {
-                                $orig_answer = strtolower(trim($let));
-                                $answer = @$choices[strtolower(trim($let))];
+                        $answer_real = explode('/', $column[3]);
+                        $g_choices = [];
+                        foreach ($answer_real as $let) {
+                            $orig_answer = strtolower(trim($let));
+                            $answer = @$choices[strtolower(trim($let))];
+                            if (is_array($value)) {
                                 $value = implode('.', $value);
-                                if (@$choices[strtolower(trim($let))] == $key) {
-                                    $qoption['is_correct'] = 1; 
-                                }
                             }
-                        }else{
-                            $value = implode('.', $value);
+                            $g_choices[] = @$column[$answer];
                         }
+
                         $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
                         $value = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $value);
                         $value = preg_replace( '/[^[:print:]]/', '',$value);
@@ -145,6 +142,9 @@ class HomeController extends Controller {
                             'description' => trim($value),
                             'question_id' => $question->id,
                         ];
+                        if (in_array($value, $g_choices)) {
+                            $qoption['is_correct'] = 1; 
+                        }
                         $option = $this->question_option->create($qoption);
                         if ($option) {
                             if (@$choices[strtolower(trim($column[3]))] == $key) {
@@ -156,6 +156,7 @@ class HomeController extends Controller {
                     $counter++;
                     DB::commit();
                 } catch (\Exception $e) {
+                    dd($e);
                     DB::rollBack();
                 }
             }
