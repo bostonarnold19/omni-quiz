@@ -27,24 +27,32 @@ class ResultController extends Controller
         $auth = auth()->user();
 
         if ($auth->hasRole('admin')) {
-            $questionnaire_codes = $this->questionnaire_code->all()
-                ->groupBy('user_id')
-                ->groupBy('questionnaire_id')
-                ->first();
+            $qc = \DB::table('questionnaire_codes')
+                ->join('users', 'users.id', '=', 'questionnaire_codes.user_id')
+                ->join('questionnaires', 'questionnaires.id', '=', 'questionnaire_codes.questionnaire_id')
+                ->select('questionnaire_codes.user_id', 'questionnaire_codes.questionnaire_id')
+                ->groupBy('users.id', 'questionnaires.id')
+                ->get();
 
         } else {
-            $questionnaire_codes = $this->questionnaire_code->where('user_id', $auth->id)
-                ->get()
-                ->groupBy('questionnaire_id')
-                ->groupBy('user_id')
-                ->first();
+            $qc = \DB::table('questionnaire_codes')
+                ->where('user_id', $auth->id)
+                ->join('users', 'users.id', '=', 'questionnaire_codes.user_id')
+                ->join('questionnaires', 'questionnaires.id', '=', 'questionnaire_codes.questionnaire_id')
+                ->select('questionnaire_codes.user_id', 'questionnaire_codes.questionnaire_id')
+                ->groupBy('users.id', 'questionnaires.id')
+                ->get();
         }
 
-        dd($questionnaire_codes);
+        $questionnaire_codes = null;
 
-        // foreach ($data_questionnaire_codes as $group) {
-        //     $questionnaire_codes[] = $group->groupBy('questionnaire_id');
-        // }
+        foreach ($qc as $key => $value) {
+
+            $questionnaire_codes[$key] = $this->questionnaire_code
+                ->where('user_id', $value->user_id)
+                ->where('questionnaire_id', $value->questionnaire_id)
+                ->get();
+        }
 
         return view('modules.result.index', compact('questionnaire_codes'));
     }

@@ -18,7 +18,7 @@
                             <th>Course</th>
                             <th>EXAMINATION TYPE</th>
                             <th>Subject</th>
-                            <th width="100">Rating</th>
+                            <th width="120">Rating</th>
                             <th>CORRECT ANSWERS</th>
                             <th>Result</th>
                             <th>Exam Date</th>
@@ -27,9 +27,8 @@
                     </thead>
                     <tbody>
                         @foreach($questionnaire_codes as $questionnaire_code)
-
                         @php
-                        $items = $questionnaire_code->last()->questionnaire->questions()->count();
+                        $items = $questionnaire_code->first()->questionnaire->questions()->count();
                         @endphp
                         <tr>
                             <td>{{ $questionnaire_code->first()->user->student_id }}</td>
