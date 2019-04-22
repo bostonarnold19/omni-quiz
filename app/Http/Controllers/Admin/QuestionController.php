@@ -35,13 +35,17 @@ class QuestionController extends Controller {
             DB::beginTransaction();
             // $data['time'] = $data['minute'].":".$data['second'];
             $question = $this->question->create($data);
+            $correct = [];
+            foreach (json_decode($data['is_correct']) as $n) {
+                $correct[] = $n;
+            }
             foreach ($data['description'] as $key => $value) {
                 $insert_options = [
                     'description' => $value,
                     'question_id' => $question->id,
                     'is_correct' => null,
                 ];
-                if ($key == (int) $data['is_correct']) {
+                if (in_array($key, $correct)) {
                     $insert_options['is_correct'] = "1";
                 }
                 $this->question_option->create($insert_options);
@@ -73,7 +77,7 @@ class QuestionController extends Controller {
         ];
         foreach ($question->options as $key => $value) {
             if (!empty($value->is_correct)) {
-                $data['is_correct'] = $key;
+                $data['is_correct'][] = $key;
             }
             $data['question_options'][] = $value->description;
         }
@@ -90,20 +94,23 @@ class QuestionController extends Controller {
         try {
             DB::beginTransaction();
             $question = $this->question->find($data['id']);
-            $data['time'] = $data['minute'] . ":" . $data['second'];
+            // $data['time'] = $data['minute'] . ":" . $data['second'];
             $question->fill($data);
             $question->save();
             foreach ($question->options as $v) {
                 $v->delete();
             }
-
+            $correct = [];
+            foreach (json_decode($data['is_correct']) as $n) {
+                $correct[] = $n;
+            }
             foreach ($data['description'] as $key => $value) {
                 $insert_options = [
                     'description' => $value,
                     'question_id' => $question->id,
                     'is_correct' => null,
                 ];
-                if ($key == (int) $data['is_correct']) {
+                if (in_array($key, $correct)) {
                     $insert_options['is_correct'] = "1";
                 }
                 $this->question_option->create($insert_options);
@@ -112,6 +119,7 @@ class QuestionController extends Controller {
             $status = 'success';
             $message = 'Question has been updated.';
         } catch (\Exception $e) {
+            dd($e);
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();

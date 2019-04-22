@@ -45,14 +45,14 @@
                                     <span class="btn btn-outline-primary" v-on:click="addEditOption" style="float:right">Add Options</span>
                                 </div>
                             </div>
-                            <input type="hidden" name="is_correct" id="is_correct_edit"  v-model="question.is_correct">
+                            <input type="hidden" name="is_correct" id="is_correct_edit"  :value="JSON.stringify(question.is_correct)">
                             <div class="questions_options row" v-for="(options, key) in question.question_options">
                                 <div class="col-sm-9">
                                     <input type="text" name="description[]" class="form-control" v-model="options">
                                 </div>
                                 <div class="col-sm-3">
-                                    <span class="is_correct_btn active" v-if="key == question.is_correct" :data-id="key">Correct Answer</span>
-                                    <span class="is_correct_btn " v-else :data-id="key">Correct Answer</span>
+                                    <span class="is_correct_btn active" v-if="getKeyArray(key, question.is_correct) != 'empty'"  data-text="#is_correct_edit" :data-id="key">Correct Answer</span>
+                                    <span class="is_correct_btn " v-else data-text="#is_correct_edit" :data-id="key">Correct Answer</span>
                                     <span style="color:red;cursor:pointer" v-on:click="removeEditOption(key)">Remove</span>
                                 </div>    
                             </div>
