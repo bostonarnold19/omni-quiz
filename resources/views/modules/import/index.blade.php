@@ -1,11 +1,14 @@
 @extends('layouts.dashmix')
 @section('content')
 <div class="content">
+    <br>
+    <br>
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
             <h1>Import</h1>
         </div>
         <div class="block-content block-content-full">
+
             <form id="save-form" method="POST" action="{{ route('import') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
