@@ -63,6 +63,7 @@ class HomeController extends Controller {
                 'course',
             ];
         }
+
         $csv = $request->file('csv_file');
         $filePath = $csv->getRealPath();
         $file = fopen($filePath, 'r');
@@ -78,6 +79,7 @@ class HomeController extends Controller {
             'd' => 7,
         ];
         $cleanedData = [];
+
         while ($column = fgetcsv($file)) {
             if (!$column[0] || !$column[1]) {
                 continue;
@@ -85,27 +87,28 @@ class HomeController extends Controller {
             if ($column[0] == "1 + 1 ?") {
                 continue;
             }
-            if ($data['type'] == 'Questions' && sizeof($column) == 8) {
-                $check = explode('.', $column[0]);
-                if (ctype_digit($check[0])) {
-                    unset($check[0]);
-                    $check = implode('.', $check);
-                }
-
+            if ($data['type'] == 'Questions' && (sizeof($column) == 8 || sizeof($column) == 7)) {
+                // $check = explode('.', $column[0]);
+                // if (ctype_digit($check[0])) {
+                //     unset($check[0]);
+                //     $check = implode('.', $check);
+                // }
+                $check = $column[0];
                 $check = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $check);
                 $check = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $check);
                 $check = preg_replace( '/[^[:print:]]/', '',$check);
                 $insert = [
-                    'question' => trim(is_array($check) ? $check[0] : $check),
+                    'question' => trim(is_array($check) ? @$check[0] : $check),
                     'subject' => $column[1],
                     'course' => $column[2],
                 ];
-                if (empty(trim(is_array($check) ? $check[0] : $check))) {
+                if (empty(trim(is_array($check) ? @$check[0] : $check))) {
                     continue;
                 }
                 try {
                     DB::beginTransaction();
                     $question = $this->question->create($insert);
+
                     foreach ($column as $key => $value) {
                         if ($key <= 3) {
                             continue;
@@ -156,7 +159,6 @@ class HomeController extends Controller {
                     $counter++;
                     DB::commit();
                 } catch (\Exception $e) {
-                    dd($e);
                     DB::rollBack();
                 }
             }
