@@ -20,7 +20,7 @@ class QuestionnaireController extends Controller {
     }
 
     public function index() {
-        $questionnaire_codes = $this->questionnaire_code->all();
+        $questionnaire_codes = $this->questionnaire_code->orderBy('created_at', 'desc')->get();
         return view('modules.result.codes', compact('questionnaire_codes'));
     }
 

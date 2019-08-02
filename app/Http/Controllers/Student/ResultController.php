@@ -44,7 +44,7 @@ class ResultController extends Controller
                 ->get();
         }
 
-        $questionnaire_codes = null;
+        $questionnaire_codes = [];
 
         foreach ($qc as $key => $value) {
 
