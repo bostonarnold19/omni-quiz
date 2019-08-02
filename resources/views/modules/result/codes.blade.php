@@ -26,9 +26,9 @@
 
                             @php
 
-                            // if(!$questionnaire_code->first()->user) {
-                            //     continue;
-                            // }
+                            if(!$questionnaire_code->user) {
+                                continue;
+                            }
 
                             @endphp
                         <tr>
