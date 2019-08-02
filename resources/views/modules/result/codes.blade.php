@@ -16,6 +16,7 @@
                         <th>Student ID</th>
                         <th>Name</th>
                         <th>Code</th>
+                        <th>Created</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                             <td>{{ $questionnaire_code->user->student_id }}</td>
                             <td>{{ $questionnaire_code->user->first_name }} {{ $questionnaire_code->user->last_name }}</td>
                             <td>{{ $questionnaire_code->codes }}</td>
+                            <td>{{ $questionnaire_code->created_at }}</td>
                             <td>
                                 <a target="_blank" href="{{ route('omni-questionnaire.show', $questionnaire_code->id) }}" class="btn btn-sm btn-secondary">Print Questionnaire</a>
                             </td>
