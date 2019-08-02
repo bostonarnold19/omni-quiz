@@ -27,8 +27,14 @@
                     </thead>
                     <tbody>
                         @if($questionnaire_codes)
+
                             @foreach($questionnaire_codes as $questionnaire_code)
                             @php
+
+                            if(!$questionnaire_code->first()->user) {
+                                continue;
+                            }
+
                             $items = @$questionnaire_code->first()->questionnaire->questions()->count();
                             @endphp
                             <tr>
@@ -37,7 +43,6 @@
                                 <td>{{ @$questionnaire_code->first()->questionnaire->course }}</td>
                                 <td>{{ @$questionnaire_code->first()->questionnaire->type }}</td>
                                 <td>{{ @$questionnaire_code->first()->questionnaire->subject }}</td>
-
                                 <td>
                                     @foreach($questionnaire_code as $question)
                                     @if($question->result != 0)

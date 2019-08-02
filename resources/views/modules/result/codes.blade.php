@@ -23,6 +23,14 @@
                 <tbody>
                     @if($questionnaire_codes)
                         @foreach($questionnaire_codes as $questionnaire_code)
+
+                            @php
+
+                            if(!$questionnaire_code->first()->user) {
+                                continue;
+                            }
+
+                            @endphp
                         <tr>
                             <td>{{ $questionnaire_code->user->student_id }}</td>
                             <td>{{ $questionnaire_code->user->first_name }} {{ $questionnaire_code->user->last_name }}</td>
