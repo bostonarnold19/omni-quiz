@@ -20,16 +20,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($questionnaire_codes as $questionnaire_code)
-                    <tr>
-                        <td>{{ $questionnaire_code->user->student_id }}</td>
-                        <td>{{ $questionnaire_code->user->first_name }} {{ $questionnaire_code->user->last_name }}</td>
-                        <td>{{ $questionnaire_code->codes }}</td>
-                        <td>
-                            <a target="_blank" href="{{ route('omni-questionnaire.show', $questionnaire_code->id) }}" class="btn btn-sm btn-secondary">Print Questionnaire</a>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @if($questionnaire_codes)
+                        @foreach($questionnaire_codes as $questionnaire_code)
+                        <tr>
+                            <td>{{ $questionnaire_code->user->student_id }}</td>
+                            <td>{{ $questionnaire_code->user->first_name }} {{ $questionnaire_code->user->last_name }}</td>
+                            <td>{{ $questionnaire_code->codes }}</td>
+                            <td>
+                                <a target="_blank" href="{{ route('omni-questionnaire.show', $questionnaire_code->id) }}" class="btn btn-sm btn-secondary">Print Questionnaire</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

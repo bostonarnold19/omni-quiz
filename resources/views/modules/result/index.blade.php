@@ -26,52 +26,54 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($questionnaire_codes as $questionnaire_code)
-                        @php
-                        $items = $questionnaire_code->first()->questionnaire->questions()->count();
-                        @endphp
-                        <tr>
-                            <td>{{ $questionnaire_code->first()->user->student_id }}</td>
-                            <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
-                            <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
-                            <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
-                            <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
+                        @if($questionnaire_codes)
+                            @foreach($questionnaire_codes as $questionnaire_code)
+                            @php
+                            $items = $questionnaire_code->first()->questionnaire->questions()->count();
+                            @endphp
+                            <tr>
+                                <td>{{ $questionnaire_code->first()->user->student_id }}</td>
+                                <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
+                                <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
+                                <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
+                                <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
 
-                            <td>
-                                @foreach($questionnaire_code as $question)
-                                @if($question->result != 0)
-                                {{  number_format((($question->result / $items) * 100), 2) }} % <br>
-                                @else
-                                0 % <br>
-                                @endif
-                                @endforeach
-                            </td>
-
-
-                            <td>
-                                @foreach($questionnaire_code as $question)
-                                {{ $question->result == null ? 0 : $question->result }} <br>
-                                @endforeach
-                            </td>
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    @if($question->result != 0)
+                                    {{  number_format((($question->result / $items) * 100), 2) }} % <br>
+                                    @else
+                                    0 % <br>
+                                    @endif
+                                    @endforeach
+                                </td>
 
 
-                            <td>
-                                @foreach($questionnaire_code as $question)
-                                {{ $question->result != 0 ? $question->result : '0'}} / {{$items}}<br>
-                                @endforeach
-                            </td>
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    {{ $question->result == null ? 0 : $question->result }} <br>
+                                    @endforeach
+                                </td>
+
+
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    {{ $question->result != 0 ? $question->result : '0'}} / {{$items}}<br>
+                                    @endforeach
+                                </td>
 
 
 
-                            <td>
-                                @foreach($questionnaire_code as $question)
-                                {{ $question->created_at->format('d/m/Y') }}<br>
-                                @endforeach
-                            </td>
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    {{ $question->created_at->format('d/m/Y') }}<br>
+                                    @endforeach
+                                </td>
 
-                            <td> {{ $questionnaire_code->count() }} </td>
-                        </tr>
-                        @endforeach
+                                <td> {{ $questionnaire_code->count() }} </td>
+                            </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
