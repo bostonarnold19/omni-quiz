@@ -29,14 +29,14 @@
                         @if($questionnaire_codes)
                             @foreach($questionnaire_codes as $questionnaire_code)
                             @php
-                            $items = $questionnaire_code->first()->questionnaire->questions()->count();
+                            $items = @$questionnaire_code->first()->questionnaire->questions()->count();
                             @endphp
                             <tr>
-                                <td>{{ $questionnaire_code->first()->user->student_id }}</td>
-                                <td>{{ $questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
-                                <td>{{ $questionnaire_code->first()->questionnaire->course }}</td>
-                                <td>{{ $questionnaire_code->first()->questionnaire->type }}</td>
-                                <td>{{ $questionnaire_code->first()->questionnaire->subject }}</td>
+                                <td>{{ @$questionnaire_code->first()->user->student_id }}</td>
+                                <td>{{ @$questionnaire_code->first()->user->first_name }} {{ $questionnaire_code->first()->user->last_name }}</td>
+                                <td>{{ @$questionnaire_code->first()->questionnaire->course }}</td>
+                                <td>{{ @$questionnaire_code->first()->questionnaire->type }}</td>
+                                <td>{{ @$questionnaire_code->first()->questionnaire->subject }}</td>
 
                                 <td>
                                     @foreach($questionnaire_code as $question)
