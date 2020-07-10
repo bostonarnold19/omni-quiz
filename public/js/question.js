@@ -59,7 +59,8 @@ const app = new Vue({
                     _this.options = response.options;
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
-                    _this.timer(_this.questionnaire_code.time_end.date);
+                    console.log(_this.questionnaire_code);
+                    _this.timer(_this.questionnaire_code.time_end);
                 }
             },
         });
@@ -71,7 +72,7 @@ const app = new Vue({
     },
     methods:{
         timer: function(time){
-
+            console.log(time);
             var _this = this;
             clearInterval(window.x);
             var deadline = new Date(time).getTime();

@@ -37,6 +37,8 @@ class QuestionnaireController extends Controller {
                 ->where('user_id', $auth->id)
                 ->first();
 
+
+
             $time_now = Carbon::now();
 
             if (isset($questionnaire_code) && empty($questionnaire_code->time_start)) {
@@ -48,11 +50,19 @@ class QuestionnaireController extends Controller {
                 $time_end->addMinutes($time_q[0]);
                 $time_end->addSeconds($time_q[1] + 2);
 
-                $questionnaire_code->time_start = $time_now;
-                $questionnaire_code->time_end = $time_end;
+                $questionnaire_code->time_start = Carbon::parse($time_now);
+                $questionnaire_code->time_end = Carbon::parse($time_end);
 
                 $questionnaire_code->update();
+
+                // dd('first if');
+
             }
+
+
+
+
+
 
             if ($questionnaire_code->time_end > Carbon::now()) {
                 $answers = $this->answer
@@ -67,7 +77,12 @@ class QuestionnaireController extends Controller {
                     $question = $answers->question;
                 }
 
+
+                // dd('2nd if');
+
             }
+
+
 
             if (!empty($question)) {
 
@@ -87,11 +102,18 @@ class QuestionnaireController extends Controller {
                     $answer = $this->answer->create($data);
                 }
 
-                $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
-                $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
+
+                $XXXXXXXXXXX = $this->questionnaire_code
+                    ->where('codes', $data['codes'])
+                    ->where('user_id', $auth->id)
+                    ->first();
+
+                // $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
+                // $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
+
 
                 return response()->json([
-                    'questionnaire_code' => $questionnaire_code,
+                    'questionnaire_code' => $XXXXXXXXXXX,
                     // 'answers' => $answers,
                     'question' => $question,
                     'options' => $question->options,
