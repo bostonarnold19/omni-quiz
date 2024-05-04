@@ -74,6 +74,8 @@
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
+    window.subject = "{{@$data['subject']}}";
+    window.course = "{{@$data['course']}}";
 </script>
 <script src="{{ asset('/js/study-mode.js') }}"></script>
 @endsection

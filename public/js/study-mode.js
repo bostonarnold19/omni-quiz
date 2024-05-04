@@ -34,18 +34,25 @@ const app = new Vue({
             let data = {};
             data._token = $('meta[name="csrf-token"]').attr('content');
             data.question_ids = _this.questionIds;
+            data.subject = window.subject;
+            data.course = window.course;
+
             $.ajax({
                 method: 'POST',
                 url: _this.url.routeAnsQuestion,
                 data: data,
                 jsonp: false,
                 success: function(response){
-                        _this.question = response.question;
-                        _this.options = response.question.options;
-                        _this.answer = response.answer;
-                        _this.questionnaire_code = response.questionnaire_code;
-                        _this.ans = null
-                        _this.questionIds.push(response.question.id)
+                    if (!response.question) {
+                        window.location.href = `${window.publicUrl}/dashboard`;
+                        return;
+                    }
+                    _this.question = response.question;
+                    _this.options = response.question.options;
+                    _this.answer = response.answer;
+                    _this.questionnaire_code = response.questionnaire_code;
+                    _this.ans = null
+                    _this.questionIds.push(response.question.id)
                 },
             });
         },

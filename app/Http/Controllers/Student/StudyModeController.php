@@ -15,9 +15,13 @@ class StudyModeController extends Controller
         // $this->questionnaire_code = new QuestionnaireCode;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('modules.study_mode.index');
+        $data = $request->all();
+        $subjects = explode(" | ", @$data['select_subject']);
+        $data['subject'] = @$subjects[0];
+        $data['course'] = @$subjects[1];
+        return view('modules.study_mode.index', compact('data'));
     }
 
     public function create(Request $request)
@@ -32,6 +36,14 @@ class StudyModeController extends Controller
 
         if (@$data['question_ids']) {
             $questionQuery->whereNotIn('id', @$data['question_ids']);
+        }
+
+        if (@$data['subject']) {
+            $questionQuery->where('subject', @$data['subject']);
+        }
+
+        if (@$data['course']) {
+            $questionQuery->where('course', @$data['course']);
         }
 
         $question = $questionQuery->inRandomOrder()->first();

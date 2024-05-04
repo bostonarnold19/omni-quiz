@@ -7,8 +7,12 @@
                 {{-- <h1 class="font-w700 text-white mb-2">
                 Enter Code
                 </h1> --}}
-                <a href="{{route('study-mode.index')}}" class="btn btn-hero-primary">
+                {{-- <a href="{{route('study-mode.index')}}" class="btn btn-hero-primary">
                     <i class="fa fa-book mr-1"></i> Study mode
+                </a> --}}
+
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#add-study-mode"  class="btn btn-hero-primary">
+                    <i class="fa fa-book mr-1"></i> Study Exam
                 </a>
                 <br>
                 <br>
@@ -32,6 +36,7 @@
                     </button>
                 </form> --}}
                 @include('user::includes._modal_add_questionnaire_code')
+                @include('modules.study_mode.includes._modal_study_mode_selection')
             </div>
         </div>
     </div>
