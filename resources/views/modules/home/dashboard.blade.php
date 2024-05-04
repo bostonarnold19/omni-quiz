@@ -12,9 +12,15 @@
                 </a>
                 <br>
                 <br>
-                <a href="{{route('exam-mode.index')}}" class="btn btn-hero-primary">
+                @if (!$questionnaire_code)
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#add-question-code"  class="btn btn-hero-primary">
                     <i class="fa fa-book mr-1"></i> Mock Exam
                 </a>
+                @else
+                <a href="{{route('exam-mode.index')}}"  class="btn btn-hero-primary">
+                    <i class="fa fa-book mr-1"></i> Mock Exam
+                </a>
+                @endif
                 {{-- <form action="{{ route('omni-questionnaire.create') }}" method="GET">
                     <div class="row push mb-3">
                         <div class="col-5 mx-auto">
@@ -25,6 +31,7 @@
                         <i class="fa fa-play mr-1"></i> Start Exam
                     </button>
                 </form> --}}
+                @include('user::includes._modal_add_questionnaire_code')
             </div>
         </div>
     </div>

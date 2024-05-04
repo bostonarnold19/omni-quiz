@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Questionnaire;
 use Illuminate\Http\Request;
 use App\Question;
+use App\QuestionnaireCode;
 use App\QuestionOption;
 use DB;
 use Modules\User\Entities\User;
@@ -19,6 +20,7 @@ class HomeController extends Controller {
      */
     public function __construct() {
         $this->group_question  = new Questionnaire;
+        $this->questionnaire_code  = new QuestionnaireCode;
         $this->question        = new Question;
         $this->question_option = new QuestionOption;
         $this->user            = new User;
@@ -31,8 +33,26 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
-        return view('modules.home.dashboard');
+    public function index()
+    {
+        $user = auth()->user();
+        $subjects = $this->question
+            ->select('subject', 'course')
+            ->distinct()
+            ->whereNull('deleted')
+            ->get()
+            ->map(function ($item) {
+                return $item->subject . " | " . $item->course;
+            });
+
+        $questionnaire_code = $this->questionnaire_code->where('user_id', $user->id)
+        ->where(function($query) {
+            $query->where('time_start', '<=',date('Y-m-d H:i:s'))
+            ->where('time_end', '>=',date('Y-m-d H:i:s'))
+            ->orWhereNull('time_start')
+            ->orWhereNull('time_end');
+        })->whereNull('result')->first();
+        return view('modules.home.dashboard', compact('subjects', 'questionnaire_code'));
     }
 
     public function import(Request $request) {

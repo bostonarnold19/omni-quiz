@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Question;
+use App\QuestionnaireCode;
 use App\Questionnaire;
+use App\Answer;
 use App\QuestionOption;
 use DB;
 use Illuminate\Http\Request;
@@ -14,12 +16,14 @@ class GroupQuestionController extends Controller {
     public function __construct() {
         $this->group_question = new Questionnaire;
         $this->question = new Question;
+        $this->answer = new Answer;
+        $this->questionnaire_code = new QuestionnaireCode;
         $this->question_option = new QuestionOption;
 
-        $this->middleware('permission:manage-group-question', ['only' => ['index', 'show']]);
-        $this->middleware('permission:add-group-question', ['only' => ['store']]);
-        $this->middleware('permission:edit-group-question', ['only`' => ['update']]);
-        $this->middleware('permission:delete-group-question', ['only' => ['destroy']]);
+        // $this->middleware('permission:manage-group-question', ['only' => ['index', 'show']]);
+        // $this->middleware('permission:add-group-question', ['only' => ['store']]);
+        // $this->middleware('permission:edit-group-question', ['only`' => ['update']]);
+        // $this->middleware('permission:delete-group-question', ['only' => ['destroy']]);
 
     }
 
@@ -36,11 +40,13 @@ class GroupQuestionController extends Controller {
 
     public function store(Request $request) {
         $data = $request->all();
-        $data['time'] = $data['minute'] . ":" . $data['second'];
+        $data['time'] = "60:00" ;
         $subjects = explode(" | ", $data['select_subject']);
         $data['subject'] = $subjects[0];
         $data['course'] = $subjects[1];
-        $questions = $this->question->query()->where('subject', $subjects[0])
+        $data['question_count'] = 30;
+        $questions = $this->question->query()
+            ->where('subject', $subjects[0])
             ->where('course', $subjects[1])
             ->whereNull('deleted')
             ->take((int) $data['question_count'])
@@ -48,26 +54,38 @@ class GroupQuestionController extends Controller {
 
         try {
             DB::beginTransaction();
-            if (isset($data['is_published'])) {
-                $data['is_published'] = 1;
-            } else {
-                $data['is_published'] = null;
-            }
+            $data['is_published'] = 1;
             $group_q = $this->group_question->create($data);
             if ($questions) {
                 foreach ($questions as $q) {
                     $group_q->questions()->attach($q);
                 }
             }
+            $questionnaire_code_data['user_id'] = auth()->id();
+            $questionnaire_code_data['questionnaire_id'] = $group_q->id;
+            $questionnaire_code_data['codes'] = strtotime(date('Y-m-d h:i:s'));
+            $questionnaire_code = $this->questionnaire_code->create($questionnaire_code_data);
+            $questions = $questionnaire_code->questionnaire->questions()->inRandomOrder()->get();
+
+            foreach ($questions as $q) {
+                $data = [
+                    'user_id' => $questionnaire_code->user_id,
+                    'question_id' => $q->id,
+                    'questionnaire_code_id' => $questionnaire_code->id,
+                ];
+                $answer = $this->answer->create($data);
+            }
+
             DB::commit();
             $status = 'success';
             $message = 'Group Question has been created.';
+            return redirect()->route('exam-mode.index');
         } catch (\Exception $e) {
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();
+            return redirect()->back()->with($status, $message);
         }
-        return redirect()->route('group-question.index')->with($status, $message);
     }
 
     public function show($id) {
