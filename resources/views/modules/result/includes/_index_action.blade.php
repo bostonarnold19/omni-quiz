@@ -1,0 +1,1 @@
+<a href="{{route('result.show', $user->id)}}" target="_blank" class="btn btn-sm btn-secondary btn-questionaire">Show</a>
