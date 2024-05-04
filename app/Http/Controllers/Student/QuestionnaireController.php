@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\QuestionnaireCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Datatables;
+use Modules\User\Entities\User;
 
 class QuestionnaireController extends Controller {
 
@@ -19,9 +21,30 @@ class QuestionnaireController extends Controller {
         $this->questionnaire_code = new QuestionnaireCode;
     }
 
-    public function index() {
-        $questionnaire_codes = $this->questionnaire_code->orderBy('created_at', 'desc')->get();
-        return view('modules.result.codes', compact('questionnaire_codes'));
+    public function index(Request $request) {
+
+        if ($request->ajax()) {
+            $query = QuestionnaireCode::with('user');
+
+            $dataTable = DataTables::of($query)
+                ->addColumn('student_id', function ($data) {
+                    $user = $data->user ?? User::find($data->user_id);
+                    return @$user->student_id;
+                })
+                ->addColumn('name', function ($data) {
+                    $user = $data->user ?? User::find($data->user_id);
+                    return @$user->first_name . ' ' . @$user->last_name;
+                })
+                ->addColumn('action', function ($data) {
+                    return '<a target="_blank" href="' . route('omni-questionnaire.show', $data->id) . '" class="btn btn-sm btn-secondary">Print Questionnaire</a>';
+                })
+                ->make(true);
+
+            return $dataTable;
+        }
+
+
+        return view('modules.result.codes');
     }
 
     public function create(Request $request) {

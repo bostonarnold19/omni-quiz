@@ -21,27 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($questionnaire_codes)
-                        @foreach($questionnaire_codes as $questionnaire_code)
 
-                            @php
-
-                            if(!$questionnaire_code->user) {
-                                continue;
-                            }
-
-                            @endphp
-                        <tr>
-                            <td>{{ @$questionnaire_code->user->student_id }}</td>
-                            <td>{{ @$questionnaire_code->user->first_name }} {{ @$questionnaire_code->user->last_name }}</td>
-                            <td>{{ @$questionnaire_code->codes }}</td>
-                            <td>{{ @$questionnaire_code->created_at }}</td>
-                            <td>
-                                <a target="_blank" href="{{ route('omni-questionnaire.show', $questionnaire_code->id) }}" class="btn btn-sm btn-secondary">Print Questionnaire</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    @endif
                 </tbody>
             </table>
         </div>
@@ -58,10 +38,19 @@
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    var table = $('#datatable').DataTable( {
-    } );
-
-    new $.fn.dataTable.FixedHeader( table );
-} );
+    $('#datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('codes') }}",
+        columns: [
+            { data: 'student_id', name: 'user.student_id' },
+            { data: 'name', name: 'user.name' },
+            { data: 'codes', name: 'codes' },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'action', name: 'action', orderable: false, searchable: false },
+        ],
+        order: [[3, 'desc']],
+    });
+});
 </script>
 @endsection
