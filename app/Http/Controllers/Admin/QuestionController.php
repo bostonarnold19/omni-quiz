@@ -7,6 +7,7 @@ use App\Question;
 use App\QuestionOption;
 use DB;
 use Illuminate\Http\Request;
+use Datatables;
 
 class QuestionController extends Controller {
 
@@ -20,9 +21,27 @@ class QuestionController extends Controller {
         $this->middleware('permission:delete-question', ['only' => ['destroy']]);
     }
 
-    public function index() {
-        $questions = $this->question->whereNull('deleted')->get();
-        return view('modules.question.index', compact('questions'));
+    public function index(Request $request) {
+        if ($request->ajax()) {
+            $questions = $this->question->whereNull('deleted');
+            return Datatables::of($questions)
+                ->addColumn('question', function ($question) {
+                    return $question->question;
+                })
+                ->addColumn('subject', function ($question) {
+                    return $question->subject;
+                })
+                ->addColumn('course', function ($question) {
+                    return $question->course;
+                })
+                ->addColumn('action', function ($question) {
+                    return view('modules.question.includes._index_action', compact('question'))->render();
+                })
+                ->rawColumns(['action'])
+                ->toJson();
+        } else {
+            return view('modules.question.index');
+        }
     }
 
     public function create() {

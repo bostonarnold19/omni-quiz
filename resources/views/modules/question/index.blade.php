@@ -19,23 +19,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($questions as $question)
-                    <tr>
-                        <td>{{ $question->question }}</td>
-                        <td>{{ $question->subject }}</td>
-                        <td>{{ $question->course }}</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-secondary button-edit" data-id="{{$question->id}}">Edit</a>
-                            <form style="display:inline;" method="POST" action="{{ route('question.destroy', $question->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
@@ -64,12 +48,143 @@
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
-    $(document).ready(function() {
-    var table = $('#datatable').DataTable( {
-    } );
+    var app;
 
-    new $.fn.dataTable.FixedHeader( table );
-} );
+    $(document).ready(function () {
+        jQuery("#datatable").dataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route("question.index") }}',
+            columns: [
+                {data: 'question'},
+                {data: 'subject'},
+                {data: 'course'},
+                {data: 'action', orderable: false, searchable: false}
+            ],
+            pageLength: 20,
+            lengthMenu: [
+                [5, 10, 20],
+                [5, 10, 20]
+            ],
+            autoWidth: false,
+            drawCallback: function (settings) {
+                // Only initialize Vue if it's not already initialized
+                if (!app) {
+                    app = new Vue({
+                        el: '#app',
+                        // Your Vue.js code here
+                        data () {
+                            return {
+                                question_options:[],
+                                url:{
+                                    routeGetQuestion:window.publicUrl+"/question/",
+                                },
+                                question:{
+                                    id:'',
+                                    question:'',
+                                    time:'',
+                                    minute:'',
+                                    second:'',
+                                    is_correct:[],
+                                    question_options:[],
+                                },
+                            }
+                        },
+                        mounted: function(){
+                            var _this = this;
+                            
+                            $(document).on('click', '.is_correct_btn', function(){
+                                var key = $(this).data('id');
+                                var input = $(this).data('text');
+                                var is_data = JSON.parse($('#is_correct').val());
+                                var is_e_data = JSON.parse($('#is_correct_edit').val());
+                                // $('.is_correct_btn').removeClass('active');
+
+                                if ($(this).hasClass('active')) {
+                                    if (input == "#is_correct") {
+                                        var ni = _this.getKeyArray(key, is_data);
+                                        if (ni != 'empty') {
+                                            is_data.splice(parseInt(ni), 1)
+                                            $(input).val(JSON.stringify(is_data));
+                                        }
+                                    }else if (input == "#is_correct_edit") {
+                                        var ni = _this.getKeyArray(key, is_e_data);
+                                        if (ni != 'empty') {
+                                            is_e_data.splice(parseInt(ni), 1)
+                                            $(input).val(JSON.stringify(is_e_data));
+                                        }
+                                    }
+                                    $(this).removeClass('active');
+                                }else{
+                                    if (input == "#is_correct") {
+                                        is_data.push(key)
+                                        $(input).val(JSON.stringify(is_data));
+                                    }else if (input == "#is_correct_edit") {
+                                        is_e_data.push(key)
+                                        $(input).val(JSON.stringify(is_e_data));
+                                    }
+                                    $(this).addClass('active');
+
+                                }
+
+                                // $('#is_correct').val(key);
+                                // $('#is_correct_edit').val(key);
+                                // console.log(is_data, is_e_data)
+                            })
+
+                            $(document).on('click', '.button-edit', function(){
+                                var key = $(this).data('id');
+
+                                console.log(key);
+                                app.editQuestion(key);  // Call the Vue method
+                            })
+
+                        },
+                        methods:{
+                            editQuestion(id) {
+                                var _this = this;
+
+                                var key = id;
+                                $.ajax({
+                                    method: 'get',
+                                    url: _this.url.routeGetQuestion+key,
+                                    jsonp: false,
+                                    success: function(response){
+                                        _this.question = response;
+                                        $('#edit-modal').modal();
+                                    },
+                                });
+                            },
+                            addOption:function(){
+                                var _this = this
+                                _this.question_options.push([]);
+                            },
+                            removeOption: function(key){
+                                var _this = this
+                                _this.question_options.splice(key,1);   
+                            },
+                            addEditOption:function(){
+                                var _this = this
+                                _this.question.question_options.push([]);
+                            },
+                            removeEditOption: function(key){
+                                var _this = this
+                                _this.question.question_options.splice(key,1);   
+                            },
+                            getKeyArray: function(needle, haystack) {
+                                var length = haystack.length;
+                                for(var i = 0; i < length; i++) {
+                                    if(haystack[i] == needle) return i;
+                                }
+                                return 'empty';
+                            },
+                        }
+                    });
+                } else {
+                    app.$forceUpdate(); // Re-render the Vue instance if it's already initialized
+                }
+            }
+        });
+    });
 </script>
-<script src="{{ asset('/js/custom.js') }}"></script>
 @endsection

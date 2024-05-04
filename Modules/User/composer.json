@@ -1,12 +1,10 @@
 {
     "name": "nwidart/user",
     "description": "",
-    "authors": [
-        {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Nicolas Widart",
+        "email": "n.widart@gmail.com"
+     }],
     "autoload": {
         "psr-4": {
             "Modules\\User\\": ""
