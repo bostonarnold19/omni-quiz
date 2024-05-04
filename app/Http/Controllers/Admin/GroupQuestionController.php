@@ -8,6 +8,7 @@ use App\Questionnaire;
 use App\QuestionOption;
 use DB;
 use Illuminate\Http\Request;
+use DataTables;
 
 class GroupQuestionController extends Controller {
 
@@ -23,11 +24,26 @@ class GroupQuestionController extends Controller {
 
     }
 
-    public function index() {
-        $questionaires = $this->group_question->whereNull('deleted')->get();
-        $questions = $this->question->all();
-        $subjects = $this->parseSubjects($questions);
-        return view('modules.group_question.index', compact('questionaires', 'questions', 'subjects'));
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $questionnaires = $this->group_question->whereNull('deleted')->withCount('questions');
+
+            return DataTables::of($questionnaires)
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('group-question.edit', $row->id);
+                    $deleteUrl = route('group-question.destroy', $row->id);
+                    $csrfToken = csrf_token();
+                    $questionaire = $row;
+                    return view('modules.group_question.includes._action', compact('editUrl', 'deleteUrl', 'csrfToken', 'row', 'questionaire'));
+                })
+                ->make(true);
+        }
+
+        // Fetch unique subjects and courses
+        $subjects = $this->parseUniqueSubjects();
+
+        return view('modules.group_question.index', compact('subjects'));
     }
 
     public function create() {
@@ -124,17 +140,17 @@ class GroupQuestionController extends Controller {
         return redirect()->route('group-question.index')->with($status, $message);
     }
 
-    private function parseSubjects($questions) {
-        if (empty($questions)) {
-            return [];
-        }
-        $datas = [];
-        foreach ($questions as $key => $value) {
-            if (in_array($value->subject . " | " . $value->course, $datas)) {
-                continue;
-            }
-            $datas[] = $value->subject . " | " . $value->course;
-        }
-        return $datas;
+    private function parseUniqueSubjects()
+    {
+        // Query unique subject-course combinations
+        $subjects = $this->question
+            ->select('subject', 'course')
+            ->distinct()
+            ->get()
+            ->map(function ($item) {
+                return $item->subject . " | " . $item->course;
+            });
+
+        return $subjects->toArray();
     }
 }

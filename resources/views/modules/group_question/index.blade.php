@@ -23,31 +23,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($questionaires as $questionaire)
-                    <tr>
-                        <td>{{ $questionaire->type }}</td>
-                        <td>{{ $questionaire->title }}</td>
-                        <td>{{ $questionaire->description }}</td>
-                        <td>{{ $questionaire->passing ? $questionaire->passing : '0' }} %</td>
-                        <td>{{ $questionaire->questions->count() }}</td>
-                        <td>{{ $questionaire->is_published }}</td>
-                        <td>
-                            <a href="{{ route('group-question.edit', $questionaire->id) }}"  data-toggle="modal" data-target="#edit-modal-{{$questionaire->id}}" class="btn btn-sm btn-secondary">Edit</a>
-                            @php
-                                $ids = [];
-                                foreach ($questionaire->questions as $question) {
-                                    $ids[] = $question->id;
-                                }
-                            @endphp
-                            @include('modules.group_question.includes._modal_edit_group_question')
-                            <form style="display:inline;" method="POST" action="{{ route('group-question.destroy', $questionaire->id) }}" onsubmit="return confirm('Are you sure you want to delete tihs?')">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-sm btn-secondary">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -64,45 +39,26 @@
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script >
+<script>
     $(document).ready(function() {
-    var table = $('#datatable').DataTable( {
-    } );
-
-    new $.fn.dataTable.FixedHeader( table );
-} );
-    var add_table = $('.question_tables').DataTable();
-    $(document).on('click','.add-checkbox-question', function(){
-        var matches = [];
-        var checkedcollection = add_table.$(".add-checkbox-question:checked", { "page": "all" });
-        checkedcollection.each(function (index, elem) {
-            matches.push($(elem).val());
+        $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('group-question.index') }}',
+            columns: [
+                { data: 'type', name: 'type' },
+                { data: 'title', name: 'title' },
+                { data: 'description', name: 'description' },
+                { data: 'passing', name: 'passing' },
+                { data: 'questions_count', name: 'questions_count', searchable: false, orderable: false },
+                { data: 'is_published', name: 'is_published' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
         });
-
-        var AccountsJsonString = JSON.stringify(matches);
-        $('[id=add_questions]').val(AccountsJsonString)
-        // alert(AccountsJsonString);
-    });
-
-    $(document).on('click','.edit-checkbox-question', function(){
-        var matches = [];
-        var g_id = $(this).data('id')
-        var checkedcollection = add_table.$(".group-id-"+g_id+":checked", { "page": "all" });
-        checkedcollection.each(function (index, elem) {
-            matches.push($(elem).val());
-        });
-
-        var AccountsJsonString = JSON.stringify(matches);
-        $('[id=edit_questions_'+g_id+']').val(AccountsJsonString)
     });
 
     $(".validate-number-only").inputFilter(function(value) {
       return /^\d*$/.test(value);
-    });
-
-    $(document).on('change', '.validate-number-only', function(){
-        var value =  $(this).val();
-        console.log(value)
     });
 </script>
 @endsection
