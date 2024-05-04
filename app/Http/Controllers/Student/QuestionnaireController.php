@@ -24,9 +24,15 @@ class QuestionnaireController extends Controller {
     public function index(Request $request) {
 
         if ($request->ajax()) {
-            $query = QuestionnaireCode::with('user');
+            $query = QuestionnaireCode::with(['user']);
 
             $dataTable = DataTables::of($query)
+                ->filterColumn('name', function ($query, $keyword) {
+                    $query->whereHas('user', function ($query) use ($keyword) {
+                        $query->where('first_name', 'like', "%$keyword%")
+                            ->orWhere('last_name', 'like', "%$keyword%");
+                    });
+                })
                 ->addColumn('student_id', function ($data) {
                     $user = $data->user ?? User::find($data->user_id);
                     return @$user->student_id;

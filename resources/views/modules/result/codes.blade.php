@@ -44,7 +44,7 @@ $(document).ready(function() {
         ajax: "{{ route('codes') }}",
         columns: [
             { data: 'student_id', name: 'user.student_id' },
-            { data: 'name', name: 'user.name' },
+            { data: 'name', name: 'name' },
             { data: 'codes', name: 'codes' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
