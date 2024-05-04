@@ -35,6 +35,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::resource('questionnaire-code', 'Admin\QuestionnaireCodeController');
 
+    Route::resource('exam-mode', 'Student\ExamModeController');
+    Route::resource('study-mode', 'Student\StudyModeController');
+
     Route::match(['get', 'post'], '/import', 'HomeController@import')->name('import');
 
 });

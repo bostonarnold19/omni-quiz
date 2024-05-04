@@ -4,10 +4,18 @@
     <div class="bg-black-75">
         <div class="content content-full content-top">
             <div class="py-7 text-center">
-                <h1 class="font-w700 text-white mb-2">
+                {{-- <h1 class="font-w700 text-white mb-2">
                 Enter Code
-                </h1>
-                <form action="{{ route('omni-questionnaire.create') }}" method="GET">
+                </h1> --}}
+                <a href="{{route('study-mode.index')}}" class="btn btn-hero-primary">
+                    <i class="fa fa-book mr-1"></i> Study mode
+                </a>
+                <br>
+                <br>
+                <a href="{{route('exam-mode.index')}}" class="btn btn-hero-primary">
+                    <i class="fa fa-book mr-1"></i> Mock Exam
+                </a>
+                {{-- <form action="{{ route('omni-questionnaire.create') }}" method="GET">
                     <div class="row push mb-3">
                         <div class="col-5 mx-auto">
                             <input type="text" min="0" name="codes" class="form-control" placeholder="Enter Code" v-model="search">
@@ -16,7 +24,7 @@
                     <button type="submit" class="btn btn-hero-primary">
                         <i class="fa fa-play mr-1"></i> Start Exam
                     </button>
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>

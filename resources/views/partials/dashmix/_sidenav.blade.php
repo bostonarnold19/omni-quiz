@@ -22,7 +22,7 @@
                 <span class="nav-main-link-name">Dashboard</span>
             </a>
         </li>
-        <li class="nav-main-heading">Manage</li>
+        {{-- <li class="nav-main-heading">Manage</li> --}}
         @permission('manage-user')
         <li class="nav-main-item">
             <a class="nav-main-link {{ Request::is('user*') ? 'active' : '' }}" href="{{ route('user.index') }}">
@@ -70,12 +70,12 @@
         </li>
         @endpermission
         @permission('manage-result')
-        <li class="nav-main-item">
+        {{-- <li class="nav-main-item">
             <a class="nav-main-link {{ Request::is('result') ? 'active' : '' }}" href="{{ route('result.index') }}">
                 <i class="nav-main-link-icon far fa-dot-circle"></i>
                 <span class="nav-main-link-name">Result</span>
             </a>
-        </li>
+        </li> --}}
         @endpermission
         @permission('codes')
         <li class="nav-main-item">
