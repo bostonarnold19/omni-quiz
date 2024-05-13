@@ -35,7 +35,7 @@
                         <i class="fa fa-play mr-1"></i> Start Exam
                     </button>
                 </form> --}}
-                @include('user::includes._modal_add_questionnaire_code')
+                @include('modules.exam_mode.includes._modal_exam_mode_selection')
                 @include('modules.study_mode.includes._modal_study_mode_selection')
             </div>
         </div>

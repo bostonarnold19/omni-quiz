@@ -20,6 +20,9 @@ const app = new Vue({
             passing: null,
             skip: 0,
             questionIds:[],
+            alphabet:[
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
+            ],
         }
     },
     mounted: function(){
@@ -29,6 +32,9 @@ const app = new Vue({
 
     },
     methods:{
+        selectAnswer(answer) {
+            this.ans = answer
+        },
         getQuestion() {
             var _this = this;
             let data = {};

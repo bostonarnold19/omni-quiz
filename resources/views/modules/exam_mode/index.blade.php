@@ -8,8 +8,6 @@
 </style>
 <div class="content">
     <div class="block block-rounded block-bordered">
-        <div class="block-header block-header-default">
-        </div>
         <div class="block-content block-content-full">
             <div id="app" v-cloak>
                 <div v-if="done">
@@ -28,12 +26,13 @@
                             <h4>@{{ question.question }}</h4>
                             <div class="form-group">
                                 <ol>
-                                  <li type="a" v-for="(option_v, option_k) in options">
-                                    <div class="custom-control custom-radio custom-control-primary mb-1">
-                                        <input type="radio" class="custom-control-input" v-model="ans" name="ans" :id="option_k" :value="option_v.id">
-                                        <label class="custom-control-label" :for="option_k">@{{ option_v.description }}</label>
-                                    </div>
-                                  </li>
+                                    <li v-for="(option_v, option_k) in options" @click="selectAnswer(option_v.id)">
+                                      <span>@{{ alphabet[option_k] }}.</span>
+                                      <div class="custom-control custom-radio custom-control-primary mb-1">
+                                          <input type="radio" class="custom-control-input" v-model="ans" name="ans" :id="option_k" :value="option_v.id">
+                                          <label class="custom-control-label" :for="option_k">@{{ option_v.description }}</label>
+                                      </div>
+                                    </li>
                                 </ol>
                             </div>
                         </div>
@@ -52,6 +51,40 @@
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
+<style>
+    .correct {
+        color:green;
+    }
+    .wrong {
+        color:red;
+    }
+     .form-group-item:has(.custom-radio > label.correct) {
+        border:1px solid green;
+        background:#00800021;
+    }
+     .form-group-item:has(.custom-radio > label.wrong) {
+        border:1px solid red;
+        background:#ff000021;
+    }
+    .form-group ol li{
+        margin:10px;
+        padding:5px 10px;
+        border-radius: 15px;
+        flex-basis: 45%;
+        box-sizing: border-box;
+        list-style-position:inside;
+        border: 1px solid black;
+        cursor: pointer;
+        display: flex;
+    }
+    .form-group ol{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .custom-control {
+        margin-left: 10px;
+    }
+</style>
 @endsection
 @section('scripts')
 <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -62,5 +95,5 @@
     window.publicUrl = "{{url('/')}}";
     window.questionnaireCode = @json($questionnaire_code);
 </script>
-<script src="{{ asset('/js/question.js') }}"></script>
+<script src="{{ asset('/js/exam-mode.js') }}"></script>
 @endsection
