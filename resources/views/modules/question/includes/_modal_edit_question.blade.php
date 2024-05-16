@@ -32,6 +32,22 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
+                                <label>Subtopic</label>
+                                <input type="text" class="form-control" name="subtopic" v-model="question.subtopic" placeholder="Subtopic" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label>Image Link</label>
+                                <input type="text" class="form-control" name="image_link" v-model="question.image_link"  placeholder="Image Link" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
                                 <label>Course</label>
                                 <select name="course" id="course" v-model="question.course" class="form-control" required>
                                     <option value="">Select Course</option>

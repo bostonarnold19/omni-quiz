@@ -91,6 +91,8 @@ class QuestionController extends Controller {
             'question' => $question->question,
             'subject' => $question->subject,
             'course' => $question->course,
+            'subtopic' => $question->subtopic,
+            'image_link' => $question->image_link,
             'is_correct' => [],
             // 'time'=> $question->time,
             // 'minute'=> explode(":", $question->time)[0],

@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="question-form" method="POST" action="{{ route('group-question.store') }}">
+                <form id="question-form" method="POST" action="{{ route('exam-mode.store') }}">
                     @csrf
                     <input type="hidden" name="user_id" id="question-user_id">
                     <input type="hidden" name="codes" id="question-user_codes">

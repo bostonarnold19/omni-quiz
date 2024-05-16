@@ -36,13 +36,15 @@ class HomeController extends Controller {
     public function index()
     {
         $user = auth()->user();
+        $course = $user->course;
         $subjects = $this->question
-            ->select('subject', 'course')
+            ->select('subject', 'subtopic')
             ->distinct()
             ->whereNull('deleted')
+            ->where('course', $course)
             ->get()
             ->map(function ($item) {
-                return $item->subject . " | " . $item->course;
+                return $item->subject . " | " . $item->subtopic;
             });
 
         $questionnaire_code = $this->questionnaire_code->where('user_id', $user->id)

@@ -34,6 +34,8 @@ class StudyModeController extends Controller
         $data = $request->all();
         $questionQuery = $this->question->with('options');
 
+        $course = auth()->user()->course;
+
         if (@$data['question_ids']) {
             $questionQuery->whereNotIn('id', @$data['question_ids']);
         }
@@ -42,11 +44,13 @@ class StudyModeController extends Controller
             $questionQuery->where('subject', @$data['subject']);
         }
 
-        if (@$data['course']) {
-            $questionQuery->where('course', @$data['course']);
+        if (@$data['subtopic']) {
+            $questionQuery->where('course', @$data['subtopic']);
         }
 
-        $question = $questionQuery->inRandomOrder()->first();
+        $question = $questionQuery
+                        ->where('course', $course)
+                        ->inRandomOrder()->first();
         return response()->json(['question' => $question]);
     }
 
