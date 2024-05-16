@@ -85,15 +85,18 @@ class QuestionController extends Controller {
             abort(404);
         }
         $question = $this->question->find($id);
+
         $data = [
             'id' => $question->id,
             'question' => $question->question,
             'subject' => $question->subject,
             'course' => $question->course,
+            'is_correct' => [],
             // 'time'=> $question->time,
             // 'minute'=> explode(":", $question->time)[0],
             // 'second'=> explode(":", $question->time)[1],
         ];
+
         foreach ($question->options as $key => $value) {
             if (!empty($value->is_correct)) {
                 $data['is_correct'][] = $key;

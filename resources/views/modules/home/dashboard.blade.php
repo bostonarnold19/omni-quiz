@@ -10,20 +10,23 @@
                 {{-- <a href="{{route('study-mode.index')}}" class="btn btn-hero-primary">
                     <i class="fa fa-book mr-1"></i> Study mode
                 </a> --}}
-
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#add-study-mode"  class="btn btn-hero-primary">
-                    <i class="fa fa-book mr-1"></i> Study Exam
-                </a>
-                <br>
-                <br>
-                @if (!$questionnaire_code)
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#add-question-code"  class="btn btn-hero-primary">
-                    <i class="fa fa-book mr-1"></i> Mock Exam
-                </a>
+                @if(auth()->user()->course)
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#add-study-mode"  class="btn btn-hero-primary">
+                        <i class="fa fa-book mr-1"></i> Study Exam
+                    </a>
+                    <br>
+                    <br>
+                    @if (!$questionnaire_code)
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#add-question-code"  class="btn btn-hero-primary">
+                            <i class="fa fa-book mr-1"></i> Mock Exam
+                        </a>
+                    @else
+                        <a href="{{route('exam-mode.index')}}"  class="btn btn-hero-primary">
+                            <i class="fa fa-book mr-1"></i> Mock Exam
+                        </a>
+                    @endif
                 @else
-                <a href="{{route('exam-mode.index')}}"  class="btn btn-hero-primary">
-                    <i class="fa fa-book mr-1"></i> Mock Exam
-                </a>
+                    <h1 class="font-w700 text-white mb-2">Welcome {{auth()->user()->first_name}} {{auth()->user()->last_name}}</h1>
                 @endif
                 {{-- <form action="{{ route('omni-questionnaire.create') }}" method="GET">
                     <div class="row push mb-3">

@@ -21,6 +21,7 @@ class User extends Authenticatable
 
     public $fillable = [
         'student_id',
+        'course',
         'first_name',
         'last_name',
         'middle_name',
@@ -31,7 +32,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password_crack',
         'password',
-
+        'expiration_date',
     ];
 
     protected $dates = ['deleted_at'];

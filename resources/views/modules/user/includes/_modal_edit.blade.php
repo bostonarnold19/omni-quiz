@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </div>
-                                        <div class="row">
+                    <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label for="student_id">Student ID</label>
@@ -35,7 +35,19 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="course">Course</label>
+                                <select name="course" id="course" class="form-control" required>
+                                    <option value="">Select Course</option>
+                                    @foreach(config('courses') as $abr => $name)
+                                    <option value="{{ $abr }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">

@@ -31,7 +31,12 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Course</label>
-                                <input type="text" class="form-control" name="course" placeholder="Course" required>
+                                <select name="course" id="course" class="form-control" required>
+                                    <option value="">Select Course</option>
+                                    @foreach(config('courses') as $abr => $name)
+                                    <option value="{{ $abr }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

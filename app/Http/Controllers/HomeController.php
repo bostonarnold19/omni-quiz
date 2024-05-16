@@ -79,6 +79,7 @@ class HomeController extends Controller {
         if ($data['type'] == 'Questions') {
             $header = [
                 'question',
+                'image_link',
                 'subject',
                 'course',
             ];
@@ -92,22 +93,19 @@ class HomeController extends Controller {
             $role = $this->role->where('name','student')->first();
         }
         $counter = 0;
-        $choices = [
-            'a' => 4,
-            'b' => 5,
-            'c' => 6,
-            'd' => 7,
-        ];
         $cleanedData = [];
 
         while ($column = fgetcsv($file)) {
-            if (!$column[0] || !$column[1]) {
+            if (!$column[0]) {
                 continue;
             }
-            if ($column[0] == "1 + 1 ?") {
-                continue;
-            }
-            if ($data['type'] == 'Questions' && (sizeof($column) == 8 || sizeof($column) == 7)) {
+            // if ($column[0] == "1 + 1 ?") {
+            //     continue;
+            // }
+            // if ($column[0] == "2 + 2 ?") {
+            //     continue;
+            // }
+            if ($data['type'] == 'Questions') {
                 // $check = explode('.', $column[0]);
                 // if (ctype_digit($check[0])) {
                 //     unset($check[0]);
@@ -119,8 +117,10 @@ class HomeController extends Controller {
                 $check = preg_replace( '/[^[:print:]]/', '',$check);
                 $insert = [
                     'question' => trim(is_array($check) ? @$check[0] : $check),
-                    'subject' => $column[1],
-                    'course' => $column[2],
+                    'image_link' => $column[1],
+                    'subject' => $column[2],
+                    'subtopic' => $column[3],
+                    'course' => $column[4],
                 ];
                 if (empty(trim(is_array($check) ? @$check[0] : $check))) {
                     continue;
@@ -128,9 +128,8 @@ class HomeController extends Controller {
                 try {
                     DB::beginTransaction();
                     $question = $this->question->create($insert);
-
                     foreach ($column as $key => $value) {
-                        if ($key <= 3) {
+                        if ($key <= 4) {
                             continue;
                         }
                         if (empty($value)) {
@@ -141,17 +140,11 @@ class HomeController extends Controller {
                             continue;
                         }
                         $qoption = [];
-                        $value = explode('.', $value);
-                        
-                        $answer_real = explode('/', $column[3]);
+                        $answer_real = explode('/', $column[5]);
                         $g_choices = [];
                         foreach ($answer_real as $let) {
                             $orig_answer = strtolower(trim($let));
-                            $answer = @$choices[strtolower(trim($let))];
-                            if (is_array($value)) {
-                                $value = implode('.', $value);
-                            }
-                            $g_choices[] = @$column[$answer];
+                            $g_choices[] = $orig_answer;
                         }
 
                         $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
@@ -169,12 +162,6 @@ class HomeController extends Controller {
                             $qoption['is_correct'] = 1; 
                         }
                         $option = $this->question_option->create($qoption);
-                        if ($option) {
-                            if (@$choices[strtolower(trim($column[3]))] == $key) {
-                                $option->is_correct = 1; 
-                                $option->save(); 
-                            }
-                        }
                     }
                     $counter++;
                     DB::commit();
@@ -182,7 +169,8 @@ class HomeController extends Controller {
                     DB::rollBack();
                 }
             }
-            if ($data['type'] == 'Student' && sizeof($column) == 6) {
+
+            if ($data['type'] == 'Student' && sizeof($column) == 8) {
                 $insert = [
                     'student_id' => $column[0],
                     'first_name' => $column[1],
@@ -190,6 +178,8 @@ class HomeController extends Controller {
                     'last_name' => $column[3],
                     'email'=> $column[4],
                     'username' => $column[5],
+                    'course' => $column[6],
+                    'expiration_date' => $column[7],
                     'password' => bcrypt($column[0]),
                 ];
                 $exist = $this->user->where('student_id', $insert['student_id'])->first();

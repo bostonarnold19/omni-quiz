@@ -99,7 +99,6 @@
                                 var is_data = JSON.parse($('#is_correct').val());
                                 var is_e_data = JSON.parse($('#is_correct_edit').val());
                                 // $('.is_correct_btn').removeClass('active');
-
                                 if ($(this).hasClass('active')) {
                                     if (input == "#is_correct") {
                                         var ni = _this.getKeyArray(key, is_data);
@@ -135,7 +134,6 @@
                             $(document).on('click', '.button-edit', function(){
                                 var key = $(this).data('id');
 
-                                console.log(key);
                                 app.editQuestion(key);  // Call the Vue method
                             })
 

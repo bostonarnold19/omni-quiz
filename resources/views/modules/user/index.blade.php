@@ -86,6 +86,7 @@
                     $('[id=last_name]').val(result.last_name);
                     $('[id=student_id]').val(result.student_id);
                     $('[id=email]').val(result.email);
+                    $('[id=course]').val(result.course).trigger("change");
                     $("[id=roles]").val(result.roles).trigger("change");
                     $("[id=update-form]").attr("action", update_route);
                     $('[id=edit-modal]').modal();
