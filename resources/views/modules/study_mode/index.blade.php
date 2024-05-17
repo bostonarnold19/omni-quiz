@@ -11,6 +11,7 @@
             <a href="{{url('/')}}" class="btn btn-danger float-left">&laquo; Go Back to Menu</a>
         </div>
         <div class="block-content block-content-full">
+            <img class="water-mark" src="{{asset('img/airline-training.png')}}" alt="">
             <div id="app" v-cloak>
                 <div v-if="done">
                     <div class="row">
@@ -92,6 +93,18 @@
     }
     .custom-control {
         margin-left: 10px;
+    }
+    .block-content-full {
+        overflow: hidden;
+        position: relative;
+    }
+    .water-mark {
+        opacity: 0.2;
+        position: absolute;
+        left: 0;
+        top: 75%;
+        width: 25%;
+        height: auto;
     }
 </style>
 @endsection

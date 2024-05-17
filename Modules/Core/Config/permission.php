@@ -6,6 +6,7 @@ return [
     ['name' => 'add-user'],
     ['name' => 'edit-user'],
     ['name' => 'delete-user'],
+    ['name' => 'manage-user-profile'],
 
     //role
     ['name' => 'manage-role'],

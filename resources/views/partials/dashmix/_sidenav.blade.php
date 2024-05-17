@@ -31,6 +31,14 @@
             </a>
         </li>
         @endpermission
+        @permission('manage-user-profile')
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('student-profile*') ? 'active' : '' }}" href="{{ route('student-profile.index') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Profile</span>
+            </a>
+        </li>
+        @endpermission
         @permission('manage-role')
         <li class="nav-main-item">
             <a class="nav-main-link {{ Request::is('role*') ? 'active' : '' }}" href="{{ route('role.index') }}">

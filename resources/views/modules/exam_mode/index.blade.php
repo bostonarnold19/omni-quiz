@@ -9,6 +9,7 @@
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-content block-content-full">
+            <img class="water-mark" src="{{asset('img/airline-training.png')}}" alt="">
             <div id="app" v-cloak>
                 <div v-if="done">
                     <div class="row">
@@ -90,6 +91,18 @@
     }
     .custom-control {
         margin-left: 10px;
+    }
+    .block-content-full {
+        overflow: hidden;
+        position: relative;
+    }
+    .water-mark {
+        opacity: 0.2;
+        position: absolute;
+        right: 0;
+        top: 80%;
+        width: 25%;
+        height: auto;
     }
 </style>
 @endsection

@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     ]);
 
     Route::resource('result', 'Student\ResultController');
+    Route::resource('student-profile', 'Student\StudentProfileController');
     Route::resource('omni-questionnaire', 'Student\QuestionnaireController');
 
     Route::resource('group-question', 'Admin\GroupQuestionController');
