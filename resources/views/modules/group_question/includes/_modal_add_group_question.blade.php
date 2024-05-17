@@ -12,7 +12,7 @@
                     @csrf
                     <input type="hidden" name="mode" value="admin-input">
                     <input type="hidden" name="is_official" value="1">
-                    <div class="row">
+{{--                     <div class="row">
                         <div class="col-sm-12">
                             <label>Type</label>
                             <select name="type" class="form-control">
@@ -20,7 +20,11 @@
                                 <option>Quiz</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <input type="hidden" name="type" value="Exam">
+                    
+
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">

@@ -11,7 +11,7 @@
                 <form id="edit-form-{{$questionaire->id}}" method="POST" action="{{ route('group-question.update','update') }}">
                     @csrf
                     @method('patch')
-                    <div class="row">
+{{--                     <div class="row">
                         <div class="col-sm-12">
                             <label>Type</label>
                             <select name="type" class="form-control">
@@ -19,7 +19,9 @@
                                 <option {{ $questionaire->type == "Quiz" ? 'selected=selected' : null  }}>Quiz</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <input type="hidden" name="type" value="Exam">
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
