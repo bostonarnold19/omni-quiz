@@ -31,18 +31,18 @@
                             @foreach($questionnaire_codes as $questionnaire_code)
                             @php
 
-                            if(!$questionnaire_code->first()->user) {
+                            if(!$questionnaire_code->where('is_official', 1)->first()->user) {
                                 continue;
                             }
 
                             $items = @$questionnaire_code->first()->questionnaire->questions()->count();
                             @endphp
                             <tr>
-                                <td>{{ @$questionnaire_code->first()->user->student_id }}</td>
-                                <td>{{ @$questionnaire_code->first()->user->first_name }} {{ @$questionnaire_code->first()->user->last_name }}</td>
-                                <td>{{ @$questionnaire_code->first()->questionnaire->course }}</td>
-                                <td>{{ @$questionnaire_code->first()->questionnaire->type }}</td>
-                                <td>{{ @$questionnaire_code->first()->questionnaire->subject }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 1)->first()->user->student_id }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 1)->first()->user->first_name }} {{ @$questionnaire_code->where('is_official', 1)->first()->user->last_name }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 1)->first()->questionnaire->course }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 1)->first()->questionnaire->type }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 1)->first()->questionnaire->subject }}</td>
                                 <td>
                                     @foreach($questionnaire_code as $question)
                                     @if($question->result != 0)

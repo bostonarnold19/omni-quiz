@@ -35,6 +35,7 @@ class ResultController extends Controller
         } else {
             $qc = \DB::table('questionnaire_codes')
                 ->where('user_id', $auth->id)
+                ->where('questionnaire_codes.is_official', 1)
                 ->join('users', 'users.id', '=', 'questionnaire_codes.user_id')
                 ->join('questionnaires', 'questionnaires.id', '=', 'questionnaire_codes.questionnaire_id')
                 ->select('questionnaire_codes.user_id', 'questionnaire_codes.questionnaire_id')
@@ -49,6 +50,7 @@ class ResultController extends Controller
 
             $questionnaire_codes[$key] = $this->questionnaire_code
                 ->where('user_id', $value->user_id)
+                ->where('questionnaire_codes.is_official', 1)
                 ->where('questionnaire_id', $value->questionnaire_id)
                 ->get();
         }
@@ -92,6 +94,7 @@ class ResultController extends Controller
     {
         $qc = \DB::table('questionnaire_codes')
             ->where('user_id', $id)
+            ->where('questionnaire_codes.is_official', 1)
             ->join('users', 'users.id', '=', 'questionnaire_codes.user_id')
             ->join('questionnaires', 'questionnaires.id', '=', 'questionnaire_codes.questionnaire_id')
             ->select('questionnaire_codes.user_id', 'questionnaire_codes.questionnaire_id')
@@ -105,6 +108,7 @@ class ResultController extends Controller
 
             $questionnaire_codes[$key] = $this->questionnaire_code
                 ->where('user_id', $value->user_id)
+                ->where('questionnaire_codes.is_official', 1)
                 ->where('questionnaire_id', $value->questionnaire_id)
                 ->get();
         }
