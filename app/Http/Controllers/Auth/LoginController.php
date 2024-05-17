@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Modules\User\Entities\User;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -35,5 +38,31 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $data = $request->all();
+        $email = $data['email'];
+        $password = $data['password'];
+        $exist = User::where('email', $email)->first();
+        if ($exist && !$exist->hasRole('student')) {
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $url = url($this->redirectTo);
+                return redirect($url);
+            }
+        }
+
+
+        $exist = User::where('email', $email)
+                    ->whereNotNull('expiration_date')
+                    ->where('expiration_date', '>=', date('Y-m-d'))->first();
+
+        if ($exist && Auth::attempt(['email' => $email, 'password' => $password])) {
+            $url = url($this->redirectTo);
+            return redirect($url);
+        }
+
+        return redirect()->back();
     }
 }

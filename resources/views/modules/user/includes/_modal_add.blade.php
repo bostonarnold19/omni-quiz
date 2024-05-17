@@ -58,6 +58,14 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
+                                <label>Expiration Date</label>
+                                <input type="date" class="form-control" name="expiration_date" placeholder="Expiration Date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="form-group">
                                 <label>Roles</label>
                                 <select class="js-select2 form-control" name="roles[]" data-placeholder="Roles" multiple>
                                     @foreach($roles as $role)
