@@ -37,7 +37,7 @@ class HomeController extends Controller {
     {
         $user = auth()->user();
         $course = $user->course;
-        $subjects = $this->question
+        $subjectsSubtopics = $this->question
             ->select('subject', 'subtopic')
             ->distinct()
             ->whereNull('deleted')
@@ -46,15 +46,30 @@ class HomeController extends Controller {
             ->map(function ($item) {
                 return $item->subject . " | " . $item->subtopic;
             });
+        $subjects = $this->question
+            ->select('subject')
+            ->distinct()
+            ->whereNull('deleted')
+            ->where('course', $course)
+            ->get()
+            ->map(function ($item) {
+                return $item->subject;
+            });
 
         $questionnaire_code = $this->questionnaire_code->where('user_id', $user->id)
-        ->where(function($query) {
-            $query->where('time_start', '<=',date('Y-m-d H:i:s'))
-            ->where('time_end', '>=',date('Y-m-d H:i:s'))
-            ->orWhereNull('time_start')
-            ->orWhereNull('time_end');
-        })->whereNull('result')->first();
-        return view('modules.home.dashboard', compact('subjects', 'questionnaire_code'));
+            ->where(function($query) {
+                $query->where('time_start', '<=',date('Y-m-d H:i:s'))
+                ->where('time_end', '>=',date('Y-m-d H:i:s'))
+                ->orWhereNull('time_start')
+                ->orWhereNull('time_end');
+            })->whereNull('result')->first();
+
+        $qualifying = $this->questionnaire_code
+                        ->where('user_id', $user->id)
+                        ->where('is_official', 1)
+                        ->whereNull('result')->first();
+
+        return view('modules.home.dashboard', compact('subjects', 'questionnaire_code', 'subjectsSubtopics', 'qualifying'));
     }
 
     public function import(Request $request) {

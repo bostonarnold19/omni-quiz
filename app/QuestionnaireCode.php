@@ -10,19 +10,35 @@ class QuestionnaireCode extends Model {
         'questionnaire_id',
         'codes',
         'retake',
+        'is_official',
         'time_start',
         'time_end',
     ];
 
-    public function questionnaire() {
+    public function questionnaire()
+    {
         return $this->belongsTo('App\Questionnaire');
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('Modules\User\Entities\User');
     }
 
-    public function answers() {
-        return $this->hasMany('App\Answer', 'question_option_id');
+    public function answers()
+    {
+        return $this->hasMany('App\Answer');
+    }
+
+    public function getScoreAttribute()
+    {
+        return $this->answers()->whereHas('answer', function($query) {
+            $query->where('is_correct', 1);
+        })->count();
+    }
+
+    public function getItemsAttribute()
+    {
+        return $this->questionnaire->questions()->count();
     }
 }

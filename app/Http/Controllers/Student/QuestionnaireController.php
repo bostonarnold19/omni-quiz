@@ -20,7 +20,7 @@ class QuestionnaireController extends Controller {
     }
 
     public function index() {
-        $questionnaire_codes = $this->questionnaire_code->orderBy('created_at', 'desc')->get();
+        $questionnaire_codes = $this->questionnaire_code->orderBy('created_at', 'desc')->where('is_official', 1)->get();
         return view('modules.result.codes', compact('questionnaire_codes'));
     }
 
@@ -114,6 +114,7 @@ class QuestionnaireController extends Controller {
 
                 return response()->json([
                     'questionnaire_code' => $XXXXXXXXXXX,
+                    'score' => $XXXXXXXXXXX->score,
                     // 'answers' => $answers,
                     'question' => $question,
                     'options' => $question->options,
@@ -229,6 +230,7 @@ class QuestionnaireController extends Controller {
 
             return response()->json([
                 'questionnaire_code' => $questionnaire_code,
+                'score' => $questionnaire_code->score,
                 // 'answers' => $answers,
                 'question' => $question,
                 'options' => $question->options,

@@ -11,6 +11,7 @@
                 <form id="save-form" method="POST" action="{{ route('group-question.store') }}">
                     @csrf
                     <input type="hidden" name="mode" value="admin-input">
+                    <input type="hidden" name="is_official" value="1">
                     <div class="row">
                         <div class="col-sm-12">
                             <label>Type</label>

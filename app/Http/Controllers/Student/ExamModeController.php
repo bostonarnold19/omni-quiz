@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Question;
+use App\Questionnaire;
+use App\Answer;
 use App\QuestionnaireCode;
+use DB;
 
 class ExamModeController extends Controller
 {
     public function __construct()
     {
+        $this->group_question = new Questionnaire;
         $this->question = new Question;
         $this->questionnaire_code = new QuestionnaireCode;
+        $this->answer = new Answer;
     }
 
     public function index()
@@ -29,7 +34,10 @@ class ExamModeController extends Controller
         if (!$questionnaire_code) {
             return redirect(url('/dashboard'));
         }
-        return view('modules.exam_mode.index', compact('questionnaire_code'));
+
+        $score = $questionnaire_code->score;
+        $items = $questionnaire_code->items;
+        return view('modules.exam_mode.index', compact('questionnaire_code', 'score', 'items'));
     }
 
     public function create(Request $request)
@@ -73,14 +81,12 @@ class ExamModeController extends Controller
     private function createMockExam(Request $request) {
         $data = $request->all();
         $data['time'] = "60:00" ;
-        $subjects = explode(" | ", $data['select_subject']);
-        $data['subject'] = $subjects[0];
-        $data['subtopic'] = $subjects[1];
+        $data['subject'] = $data['select_subject'];
         $data['question_count'] = 30;
         $course = auth()->user()->course;
+
         $questions = $this->question->query()
-            ->where('subject', $subjects[0])
-            ->where('subtopic', $subjects[1])
+            ->where('subject', $data['subject'])
             ->where('course', $course)
             ->whereNull('deleted')
             ->take((int) $data['question_count'])
@@ -115,6 +121,7 @@ class ExamModeController extends Controller
             $message = 'Group Question has been created.';
             return redirect()->route('exam-mode.index');
         } catch (\Exception $e) {
+            dd($e);
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();

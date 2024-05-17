@@ -12,6 +12,7 @@
                     @csrf
                     <input type="hidden" name="user_id" id="question-user_id">
                     <input type="hidden" name="codes" id="question-user_codes">
+                    <input type="hidden" name="is_official" value="1">
                     <center>
                         <h1 id="show-generated-code"></h1>
                     </center>

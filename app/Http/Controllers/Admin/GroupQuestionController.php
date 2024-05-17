@@ -20,15 +20,15 @@ class GroupQuestionController extends Controller {
         $this->questionnaire_code = new QuestionnaireCode;
         $this->question_option = new QuestionOption;
 
-        // $this->middleware('permission:manage-group-question', ['only' => ['index', 'show']]);
-        // $this->middleware('permission:add-group-question', ['only' => ['store']]);
-        // $this->middleware('permission:edit-group-question', ['only`' => ['update']]);
-        // $this->middleware('permission:delete-group-question', ['only' => ['destroy']]);
+        $this->middleware('permission:manage-group-question', ['only' => ['index', 'show']]);
+        $this->middleware('permission:add-group-question', ['only' => ['store']]);
+        $this->middleware('permission:edit-group-question', ['only`' => ['update']]);
+        $this->middleware('permission:delete-group-question', ['only' => ['destroy']]);
 
     }
 
     public function index() {
-        $questionaires = $this->group_question->whereNull('deleted')->get();
+        $questionaires = $this->group_question->where('is_official', 1)->whereNull('deleted')->get();
         $questions = $this->question->all();
         $subjects = $this->parseSubjects($questions);
         return view('modules.group_question.index', compact('questionaires', 'questions', 'subjects'));

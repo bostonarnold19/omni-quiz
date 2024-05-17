@@ -28,16 +28,15 @@
                 @else
                     <h1 class="font-w700 text-white mb-2">Welcome {{auth()->user()->first_name}} {{auth()->user()->last_name}}</h1>
                 @endif
-                {{-- <form action="{{ route('omni-questionnaire.create') }}" method="GET">
-                    <div class="row push mb-3">
-                        <div class="col-5 mx-auto">
-                            <input type="text" min="0" name="codes" class="form-control" placeholder="Enter Code" v-model="search">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-hero-primary">
-                        <i class="fa fa-play mr-1"></i> Start Exam
-                    </button>
-                </form> --}}
+                @if($qualifying)
+                <br>
+                <br>
+                <a href="javascript:void(0)"  data-toggle="modal" data-target="#add-qualifying"  class="btn btn-hero-primary">
+                    <i class="fa fa-book mr-1"></i> Qualifying Exam
+                </a>
+                @include('modules.home.includes._modal_qualifying_exam')
+                @endif
+                                
                 @include('modules.exam_mode.includes._modal_exam_mode_selection')
                 @include('modules.study_mode.includes._modal_study_mode_selection')
             </div>

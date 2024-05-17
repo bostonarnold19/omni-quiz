@@ -16,14 +16,21 @@
                             <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h3>
                             <h3 v-else>@{{ ((score/items) * 100) }} % <br> Failed</h3>
                             <h4></h4>
+                            <center><a href="{{url('/')}}" class="btn btn-danger">&laquo; Go Back to Menu</a></center>
                         </div>
                     </div>
                 </div>
                 <div v-else>
-                    <h1 style="font-weight: bold; text-align: center;" id="demo"></h1>
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>@{{ question.question }}</h4>
+                            <h1 style="font-weight: bold; text-align: center;" id="demo"></h1>
+                            <span style="float: right;font-weight:bold;font-size:2rem">@{{score}}/@{{items}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 :style="question.image_link ? 'margin-bottom:0px' :''">@{{ question.question }}</h4>
+                            <a v-if="question.image_link"  :href="question.image_link" target="_blank">See Image</a>
                             <div class="form-group">
                                 <ol>
                                     <li v-for="(option_v, option_k) in options" @click="selectAnswer(option_v.id)">
@@ -94,6 +101,8 @@
 <script>
     window.publicUrl = "{{url('/')}}";
     window.questionnaireCode = @json($questionnaire_code);
+    window.score = {{$score}};
+    window.items = {{$items}};
 </script>
 <script src="{{ asset('/js/exam-mode.js') }}"></script>
 @endsection

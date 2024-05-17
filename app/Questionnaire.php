@@ -15,6 +15,7 @@ class Questionnaire extends Model {
         'passing',
         'deleted',
         'is_published',
+        'is_official',
     ];
 
     public function questions() {

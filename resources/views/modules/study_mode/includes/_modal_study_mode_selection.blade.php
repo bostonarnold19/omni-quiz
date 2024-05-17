@@ -15,7 +15,7 @@
                                 <label>Questionnaire</label>
                                 <select name="select_subject" class="form-control js-select2">
                                     <option value="">Select Question</option>
-                                    @foreach($subjects as $subject)
+                                    @foreach($subjectsSubtopics as $subject)
                                     <option value="{{$subject}}">{{$subject}}</option>
                                     @endforeach
                                 </select>

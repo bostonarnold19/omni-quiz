@@ -14,8 +14,8 @@ const app = new Vue({
             options: [],
             answer: {
             },
-            score: 0,
-            items: 0,
+            score: window.score,
+            items: window.items,
             answers: [],
             done: false,
             ans: null,
@@ -62,7 +62,7 @@ const app = new Vue({
                     _this.options = response.options;
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
-                    console.log(_this.questionnaire_code);
+                    // console.log(_this.questionnaire_code);
                     _this.timer(_this.questionnaire_code.time_end);
                 }
             },
@@ -206,7 +206,8 @@ const app = new Vue({
                         } else {
                             // console.log(response.answer);
                             _this.question = response.question;
-                    _this.options = response.options;
+                            _this.options = response.options;
+                            _this.score = response.score;
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
                             // _this.timer(_this.answer);
