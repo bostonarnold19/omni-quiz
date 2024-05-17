@@ -56,7 +56,7 @@ class HomeController extends Controller {
                 return $item->subject;
             });
 
-        $questionnaire_code = $this->questionnaire_code->where('user_id', $user->id)
+        $questionnaire_code = $this->questionnaire_code->where('is_official', 0)->where('user_id', $user->id)
             ->where(function($query) {
                 $query->where('time_start', '<=',date('Y-m-d H:i:s'))
                 ->where('time_end', '>=',date('Y-m-d H:i:s'))

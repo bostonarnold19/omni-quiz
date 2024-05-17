@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body pb-1">
-                <form id="question-form" action="{{ route('omni-questionnaire.create') }}" method="GET">
+                <form action="{{ route('omni-questionnaire.create') }}" method="GET">
                     <div class="row push mb-3">
                         <div class="col-5 mx-auto">
                             <input type="text" min="0" name="codes" class="form-control" placeholder="Enter Code" v-model="search">

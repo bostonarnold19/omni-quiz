@@ -25,6 +25,7 @@ class ExamModeController extends Controller
         $user = auth()->user();
 
         $questionnaire_code = $this->questionnaire_code->where('user_id', $user->id)
+            ->where('is_official', 0)
             ->where(function($query) {
                 $query->where('time_start', '<=',date('Y-m-d H:i:s'))
                 ->where('time_end', '>=',date('Y-m-d H:i:s'))
