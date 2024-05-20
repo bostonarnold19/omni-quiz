@@ -25,7 +25,8 @@
                     <h1 style="font-weight: bold; text-align: center;" id="demo"></h1>
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>@{{ question.question }}</h4>
+                            <h4 :style="question.image_link ? 'margin-bottom:0px' :''">@{{ question.question }}</h4>
+                            <a v-if="question.image_link"  :href="question.image_link" target="_blank">See Image</a>
                             <div class="form-group">
                                 <ol>
                                   <li type="a" v-for="(option_v, option_k) in options" @click="selectAnswer(option_v.id)">
