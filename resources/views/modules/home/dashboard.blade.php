@@ -43,11 +43,4 @@
         </div>
     </div>
 </div>
-<div class="content content-boxed">
-    <div class="block block-rounded block-bordered">
-        <div class="block-content">
-
-        </div>
-    </div>
-</div>
 @endsection

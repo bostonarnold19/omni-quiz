@@ -1,13 +1,9 @@
 <div class="content-header">
-    <div>
-        @php
-        // <button type="button" class="btn btn-dual mr-1 d-lg-none" data-toggle="layout" data-action="sidebar_toggle">
-        // <i class="fa fa-fw fa-bars"></i>
-        // </button>
-        // <button type="button" class="btn btn-dual" data-toggle="layout" data-action="header_search_on">
-        // <i class="fa fa-fw fa-search"></i> <span class="ml-1 d-none d-sm-inline-block">Search Account..</span>
-        // </button>
-        @endphp
+    <div class="d-flex align-items-center">
+        <!-- Logo -->
+        <a class="link-fx font-size-lg text-white" href="#">
+            <span class="text-white-75">Omni</span><span class="text-white font-w700">Aviation</span>
+        </a>
     </div>
     <div>
         <div class="dropdown d-inline-block">
@@ -29,27 +25,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<div id="page-header-search" class="overlay-header bg-sidebar-dark">
-    <div class="content-header">
-        <form class="w-100" action="#" method="post">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button type="button" class="btn btn-dark" data-toggle="layout" data-action="header_search_off">
-                    <i class="fa fa-fw fa-times-circle"></i>
-                    </button>
-                </div>
-                <input type="text" class="form-control border-0" placeholder="Search Account.." id="page-header-search-input" name="page-header-search-input">
-            </div>
-        </form>
-    </div>
-</div>
-<div id="page-header-loader" class="overlay-header bg-primary-darker">
-    <div class="content-header">
-        <div class="w-100 text-center">
-            <i class="fa fa-fw fa-2x fa-sun fa-spin text-white"></i>
         </div>
     </div>
 </div>
