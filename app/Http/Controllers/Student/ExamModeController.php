@@ -52,13 +52,16 @@ class ExamModeController extends Controller
         if (!$request->ajax()) {
             return $this->createMockExam($request);
         }
-        $questionQuery = $this->question->with('options');
+        $questionQuery = $this->question;
 
         if (@$data['question_ids']) {
             $questionQuery->whereNotIn('id', @$data['question_ids']);
         }
 
         $question = $questionQuery->inRandomOrder()->first();
+
+        $question->options = $question->options()->inRandomOrder()->get();
+
         return response()->json(['question' => $question]);
     }
 
@@ -84,6 +87,8 @@ class ExamModeController extends Controller
         $data['time'] = "60:00" ;
         $data['subject'] = $data['select_subject'];
         $data['question_count'] = 30;
+        $data['passing'] = 50;
+        
         $course = auth()->user()->course;
 
         $questions = $this->question->query()

@@ -34,19 +34,30 @@
                             <a v-if="question.image_link"  :href="question.image_link" target="_blank">See Image</a>
                             <div class="form-group">
                                 <ol>
-                                    <li v-for="(option_v, option_k) in options" @click="selectAnswer(option_v.id)">
+                                    <li v-for="(option_v, option_k) in options">
                                       <span>@{{ alphabet[option_k] }}.</span>
                                       <div class="custom-control custom-radio custom-control-primary mb-1">
-                                          <input type="radio" class="custom-control-input" v-model="ans" name="ans" :id="option_k" :value="option_v.id">
                                           <label class="custom-control-label" :for="option_k">@{{ option_v.description }}</label>
                                       </div>
                                     </li>
                                 </ol>
+                                <div class="option-select">
+                                    <ul>
+                                        <li class="selected-option">
+                                            <span v-if="ans && ans.alphabet" style="text-decoration: underline">
+                                                @{{ ans.alphabet }}
+                                            </span>
+                                            <span v-else>__________</span>
+                                        </li>
+                                        <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
+                                        <li class="selected-option" @click="skipSS" id="btn-skip">Skip</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <button v-on:click="nextBtn" class="btn btn-lg btn-success">Next</button>
-                            <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button>
+                        <div class="col-md-12" style="display: flex">
+                            <button v-on:click="nextBtn" class="btn btn-lg accept-button">Accept</button>
+                            {{-- <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button> --}}
                         </div>
                     </div>
                 </div>
@@ -60,6 +71,33 @@
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
 <style>
+    .option-select .selected-option {
+        background:unset;
+        color:black;
+    }
+    .accept-button {
+        margin:auto;
+        margin-top:30px;
+        background: #259ade;
+        color: white;
+        font-weight: normal !important;
+    }
+    .option-select {
+        display:flex;
+    }
+    .option-select ul {
+        display: flex;
+        margin:auto;
+    }
+    .option-select li {
+        list-style: none;
+        cursor: pointer;
+        padding:20px;
+        background: #259ade;
+        color: white;
+        margin: 0px 25px;
+        text-transform:capitalize;
+    }
     .correct {
         color:green;
     }

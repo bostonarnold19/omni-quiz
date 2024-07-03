@@ -33,7 +33,6 @@
                                   <li type="a" class="form-group-item" v-for="(option_v, option_k) in options" >
                                     <span>@{{ alphabet[option_k] }}.</span>
                                     <div class="custom-control custom-radio custom-control-primary mb-1">
-                                        <input type="radio" class="custom-control-input" name="ans" :id="option_k" :value="option_v">
                                         <template v-if="ans">
                                             <label v-if="ans.id == option_v.id" class="custom-control-label" :class="ans.id == option_v.id && ans.is_correct ? 'correct' : 'wrong' "  :for="option_k">@{{ option_v.description }}</label>
                                             <label v-else class="custom-control-label" :class="option_v.is_correct ? 'correct' : ''" :for="option_k">@{{ option_v.description }}</label>

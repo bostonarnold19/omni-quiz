@@ -24,6 +24,7 @@ const app = new Vue({
             alphabet:[
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
             ],
+            skipCount:0,
         }
     },
     mounted: function(){
@@ -74,8 +75,9 @@ const app = new Vue({
 
     },
     methods:{
-        selectAnswer(answer) {
+        selectAnswer(answer, alphabetAnswer) {
             this.ans = answer
+            this.ans.alphabet = alphabetAnswer
         },
         timer: function(time){
             console.log(time);
@@ -111,7 +113,12 @@ const app = new Vue({
 
         skipSS:function(){
             var _this = this;
-
+            if (_this.skipCount == 3) {
+                _this.skipCount = 0
+                _this.nextBtn()
+                return
+            }
+            _this.skipCount++
             _this.ans = null;
             $('[id=btn-skip]').attr('disabled',true);
             var data = _this.answer;
