@@ -24,6 +24,8 @@ const app = new Vue({
             alphabet:[
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
             ],
+            skipCount:0,
+            alphabetAnswer:'',
         }
     },
     mounted: function(){
@@ -74,8 +76,9 @@ const app = new Vue({
 
     },
     methods:{
-        selectAnswer(answer) {
+        selectAnswer(answer, alphabet) {
             this.ans = answer
+            this.alphabetAnswer = alphabet
         },
         timer: function(time){
             console.log(time);
@@ -111,8 +114,14 @@ const app = new Vue({
 
         skipSS:function(){
             var _this = this;
-
+            if (_this.skipCount == 3) {
+                _this.skipCount = 0
+                _this.nextBtn()
+                return
+            }
+            _this.skipCount++
             _this.ans = null;
+            _this.alphabetAnswer = ''
             $('[id=btn-skip]').attr('disabled',true);
             var data = _this.answer;
             data.question_option_id = _this.ans;
@@ -165,6 +174,7 @@ const app = new Vue({
             }
 
 
+            _this.alphabetAnswer = ''
             var data = _this.answer;
             data.question_option_id = _this.ans;
             data.answers = _this.answers;
