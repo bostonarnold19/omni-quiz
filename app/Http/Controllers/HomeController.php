@@ -156,17 +156,11 @@ class HomeController extends Controller {
                         if ($value == "") {
                             continue;
                         }
-                        $qoption = [];
-                        $answer_real = explode('/', $column[5]);
-                        $g_choices = [];
-                        foreach ($answer_real as $let) {
-                            $orig_answer = strtolower(trim($let));
-                            $g_choices[] = $orig_answer;
-                        }
 
                         $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $value);
                         $value = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $value);
                         $value = preg_replace( '/[^[:print:]]/', '',$value);
+
                         if (empty(trim($value))) {
                             DB::rollBack();
                             continue;
@@ -175,8 +169,9 @@ class HomeController extends Controller {
                             'description' => trim($value),
                             'question_id' => $question->id,
                         ];
-                        if (in_array($value, $g_choices)) {
-                            $qoption['is_correct'] = 1; 
+
+                        if ($key == 5) {
+                            $qoption['is_correct'] = 1;
                         }
                         $option = $this->question_option->create($qoption);
                     }

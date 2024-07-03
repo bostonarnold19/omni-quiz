@@ -11,7 +11,7 @@
             <a href="{{url('/')}}" class="btn btn-danger float-left">&laquo; Go Back to Menu</a>
         </div>
         <div class="block-content block-content-full">
-            <img class="water-mark" src="{{asset('img/airline-training.png')}}" alt="">
+            <img class="water-mark" src="{{asset('img/Logo_MTC_1-removebg-preview.png')}}" alt="">
             <div id="app" v-cloak>
                 <div v-if="done">
                     <div class="row">
@@ -30,10 +30,10 @@
                             <a v-if="question.image_link"  :href="question.image_link" target="_blank">See Image</a>
                             <div class="form-group" :style="question.image_link ? 'margin-top:1.375rem' : ''">
                                 <ol>
-                                  <li type="a" class="form-group-item" v-for="(option_v, option_k) in options" @click="selectAnswer(option_v)">
+                                  <li type="a" class="form-group-item" v-for="(option_v, option_k) in options" >
                                     <span>@{{ alphabet[option_k] }}.</span>
                                     <div class="custom-control custom-radio custom-control-primary mb-1">
-                                        <input type="radio" class="custom-control-input" v-model="ans" name="ans" :id="option_k" :value="option_v">
+                                        <input type="radio" class="custom-control-input" name="ans" :id="option_k" :value="option_v">
                                         <template v-if="ans">
                                             <label v-if="ans.id == option_v.id" class="custom-control-label" :class="ans.id == option_v.id && ans.is_correct ? 'correct' : 'wrong' "  :for="option_k">@{{ option_v.description }}</label>
                                             <label v-else class="custom-control-label" :class="option_v.is_correct ? 'correct' : ''" :for="option_k">@{{ option_v.description }}</label>
@@ -42,12 +42,19 @@
                                             <label class="custom-control-label"  :for="option_k">@{{ option_v.description }}</label>
                                         </template>
                                     </div>
+                                    {{-- v-model="ans" --}}
                                   </li>
                                 </ol>
                             </div>
+
+                            <div class="option-select">
+                                <ul>
+                                    <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v)">@{{ alphabet[option_k] }}</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="col-md-12">
-                            <button v-on:click="getQuestion" class="btn btn-lg btn-success float-right">Next</button>
+                        <div class="col-md-12" style="display: flex;">
+                            <button v-on:click="getQuestion" class="btn btn-lg  accept-button">Next</button>
                             {{-- <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button> --}}
                         </div>
                     </div>
@@ -62,6 +69,13 @@
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
 <style>
+    .accept-button {
+        margin:auto;
+        margin-top:30px;
+        background: #259ade;
+        color: white;
+        font-weight: normal !important;
+    }
     .correct {
         color:green;
     }
@@ -105,6 +119,22 @@
         top: 75%;
         width: 25%;
         height: auto;
+    }
+
+    .option-select {
+        display:flex;
+    }
+    .option-select ul {
+        display: flex;
+        margin:auto;
+    }
+    .option-select li {
+        list-style: none;
+        padding:20px;
+        background: #259ade;
+        color: white;
+        margin: 0px 25px;
+        text-transform:capitalize;
     }
 </style>
 @endsection

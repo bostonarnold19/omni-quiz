@@ -32,7 +32,7 @@ class StudyModeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $questionQuery = $this->question->with('options');
+        $questionQuery = $this->question;
 
         $course = auth()->user()->course;
 
@@ -50,7 +50,9 @@ class StudyModeController extends Controller
 
         $question = $questionQuery
                         ->where('course', $course)
-                        ->inRandomOrder()->first();
+                        ->inRandomOrder()
+                        ->first();
+        $question->options = $question->options()->inRandomOrder()->get();
         return response()->json(['question' => $question]);
     }
 
