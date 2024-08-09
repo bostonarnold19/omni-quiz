@@ -25,6 +25,7 @@ const app = new Vue({
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
             ],
             skipCount:0,
+            alphabetAnswer:'',
         }
     },
     mounted: function(){
@@ -76,8 +77,8 @@ const app = new Vue({
     },
     methods:{
         selectAnswer(answer, alphabetAnswer) {
-            this.ans = answer
-            this.ans.alphabet = alphabetAnswer
+            this.ans = answer.id
+            this.alphabetAnswer = alphabetAnswer
         },
         timer: function(time){
             console.log(time);
@@ -166,7 +167,7 @@ const app = new Vue({
 
         nextBtn:function(){
             var _this = this;
-
+            console.log(_this.ans, _this.answer)
             if(_this.ans == null) {
                 _this.ans = 'x';
             }

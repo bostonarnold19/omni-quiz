@@ -77,7 +77,7 @@ const app = new Vue({
     },
     methods:{
         selectAnswer(answer, alphabet) {
-            this.ans = answer
+            this.ans = answer.id
             this.alphabetAnswer = alphabet
         },
         timer: function(time){

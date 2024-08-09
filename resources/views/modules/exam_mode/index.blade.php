@@ -44,8 +44,8 @@
                                 <div class="option-select">
                                     <ul>
                                         <li class="selected-option">
-                                            <span v-if="ans && ans.alphabet" style="text-decoration: underline">
-                                                @{{ ans.alphabet }}
+                                            <span v-if="alphabetAnswer" style="text-decoration: underline">
+                                                @{{ alphabetAnswer }}
                                             </span>
                                             <span v-else>__________</span>
                                         </li>
