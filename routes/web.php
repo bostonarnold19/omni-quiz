@@ -39,6 +39,15 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::resource('exam-mode', 'Student\ExamModeController');
     Route::resource('study-mode', 'Student\StudyModeController');
 
+
+    Route::post('/study-mode-history/{questionId}/update', [
+        'uses' => 'Student\StudyModeController@update',
+    ]);
+
+    Route::post('/study-mode-history/delete', [
+        'uses' => 'Student\StudyModeController@destroy',
+    ]);
+
     Route::match(['get', 'post'], '/import', 'HomeController@import')->name('import');
 
 });

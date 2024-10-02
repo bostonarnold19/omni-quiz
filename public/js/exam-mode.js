@@ -25,6 +25,7 @@ const app = new Vue({
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
             ],
             skipCount:0,
+            itemsLeft:0,
             alphabetAnswer:'',
         }
     },
@@ -41,6 +42,7 @@ const app = new Vue({
                     _this.score = response.score;
                     _this.items = response.items;
                     _this.passing = response.passing;
+                    _this.itemsLeft = response.items_left
 
                     var grade = ((_this.score/_this.items) * 100) >= _this.passing;
                     var msg = 'Congrats';
@@ -64,6 +66,8 @@ const app = new Vue({
                     _this.options = response.options;
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
+                    _this.itemsLeft = response.items_left
+
                     // console.log(_this.questionnaire_code);
                     _this.timer(_this.questionnaire_code.time_end);
                 }
@@ -81,7 +85,6 @@ const app = new Vue({
             this.alphabetAnswer = alphabetAnswer
         },
         timer: function(time){
-            console.log(time);
             var _this = this;
             clearInterval(window.x);
             var deadline = new Date(time).getTime();
@@ -141,22 +144,25 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
-            $('[id=btn-skip]').removeAttr('disabled');
+                    $('[id=btn-skip]').removeAttr('disabled');
+                    if (response.items_left) {
+                        _this.itemsLeft = response.items_left
+                    }
 
-                      if(response.done) {
-                            _this.done = response.done;
-                            _this.score = response.score;
-                            _this.items = response.items;
+                    if(response.done) {
+                        _this.done = response.done;
+                        _this.score = response.score;
+                        _this.items = response.items;
 
-
-                        } else {
-                            _this.question = response.question;
-                            _this.options = response.options;
-                            // _this.options = _this.fisherYates(response.options);
-                            _this.answer = response.answer;
-                            _this.skip = response.skip
-                            // _this.timer(_this.answer.time_end.date);
-                        }
+                    } else {
+                        _this.question = response.question;
+                        _this.options = response.options;
+                        // _this.options = _this.fisherYates(response.options);
+                        _this.answer = response.answer;
+                        _this.skip = response.skip
+                        _this.itemsLeft = response.items_left
+                        // _this.timer(_this.answer.time_end.date);
+                    }
 
                 },
             });
@@ -167,19 +173,18 @@ const app = new Vue({
 
         nextBtn:function(){
             var _this = this;
-            console.log(_this.ans, _this.answer)
+
             if(_this.ans == null) {
                 _this.ans = 'x';
             }
-
 
             var data = _this.answer;
             data.question_option_id = _this.ans;
             data.answers = _this.answers;
             data.questionnaire_code = _this.questionnaire_code;
 
-            _this.ans = null;
-
+            _this.ans = '';
+            _this.alphabetAnswer = '';
             data._token = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
@@ -188,12 +193,15 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
+
+                    if (response.items_left) {
+                        _this.itemsLeft = response.items_left
+                    }
                       if(response.done) {
                             _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
                             _this.passing = response.passing;
-
                             var grade = ((_this.score/_this.items) * 100) >= _this.passing;
                     var msg = 'Congrats';
                     var type = 'success';

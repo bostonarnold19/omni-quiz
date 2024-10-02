@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Question;
+use App\StudyModeHistory;
 
 class StudyModeController extends Controller
 {
@@ -35,6 +36,17 @@ class StudyModeController extends Controller
         $questionQuery = $this->question;
 
         $course = auth()->user()->course;
+        
+        $data['user_id'] = auth()->id();
+        $history = StudyModeHistory::where('user_id', $data['user_id'])
+            ->where('subject', html_entity_decode($data['subject']))
+            ->where('subtopic', html_entity_decode($data['course']))->first();
+
+        if(@$history->question) {
+            $question = @$history->question;
+            $question->options = $question->options()->inRandomOrder()->get();
+            return response()->json(['question' => $question]);
+        }
 
         if (@$data['question_ids']) {
             $questionQuery->whereNotIn('id', @$data['question_ids']);
@@ -52,6 +64,7 @@ class StudyModeController extends Controller
                         ->where('course', $course)
                         ->inRandomOrder()
                         ->first();
+
         $question->options = $question->options()->inRandomOrder()->get();
         return response()->json(['question' => $question]);
     }
@@ -65,11 +78,44 @@ class StudyModeController extends Controller
         //
     }
 
-    public function update(Request $request, $id) {
-        //
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+
+        $data['user_id'] = auth()->id();
+        $history = StudyModeHistory::where('user_id', $data['user_id'])
+            ->where('subject', $data['subject'])
+            ->where('subtopic', $data['subtopic'])->first();
+
+        if($history) {
+            $history->update([
+                'question_id' => $data['question_id'],
+            ]);
+        } else {
+            $history = StudyModeHistory::create([
+                'question_id' => $data['question_id'],
+                'user_id' => $data['user_id'],
+                'subject' => $data['subject'],
+                'subtopic' => $data['subtopic'],
+            ]);
+        }
+
+        return response()->json(['message' => "History saved!"]);
     }
 
-    public function destroy($id) {
-        //
+    public function destroy(Request $request)
+    {
+        $data = $request->all();
+
+        $data['user_id'] = auth()->id();
+        $history = StudyModeHistory::where('user_id', $data['user_id'])
+            ->where('subject', $data['subject'])
+            ->where('subtopic', $data['subtopic'])->first();
+
+        if ($history) {
+            $history->delete();
+        }
+
+        return response()->json(['message' => "History deleted!"]);
     }
 }

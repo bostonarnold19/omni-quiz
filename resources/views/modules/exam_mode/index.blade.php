@@ -9,7 +9,7 @@
 <div class="content">
     <div class="block block-rounded block-bordered">
         <div class="block-content block-content-full">
-            <img class="water-mark" src="{{asset('img/airline-training.png')}}" alt="">
+            <img class="water-mark" src="{{asset('img/Logo_MTC_1-removebg-preview.png')}}" alt="">
             <div id="app" v-cloak>
                 <div v-if="done">
                     <div class="row">
@@ -24,8 +24,10 @@
                 <div v-else>
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 style="font-weight: bold; text-align: center;" id="demo"></h1>
-                            <span style="float: right;font-weight:bold;font-size:2rem">@{{score}}/@{{items}}</span>
+                            <h1 style="font-size:1.5rem;font-weight: bold; text-align: right;" id="demo"></h1>
+                            <center>
+                                <div style="text-align: center;font-weight: bold;font-size: 2rem;margin-top: -5%;margin-bottom: 5%;">Items Left: @{{itemsLeft}}</div>
+                            </center>
                         </div>
                     </div>
                     <div class="row">
@@ -47,7 +49,7 @@
                                             <span v-if="alphabetAnswer" style="text-decoration: underline">
                                                 @{{ alphabetAnswer }}
                                             </span>
-                                            <span v-else>__________</span>
+                                            <span v-else>____</span>
                                         </li>
                                         <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
                                         <li class="selected-option" @click="skipSS" id="btn-skip">Skip</li>
@@ -71,6 +73,19 @@
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
 <style>
+
+    @media screen and (max-width: 544px) {
+        .form-group ol{
+            display: unset !important;
+        }
+        .option-select ul li {
+            margin:0px 2px;
+        }
+        .option-select ul {
+            margin-left:-15% !important;
+            margin-top:20px !important;
+        }
+    }
     .option-select .selected-option {
         background:unset;
         color:black;

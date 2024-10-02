@@ -5,14 +5,15 @@
 <style type="text/css">
     [v-cloak] {display: none}
 </style>
-<div class="content">
+<div class="content" id="app" v-cloak>
     <div class="block block-rounded block-bordered">
         <div class="block-header block-header-default">
-            <a href="{{url('/')}}" class="btn btn-danger float-left">&laquo; Go Back to Menu</a>
+            <a href="javascript:void(0)" @click="destroy" class="btn btn-danger float-left">Exit</a>
+            <a href="javascript:void(0)" @click="save" class="btn btn-danger float-right">Save and Exit</a>
         </div>
         <div class="block-content block-content-full">
             <img class="water-mark" src="{{asset('img/Logo_MTC_1-removebg-preview.png')}}" alt="">
-            <div id="app" v-cloak>
+            <div >
                 <div v-if="done">
                     <div class="row">
                         <div class="col-md-12 text-center">
@@ -53,7 +54,7 @@
                             </div>
                         </div>
                         <div class="col-md-12" style="display: flex;">
-                            <button v-on:click="getQuestion" class="btn btn-lg  accept-button">Next</button>
+                            <button v-on:click="getQuestion" class="btn btn-lg  accept-button">Accept</button>
                             {{-- <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button> --}}
                         </div>
                     </div>
@@ -68,6 +69,18 @@
 <link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('js/sweetalert2/dist/sweetalert2.min.css') }}">
 <style>
+    @media screen and (max-width: 544px) {
+        .form-group ol{
+            display: unset !important;
+        }
+        .option-select ul li {
+            margin:0px 2px;
+        }
+        .option-select ul {
+            margin-left:0px !important;
+            margin-top:20px !important;
+        }
+    }
     .accept-button {
         margin:auto;
         margin-top:30px;

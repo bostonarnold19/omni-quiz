@@ -26,6 +26,7 @@ const app = new Vue({
             ],
             skipCount:0,
             alphabetAnswer:'',
+            itemsLeft:0,
         }
     },
     mounted: function(){
@@ -36,6 +37,10 @@ const app = new Vue({
             url: _this.url.routeGetQuestion,
             jsonp: false,
             success: function(response){
+
+                if (response.items_left) {
+                    _this.itemsLeft = response.items_left
+                }
                 if(response.done) {
                     _this.done = response.done;
                     _this.score = response.score;
@@ -144,6 +149,9 @@ const app = new Vue({
                 success: function(response){
             $('[id=btn-skip]').removeAttr('disabled');
 
+            if (response.items_left) {
+                _this.itemsLeft = response.items_left
+            }
                       if(response.done) {
                             _this.done = response.done;
                             _this.score = response.score;
@@ -190,6 +198,10 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
+
+                    if (response.items_left) {
+                        _this.itemsLeft = response.items_left
+                    }
                       if(response.done) {
                             _this.done = response.done;
                             _this.score = response.score;

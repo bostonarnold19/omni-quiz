@@ -5,6 +5,8 @@ const app = new Vue({
             question_options:[],
             url:{
                 routeGetQuestion: window.publicUrl+"/study-mode/store",
+                routeUpdateQuestion: window.publicUrl+"/study-mode-history",
+                routeDeleteQuestion: window.publicUrl+"/study-mode-history/delete",
             },
             question: {
                 question: '',
@@ -35,6 +37,44 @@ const app = new Vue({
         selectAnswer(answer) {
             this.ans = answer
         },
+        save() {
+            let data = {
+                question_id: this.question.id,
+                subject: this.question.subject,
+                subtopic: this.question.subtopic,
+            }
+            let _this = this
+
+            data._token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                method: 'POST',
+                url: `${_this.url.routeUpdateQuestion}/${data.question_id}/update`,
+                data: data,
+                jsonp: false,
+                success: function(response){
+                    window.location.href = `${window.publicUrl}/dashboard`;
+                },
+            });
+        },
+        destroy() {
+            let data = {
+                question_id: this.question.id,
+                subject: this.question.subject,
+                subtopic: this.question.subtopic,
+            }
+            let _this = this
+
+            data._token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                method: 'POST',
+                url: `${_this.url.routeDeleteQuestion}`,
+                data: data,
+                jsonp: false,
+                success: function(response){
+                    window.location.href = `${window.publicUrl}/dashboard`;
+                },
+            });
+        },
         getQuestion() {
             var _this = this;
             let data = {};
@@ -49,10 +89,10 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
-                    if (!response.question) {
-                        window.location.href = `${window.publicUrl}/dashboard`;
-                        return;
-                    }
+                    // if (!response.question) {
+                    //     window.location.href = `${window.publicUrl}/dashboard`;
+                    //     return;
+                    // }
                     _this.question = response.question;
                     _this.options = response.question.options;
                     _this.answer = response.answer;

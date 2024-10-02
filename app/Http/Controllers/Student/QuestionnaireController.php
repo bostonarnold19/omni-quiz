@@ -56,7 +56,7 @@ class QuestionnaireController extends Controller {
     public function create(Request $request) {
         $auth = auth()->user();
         $data = $request->all();
-
+        $itemsLeft = 0;
         $question = null;
         // $answers = [];
         if ($request->ajax()) {
@@ -65,7 +65,6 @@ class QuestionnaireController extends Controller {
                 ->where('codes', $data['codes'])
                 ->where('user_id', $auth->id)
                 ->first();
-
 
 
             $time_now = Carbon::now();
@@ -130,7 +129,7 @@ class QuestionnaireController extends Controller {
 
                     $answer = $this->answer->create($data);
                 }
-
+                
 
                 $XXXXXXXXXXX = $this->questionnaire_code
                     ->where('codes', $data['codes'])
@@ -139,7 +138,13 @@ class QuestionnaireController extends Controller {
 
                 // $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
                 // $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
+                $totalCount = $questionnaire_code->questionnaire->questions->count();
 
+                $answered = $this->answer
+                    ->where('user_id', $auth->id)
+                    ->where('questionnaire_code_id', $questionnaire_code->id)
+                    ->whereNotNull('question_option_id')
+                    ->count();
 
                 return response()->json([
                     'questionnaire_code' => $XXXXXXXXXXX,
@@ -148,6 +153,7 @@ class QuestionnaireController extends Controller {
                     'question' => $question,
                     'options' => $question->options,
                     'answer' => $answer,
+                    'items_left' => $totalCount - $answered,
                 ], 200);
 
             } else {
@@ -194,6 +200,7 @@ class QuestionnaireController extends Controller {
         // $answers = [];
         $question = null;
 
+        $itemsLeft = 0;
         $skip = 0;
 
         $skip = @$data['skip'];
@@ -259,6 +266,14 @@ class QuestionnaireController extends Controller {
             $questionnaire_code->time_start = Carbon::parse($questionnaire_code->time_start);
             $questionnaire_code->time_end = Carbon::parse($questionnaire_code->time_end);
 
+            $totalCount = $questionnaire_code->questionnaire->questions->count();
+
+            $answered = $this->answer
+                ->where('user_id', $auth->id)
+                ->where('questionnaire_code_id', $questionnaire_code->id)
+                ->whereNotNull('question_option_id')
+                ->count();
+
             return response()->json([
                 'questionnaire_code' => $questionnaire_code,
                 'score' => $questionnaire_code->score,
@@ -267,6 +282,7 @@ class QuestionnaireController extends Controller {
                 'options' => $question->options,
                 'answer' => $answer,
                 'skip' => @$skip,
+                'items_left' => $totalCount - $answered,
             ], 200);
 
         } else {
