@@ -17,4 +17,3 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700">
 @yield('styles')
 <link rel="stylesheet" id="css-main" href="{{ asset('themes/dashmix/assets/css/dashmix.min.css') }}">
-<link rel="stylesheet" id="css-main" href="{{ asset('themes/dashmix/assets/css/themes/xeco.css') }}">
