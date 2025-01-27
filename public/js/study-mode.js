@@ -95,6 +95,17 @@ const app = new Vue({
                     // }
                     _this.question = response.question;
                     _this.options = response.question.options;
+
+                    if (response.question.options.length < 4) {
+                        _this.options.push({
+                            created_at: '',
+                            description: 'None of the above',
+                            id: 'skip',
+                            is_correct: '',
+                            question_id: '',
+                            updated_at: '',
+                        })
+                    } 
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
                     _this.ans = null

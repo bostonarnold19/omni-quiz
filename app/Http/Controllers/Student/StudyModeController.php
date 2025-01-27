@@ -34,7 +34,6 @@ class StudyModeController extends Controller
     {
         $data = $request->all();
         $questionQuery = $this->question;
-
         $course = auth()->user()->course;
         
         $data['user_id'] = auth()->id();

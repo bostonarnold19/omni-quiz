@@ -128,8 +128,8 @@
         opacity: 0.2;
         position: absolute;
         left: 0;
-        top: 75%;
-        width: 25%;
+        top: 50%;
+        width: 50%;
         height: auto;
     }
 
