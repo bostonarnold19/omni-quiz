@@ -56,6 +56,7 @@ class HomeController extends Controller {
                 return $item->subject;
             });
 
+        // if mock exam exists
         $questionnaire_code = $this->questionnaire_code->where('is_official', 0)->where('user_id', $user->id)
             ->where(function($query) {
                 $query->where('time_start', '<=',date('Y-m-d H:i:s'))
@@ -69,7 +70,32 @@ class HomeController extends Controller {
                         ->where('is_official', 1)
                         ->whereNull('result')->first();
 
-        return view('modules.home.dashboard', compact('subjects', 'questionnaire_code', 'subjectsSubtopics', 'qualifying'));
+
+        $subjectsSubtopicsSelector = $this->question
+            ->select('subject', 'subtopic')
+            ->distinct()
+            ->whereNull('deleted')
+            ->where('course', $course)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'subject' => $item->subject,
+                    'subtopic' => $item->subtopic,
+                ];
+            });
+
+        $arraySelector = $this->mapTopics($subjectsSubtopicsSelector);
+        return view('modules.home.dashboard', compact('subjects', 'questionnaire_code', 'subjectsSubtopics', 'qualifying', 'arraySelector'));
+    }
+
+    private function mapTopics($subjectsSubtopicsSelectors)
+    {
+        $array = [];
+        foreach($subjectsSubtopicsSelectors as $subjectsSubtopicsSelector) {
+            $subject = $subjectsSubtopicsSelector['subject'];
+            $array[$subject][] = $subjectsSubtopicsSelector['subtopic'];
+        }
+        return $array;
     }
 
     public function import(Request $request) {

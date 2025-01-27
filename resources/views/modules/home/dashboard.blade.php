@@ -36,11 +36,20 @@
                 </a>
                 @include('modules.home.includes._modal_qualifying_exam')
                 @endif
-                                
-                @include('modules.exam_mode.includes._modal_exam_mode_selection')
-                @include('modules.study_mode.includes._modal_study_mode_selection')
+                <div id="app">
+                    @include('modules.exam_mode.includes._modal_exam_mode_selection')
+                    @include('modules.study_mode.includes._modal_study_mode_selection')
+                </div>   
             </div>
         </div>
     </div>
 </div>
 @endsection
+@section('scripts')
+<script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('js/sweetalert2/dist/sweetalert2.js') }}"></script>
+<script src="{{ asset('/js/vue.js') }}"></script>
+<script src="{{ asset('/js/dashboard.js') }}"></script>
+@endsection
+
