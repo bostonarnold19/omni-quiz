@@ -20,7 +20,7 @@
                 </div>
                 <div class="p-2">
                     <div role="separator" class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <a id="btn-header-logout" class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <i class="far fa-fw fa-arrow-alt-circle-left mr-1"></i> Sign Out
                     </a>
                 </div>

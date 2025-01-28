@@ -59,6 +59,13 @@ class LoginController extends Controller
                     ->where('expiration_date', '>=', date('Y-m-d'))->first();
 
         if ($exist && Auth::attempt(['email' => $email, 'password' => $password])) {
+            
+            $exist->update([
+                'app_version' => $data['app_version'],
+                'user_agent' => $data['user_agent'],
+                'app_name' => $data['app_name'],
+                'ip_address' => $data['ip_address'],
+            ]);
             $url = url($this->redirectTo);
             return redirect($url);
         }

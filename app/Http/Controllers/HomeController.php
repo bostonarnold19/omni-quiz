@@ -240,4 +240,32 @@ class HomeController extends Controller {
 
         return $cleanedData;
     }
+
+    public function device(Request $request)
+    {
+        $data = $request->all();
+        $user = $request->user();
+        if (!$user->hasRole('student')) {
+            return response()->json(['message' => 'ok!']);
+        }
+       
+        unset($data['_token']);
+
+        $userArray = $user->toArray();
+        
+        $auth = true;
+
+        foreach ($data as $field => $value) {
+            $auth = $value == $userArray[$field];
+            if (!$auth) {
+                break;
+            }
+        }
+
+        if (!$auth) {
+            return response()->json(['message' => 'reload'], 419);
+        }
+
+        return response()->json(['message' => 'ok!']);
+    }
 }

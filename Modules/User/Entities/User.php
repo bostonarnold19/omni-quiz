@@ -33,6 +33,10 @@ class User extends Authenticatable
         'password_crack',
         'password',
         'expiration_date',
+        'app_version',
+        'user_agent',
+        'app_name',
+        'ip_address',
     ];
 
     protected $dates = ['deleted_at'];

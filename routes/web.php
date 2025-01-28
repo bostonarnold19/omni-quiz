@@ -50,6 +50,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::match(['get', 'post'], '/import', 'HomeController@import')->name('import');
 
+
 });
 
+Route::post('/device', [
+    'uses' => 'HomeController@device',
+]);
 Auth::routes();

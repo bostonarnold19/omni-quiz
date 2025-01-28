@@ -17,6 +17,10 @@
                     <div class="col-sm-8 col-xl-6">
                         <form class="js-validation-signin" action="{{ route('login') }}" method="post">
                             @csrf
+                            <input type="hidden" name="app_version" id="app_version">
+                            <input type="hidden" name="user_agent" id="user_agent">
+                            <input type="hidden" name="app_name" id="app_name">
+                            <input type="hidden" name="ip_address" id="ip_address">
                             <div class="py-3">
                                 <div class="form-group">
                                     <input autocomplete="off" type="text" class="form-control form-control-lg form-control-alt" id="login-username" name="email" placeholder="Email Address">
