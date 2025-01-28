@@ -24,6 +24,7 @@
                 <div v-else>
                     <div class="row">
                         <div class="col-md-12">
+                            <button v-on:click="exitMode" class="btn btn-danger accept-button">Exit</button>
                             <h1 style="font-size:1.5rem;font-weight: bold; text-align: right;" id="demo"></h1>
                             <center>
                                 <div style="text-align: center;font-weight: bold;font-size: 2rem;margin-top: -5%;margin-bottom: 5%;">Items Left: @{{itemsLeft}}</div>
@@ -153,6 +154,7 @@
         opacity: 0.2;
         position: absolute;
         right: 0;
+        left:0px;
         top: 50%;
         width: 50%;
         height: auto;

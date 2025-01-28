@@ -71,11 +71,13 @@ class ExamModeController extends Controller
     }
 
     public function edit($id) {
-        //
     }
 
     public function update(Request $request, $id) {
-        //
+        
+        $user = auth()->user();
+        $question = $this->questionnaire_code->where('user_id', $user->id)->where('id', $id)->update(['result' => 0]);
+        return response()->json(['question' => $question]);
     }
 
     public function destroy($id) {
@@ -127,7 +129,6 @@ class ExamModeController extends Controller
             $message = 'Group Question has been created.';
             return redirect()->route('exam-mode.index');
         } catch (\Exception $e) {
-            dd($e);
             $status = 'error';
             $message = 'Internal Server Error. Try again later.';
             DB::rollBack();

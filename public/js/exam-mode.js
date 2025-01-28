@@ -6,6 +6,8 @@ const app = new Vue({
             url:{
                 routeGetQuestion: window.publicUrl+"/omni-questionnaire/create?codes=" + window.questionnaireCode.codes,
                 routeAnsQuestion: window.publicUrl+"/omni-questionnaire",
+                routeExamMode: window.publicUrl+"/exam-mode/",
+                routeDashboard: window.publicUrl+"/dashboard"
             },
             question: {
                 question: '',
@@ -89,6 +91,21 @@ const app = new Vue({
 
     },
     methods:{
+        exitMode() {
+            let _this = this
+            let data = {}
+            data._token = $('meta[name="csrf-token"]').attr('content');
+            data._method = "patch"
+            $.ajax({
+                method: 'post',
+                url: _this.url.routeExamMode + _this.questionnaire_code.id,
+                data: data,
+                jsonp: false,
+                success: function(response){
+                    window.location = _this.url.routeDashboard
+                },
+            });
+        },
         selectAnswer(answer, alphabetAnswer) {
             this.ans = answer.id
             this.alphabetAnswer = alphabetAnswer
