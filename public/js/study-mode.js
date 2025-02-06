@@ -25,6 +25,7 @@ const app = new Vue({
             alphabet:[
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'
             ],
+            alphabetAnswer:'',
         }
     },
     mounted: function(){
@@ -34,8 +35,9 @@ const app = new Vue({
 
     },
     methods:{
-        selectAnswer(answer) {
+        selectAnswer(answer, alphabet) {
             this.ans = answer
+            this.alphabetAnswer = alphabet
         },
         save() {
             let data = {

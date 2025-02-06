@@ -49,7 +49,14 @@
 
                             <div class="option-select">
                                 <ul>
-                                    <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v)">@{{ alphabet[option_k] }}</li>
+                                    <li class="selected-option">
+                                        <span v-if="alphabetAnswer" style="text-decoration: underline">
+                                            @{{ alphabetAnswer }}
+                                        </span>
+                                        <span v-else>____</span>
+                                    </li>
+                                    <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
+                                    <li class="selected-option" ></li>
                                 </ul>
                             </div>
                         </div>
@@ -80,6 +87,10 @@
             margin-left:0px !important;
             margin-top:20px !important;
         }
+    }
+    .option-select .selected-option {
+        background:unset;
+        color:black;
     }
     .accept-button {
         margin:auto;
