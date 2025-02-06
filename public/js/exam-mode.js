@@ -67,14 +67,14 @@ const app = new Vue({
                     // _this.options = _this.fisherYates(response.options);
                     _this.options = response.options;
                     if (response.options.length < 4) {
-                        _this.options.push({
-                            created_at: '',
-                            description: 'None of the above',
-                            id: 'skip',
-                            is_correct: '',
-                            question_id: '',
-                            updated_at: '',
-                        })
+                        // _this.options.push({
+                        //     created_at: '',
+                        //     description: 'None of the above',
+                        //     id: 'skip',
+                        //     is_correct: '',
+                        //     question_id: '',
+                        //     updated_at: '',
+                        // })
                     } 
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
@@ -208,7 +208,7 @@ const app = new Vue({
         nextBtn:function(){
             var _this = this;
 
-            if(_this.ans == null || _this.ans == 'skip') {
+            if(_this.ans == null ) {
                 _this.ans = 'x';
             }
 
@@ -259,16 +259,16 @@ const app = new Vue({
                             _this.options = response.options;
 
 
-                            if (response.options.length < 4) {
-                                _this.options.push({
-                                    created_at: '',
-                                    description: 'None of the above',
-                                    id: 'skip',
-                                    is_correct: '',
-                                    question_id: '',
-                                    updated_at: '',
-                                })
-                            } 
+                            // if (response.options.length < 4) {
+                            //     _this.options.push({
+                            //         created_at: '',
+                            //         description: 'None of the above',
+                            //         id: 'skip',
+                            //         is_correct: '',
+                            //         question_id: '',
+                            //         updated_at: '',
+                            //     })
+                            // } 
                             _this.score = response.score;
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;

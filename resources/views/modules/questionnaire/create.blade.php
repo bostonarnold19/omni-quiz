@@ -57,7 +57,8 @@
                             </div>
                         </div>
                         <div class="col-md-12" style="display: flex">
-                            <button v-on:click="nextBtn" class="btn btn-lg accept-button">Accept</button>
+                            <button v-if="alphabetAnswer" v-on:click="nextBtn" class="btn btn-lg accept-button">Accept</button>
+                            <button v-else class="btn btn-lg btn-secondary accept-button">Accept</button>
                             {{-- <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button> --}}
                         </div>
                     </div>

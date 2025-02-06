@@ -69,14 +69,14 @@ const app = new Vue({
                     _this.options = response.options;
 
                     if (response.options.length < 4) {
-                        _this.options.push({
-                            created_at: '',
-                            description: 'None of the above',
-                            id: 'skip',
-                            is_correct: '',
-                            question_id: '',
-                            updated_at: '',
-                        })
+                        // _this.options.push({
+                        //     created_at: '',
+                        //     description: 'None of the above',
+                        //     id: 'skip',
+                        //     is_correct: '',
+                        //     question_id: '',
+                        //     updated_at: '',
+                        // })
                     } 
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
@@ -173,14 +173,14 @@ const app = new Vue({
                             _this.question = response.question;
                             _this.options = response.options;
                             if (response.options.length < 4) {
-                                _this.options.push({
-                                    created_at: '',
-                                    description: 'None of the above',
-                                    id: 'skip',
-                                    is_correct: '',
-                                    question_id: '',
-                                    updated_at: '',
-                                })
+                                // _this.options.push({
+                                //     created_at: '',
+                                //     description: 'None of the above',
+                                //     id: 'skip',
+                                //     is_correct: '',
+                                //     question_id: '',
+                                //     updated_at: '',
+                                // })
                             } 
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
@@ -198,8 +198,9 @@ const app = new Vue({
         nextBtn:function(){
             var _this = this;
 
-            if(_this.ans == null || _this.ans == 'skip') {
-                _this.ans = 'x';
+            if(_this.ans == null) {
+                // _this.ans = 'x';
+                return
             }
 
             _this.alphabetAnswer = ''
