@@ -10,17 +10,19 @@
             <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Question</a>
         </div>
         <div class="block-content block-content-full">
-            <table class="table table-bordered table-striped table-vcenter" id="datatable">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Subject</th>
-                        <th>Course</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Subject</th>
+                            <th>Course</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

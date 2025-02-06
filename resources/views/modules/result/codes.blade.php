@@ -9,23 +9,23 @@
             <h3 class="block-title">Codes</h3>
         </div>
         <div class="block-content block-content-full">
-             <div class="table-responsive">
-            <table class="table table-bordered table-striped table-vcenter" id="datatable">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Created</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 @endsection

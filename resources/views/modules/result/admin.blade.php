@@ -12,20 +12,22 @@
             {{-- @endability --}}
         </div>
         <div class="block-content block-content-full">
-            <table class="table table-bordered table-striped table-vcenter" id="datatable">
-                <thead>
-                    <tr>
-                        <th><i class="far fa-user"></i></th>
-                        <th>Name</th>
-                        <th>Student ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th><i class="far fa-user"></i></th>
+                            <th>Name</th>
+                            <th>Student ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -10,21 +10,23 @@
             <a href="#" class="btn btn-outline-primary push"  data-toggle="modal" data-target="#add-modal">Add New Exam</a>
         </div>
         <div class="block-content block-content-full">
-            <table class="table table-bordered table-striped table-vcenter" id="datatable">
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Passing Grade</th>
-                        <th>Items</th>
-                        <th>Published</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Passing Grade</th>
+                            <th>Items</th>
+                            <th>Published</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
