@@ -47,23 +47,21 @@ class StudyModeController extends Controller
             return response()->json(['question' => $question]);
         }
 
-        if (@$data['question_ids']) {
-            $questionQuery->whereNotIn('id', @$data['question_ids']);
-        }
-
-        if (@$data['subject']) {
-            $questionQuery->where('subject', @$data['subject']);
-        }
-
-        if (@$data['subtopic']) {
-            $questionQuery->where('course', @$data['subtopic']);
-        }
-
         $question = $questionQuery
                         ->where('course', $course)
+                        ->where(function($query) use ($data) {
+                            if (isset($data['question_ids'])) {
+                                $query->whereNotIn('id', $data['question_ids']);
+                            }
+                            if (isset($data['subject'])) {
+                                $query->where('subject', $data['subject']);
+                            }
+                            if (isset($data['course'])) {
+                                $query->where('subtopic', $data['course']);
+                            }
+                        })
                         ->inRandomOrder()
                         ->first();
-
         $question->options = $question->options()->inRandomOrder()->get();
         return response()->json(['question' => $question]);
     }

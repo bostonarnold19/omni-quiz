@@ -7,9 +7,11 @@
 </style>
 <div class="content" id="app" v-cloak>
     <div class="block block-rounded block-bordered">
+        <input type="hidden" id="subject" value="{{$data['subject']}}">
+        <input type="hidden" id="course" value="{{$data['course']}}">
         <div class="block-header block-header-default">
             <a href="javascript:void(0)" @click="destroy" class="btn btn-danger float-left">Exit</a>
-            {{-- <a href="javascript:void(0)" @click="save(question)" class="btn btn-danger float-right">Save and Exit</a> --}}
+            <a href="javascript:void(0)" @click="save(question)" class="btn btn-danger float-right">Save and Exit</a>
         </div>
         <div class="block-content block-content-full">
             <img class="water-mark" src="{{asset('img/Logo_MTC_1-removebg-preview.png')}}" alt="">
@@ -168,8 +170,6 @@
 <script src="{{ asset('/js/vue.js') }}"></script>
 <script>
     window.publicUrl = "{{url('/')}}";
-    window.subject = "{{@$data['subject']}}";
-    window.course = "{{@$data['course']}}";
 </script>
 <script src="{{ asset('/js/study-mode.js') }}"></script>
 @endsection

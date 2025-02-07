@@ -39,15 +39,16 @@ const app = new Vue({
             this.ans = answer
             this.alphabetAnswer = alphabet
         },
-        save() {
+        save(question) {
             let data = {
-                question_id: this.question.id,
-                subject: this.question.subject,
-                subtopic: this.question.subtopic,
+                question_id: question.id,
+                subject: question.subject,
+                subtopic: question.subtopic,
             }
             let _this = this
 
             data._token = $('meta[name="csrf-token"]').attr('content');
+            console.log(question)
             $.ajax({
                 method: 'POST',
                 url: `${_this.url.routeUpdateQuestion}/${data.question_id}/update`,
@@ -58,7 +59,7 @@ const app = new Vue({
                 },
             });
         },
-        destroy() {
+        destroy(relocateDashboard = true) {
             let data = {
                 question_id: this.question.id,
                 subject: this.question.subject,
@@ -73,18 +74,23 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
+                    if (!relocateDashboard) {
+                        return
+                    }
                     window.location.href = `${window.publicUrl}/dashboard`;
                 },
             });
         },
-        getQuestion() {
+        async getQuestion() {
             var _this = this;
             let data = {};
             data._token = $('meta[name="csrf-token"]').attr('content');
             data.question_ids = _this.questionIds;
-            data.subject = window.subject;
-            data.course = window.course;
-
+            data.subject = document.getElementById('subject').value;
+            data.course = document.getElementById('course').value;
+            if (_this.question.id) {
+                await _this.destroy(false)
+            }
             $.ajax({
                 method: 'POST',
                 url: _this.url.routeAnsQuestion,
@@ -111,6 +117,7 @@ const app = new Vue({
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
                     _this.ans = null
+                    _this.alphabetAnswer = ''
                     _this.questionIds.push(response.question.id)
                 },
             });
