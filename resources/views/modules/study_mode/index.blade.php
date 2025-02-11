@@ -52,7 +52,7 @@
                             <div class="option-select">
                                 <ul>
                                     <li class="selected-option">
-                                        <span v-if="alphabetAnswer" style="text-decoration: underline">
+                                        <span v-if="alphabetAnswer" style="text-decoration: underline;font-weight:bold;font-size:1.2rem">
                                             @{{ alphabetAnswer }}
                                         </span>
                                         <span v-else>____</span>
@@ -84,6 +84,9 @@
         }
         .option-select ul li {
             margin:0px 2px;
+        }
+        .option-select li {
+            cursor:pointer;
         }
         .option-select ul {
             margin-left:0px !important;
@@ -159,6 +162,7 @@
         background: #259ade;
         color: white;
         margin: 0px 25px;
+        cursor: pointer;
         text-transform:capitalize;
     }
 </style>

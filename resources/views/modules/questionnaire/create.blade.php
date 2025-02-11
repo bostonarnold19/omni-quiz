@@ -16,8 +16,8 @@
                 <div v-if="done">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h3>
-                            <h3 v-else>@{{ ((score/items) * 100) }} % <br> Failed</h3>
+                            <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100).toFixed(2) }} % <br> Congrats!</h3>
+                            <h3 v-else>@{{ ((score/items) * 100).toFixed(2) }} % <br> Failed</h3>
                             <h4></h4>
                         </div>
                     </div>
@@ -45,13 +45,13 @@
                                 <div class="option-select">
                                     <ul>
                                         <li class="selected-option">
-                                            <span v-if="alphabetAnswer" style="text-decoration: underline">
+                                            <span v-if="alphabetAnswer" style="text-decoration: underline;font-weight:bold;font-size:1.2rem">
                                                 @{{ alphabetAnswer }}
                                             </span>
                                             <span v-else>____</span>
                                         </li>
-                                        <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v.id, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
-                                        <li class="selected-option" @click="skipSS" id="btn-skip">Skip</li>
+                                        <li v-for="(option_v, option_k) in options"  style="font-weight:bold;font-size:1.2rem"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
+                                        <li class="selected-option"  style="font-weight:bold;font-size:1.2rem"  @click="skipSS" id="btn-skip">Skip</li>
                                     </ul>
                                 </div>
                             </div>
@@ -113,6 +113,7 @@
         color: white;
         margin: 0px 25px;
         text-transform:capitalize;
+        cursor: pointer;
     }
      .form-group-item:has(.custom-radio > label.correct) {
         border:1px solid green;

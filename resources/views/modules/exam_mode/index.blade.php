@@ -14,8 +14,8 @@
                 <div v-if="done">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100) }} % <br> Congrats!</h3>
-                            <h3 v-else>@{{ ((score/items) * 100) }} % <br> Failed</h3>
+                            <h3 v-if="((score/items) * 100) >= passing">@{{ ((score/items) * 100).toFixed(2) }} % <br> Congrats!</h3>
+                            <h3 v-else>@{{ ((score/items) * 100).toFixed(2) }} % <br> Failed</h3>
                             <h4></h4>
                             <center><a href="{{url('/')}}" class="btn btn-danger">&laquo; Go Back to Menu</a></center>
                         </div>
@@ -47,19 +47,20 @@
                                 <div class="option-select">
                                     <ul>
                                         <li class="selected-option">
-                                            <span v-if="alphabetAnswer" style="text-decoration: underline">
+                                            <span v-if="alphabetAnswer" style="text-decoration: underline;font-weight:bold;font-size:1.2rem">
                                                 @{{ alphabetAnswer }}
                                             </span>
                                             <span v-else>____</span>
                                         </li>
-                                        <li v-for="(option_v, option_k) in options"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
-                                        <li class="selected-option" @click="skipSS" id="btn-skip">Skip</li>
+                                        <li v-for="(option_v, option_k) in options" style="font-weight:bold;font-size:1.2rem"  @click="selectAnswer(option_v, alphabet[option_k])">@{{ alphabet[option_k] }}</li>
+                                        <li class="selected-option" style="font-weight:bold;font-size:1.2rem" @click="skipSS" id="btn-skip">Skip</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12" style="display: flex">
-                            <button v-on:click="nextBtn" class="btn btn-lg accept-button">Accept</button>
+                            <button v-if="alphabetAnswer" v-on:click="nextBtn" class="btn btn-lg accept-button">Accept</button>
+                            <button v-else class="btn btn-lg btn-secondary accept-button">Accept</button>
                             {{-- <button v-on:click="skipSS" class="btn btn-lg btn-warning " id="btn-skip">Skip</button> --}}
                         </div>
                     </div>
@@ -113,6 +114,7 @@
         color: white;
         margin: 0px 25px;
         text-transform:capitalize;
+        cursor: pointer;
     }
     .correct {
         color:green;
