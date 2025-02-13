@@ -1,8 +1,9 @@
 <div class="content-header">
     <div class="d-flex align-items-center">
         <!-- Logo -->
-        <a class="link-fx font-size-lg text-white" href="#">
-            <span class="text-white-75">Omni</span><span class="text-white font-w700">Aviation</span>
+        <a style="max-width:250px;" class="link-fx font-size-lg text-white" href="#">
+            {{-- <span class="text-white-75">Omni</span><span class="text-white font-w700">Aviation</span> --}}
+            <img class="img-fluid" style="margin-top:30px;" src="{{ asset('img/OMNI LA Logo 2025 White.png') }}" alt="">
         </a>
     </div>
     <div>

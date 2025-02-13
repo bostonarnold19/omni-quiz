@@ -33,7 +33,7 @@
                         <div class="col-md-12">
                             <h4 :style="question.image_link ? 'margin-bottom:0px' :''">@{{ question.question }}</h4>
                             <a v-if="question.image_link"  :href="question.image_link" target="_blank">See Image</a>
-                            <div class="form-group">
+                            <div class="form-group" :style="question.image_link ? 'margin-top:1.375rem' : ''">
                                 <ol>
                                   <li type="a" v-for="(option_v, option_k) in options">
                                     <span>@{{ alphabet[option_k] }}.</span>

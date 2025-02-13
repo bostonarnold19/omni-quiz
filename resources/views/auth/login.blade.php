@@ -7,7 +7,7 @@
                 <div class="mb-3 text-center">
                     <a class="font-w700 font-size-h1" href="#">
                         <span class="text-dark">
-                            <img src="{{ asset('img/airline-training.png') }}" class="img-fluid" width="500">
+                            <img src="{{ asset('img/Logo_MTC_1-removebg-preview.png') }}" class="img-fluid" width="500">
                             {{-- {{ config('core.title_primary') }}</span><span class="text-primary">{{ config('core.title_extension') }} --}}
                         </span>
                     </a>

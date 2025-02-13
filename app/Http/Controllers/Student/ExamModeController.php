@@ -86,11 +86,17 @@ class ExamModeController extends Controller
 
     private function createMockExam(Request $request) {
         $data = $request->all();
-        $data['time'] = "60:00" ;
+        $subject = $data['select_subject'];
+        $config = "mock-exam.$subject";
+        $configData = config($config) ?: config("mock-exam.default");
+        $minutes = $configData['minutes'];
+        $items = $configData['items'];
+        $data['time'] = "$minutes:00";
         $data['subject'] = $data['select_subject'];
-        $data['question_count'] = 30;
-        $data['passing'] = 50;
-        
+
+        $data['question_count'] = $items;
+        $data['passing'] = 70;
+
         $course = auth()->user()->course;
 
         $questions = $this->question->query()
