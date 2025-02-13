@@ -28,7 +28,7 @@
                     <!-- Footer Copyright -->
                     <div class="row font-size-sm pt-4">
                         <div class="col-sm-6 order-sm-1 text-center text-sm-left">
-                          <a class="font-w600" href="#" target="_blank">{{ config('core.title') }}</a> &copy; <span data-toggle="year-copy">{{ config('core.copyright') }}</span>
+                          <a class="font-w600" href="#" target="_blank"><img class="img-fluid" style="max-width:30%" src="{{ asset('img/Logo_MTC_1-removebg-preview.png') }}" alt=""></a> &copy; <span data-toggle="year-copy">{{ config('core.copyright') }}</span>
                         </div>
                     </div>
                     <!-- END Footer Copyright -->
