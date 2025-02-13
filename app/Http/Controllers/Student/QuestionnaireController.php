@@ -146,12 +146,21 @@ class QuestionnaireController extends Controller {
                     ->whereNotNull('question_option_id')
                     ->count();
 
+            
+                $options = $question->options()->where('description', '!=', 'None of the Above')->inRandomOrder()->get();
+
+                $noneOfTheAbove = $question->options()->where('description', 'None of the Above')->first();
+                
+                if ($noneOfTheAbove) {
+                    $options->push($noneOfTheAbove);
+                }
+
                 return response()->json([
                     'questionnaire_code' => $XXXXXXXXXXX,
                     'score' => $XXXXXXXXXXX->score,
                     // 'answers' => $answers,
                     'question' => $question,
-                    'options' => $question->options,
+                    'options' => $options,
                     'answer' => $answer,
                     'items_left' => $totalCount - $answered,
                 ], 200);
@@ -273,13 +282,21 @@ class QuestionnaireController extends Controller {
                 ->where('questionnaire_code_id', $questionnaire_code->id)
                 ->whereNotNull('question_option_id')
                 ->count();
+            
+            $options = $question->options()->where('description', '!=', 'None of the Above')->inRandomOrder()->get();
+
+            $noneOfTheAbove = $question->options()->where('description', 'None of the Above')->first();
+            
+            if ($noneOfTheAbove) {
+                $options->push($noneOfTheAbove);
+            }
 
             return response()->json([
                 'questionnaire_code' => $questionnaire_code,
                 'score' => $questionnaire_code->score,
                 // 'answers' => $answers,
                 'question' => $question,
-                'options' => $question->options,
+                'options' => $options,
                 'answer' => $answer,
                 'skip' => @$skip,
                 'items_left' => $totalCount - $answered,
