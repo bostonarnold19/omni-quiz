@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\User\Entities\User;
 
 class StudentProfileController extends Controller
@@ -27,27 +29,21 @@ class StudentProfileController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->all();
-        $questionQuery = $this->question->with('options');
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email'],
+        ]);
 
-        $course = auth()->user()->course;
+        // Update the password
+        $user = Auth::user();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->save();
 
-        if (@$data['question_ids']) {
-            $questionQuery->whereNotIn('id', @$data['question_ids']);
-        }
+        return redirect()->back()->with('success', 'Profile updated successfully!');
 
-        if (@$data['subject']) {
-            $questionQuery->where('subject', @$data['subject']);
-        }
-
-        if (@$data['subtopic']) {
-            $questionQuery->where('course', @$data['subtopic']);
-        }
-
-        $question = $questionQuery
-                        ->where('course', $course)
-                        ->inRandomOrder()->first();
-        return response()->json(['question' => $question]);
     }
 
     public function show($id)
