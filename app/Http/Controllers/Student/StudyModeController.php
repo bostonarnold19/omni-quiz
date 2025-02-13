@@ -62,7 +62,11 @@ class StudyModeController extends Controller
                         })
                         ->inRandomOrder()
                         ->first();
-                        
+        
+        if (!$question) {
+            return response()->json(['question' => null]);
+        }
+
         $options = $question->options()->where('description', '!=', 'None of the Above')->inRandomOrder()->get();
 
         $noneOfTheAbove = $question->options()->where('description', 'None of the Above')->first();

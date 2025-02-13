@@ -92,6 +92,10 @@
             margin-left:0px !important;
             margin-top:20px !important;
         }
+
+        .water-mark {
+            width: 100% !important;
+        }
     }
     .option-select .selected-option {
         background:unset;
@@ -141,7 +145,7 @@
         position: relative;
     }
     .water-mark {
-        opacity: 0.2;
+        opacity: 0.1;
         position: absolute;
         left: 0;
         top: 50%;

@@ -86,6 +86,9 @@
         .option-select ul {
             margin-left:-15% !important;
             margin-top:20px !important;
+        } 
+        .water-mark {
+            width: 100% !important;
         }
     }
     .option-select .selected-option {
@@ -153,7 +156,7 @@
         position: relative;
     }
     .water-mark {
-        opacity: 0.2;
+        opacity: 0.1;
         position: absolute;
         right: 0;
         left:0px;

@@ -97,10 +97,10 @@ const app = new Vue({
                 data: data,
                 jsonp: false,
                 success: function(response){
-                    // if (!response.question) {
-                    //     window.location.href = `${window.publicUrl}/dashboard`;
-                    //     return;
-                    // }
+                    if (!response.question) {
+                        window.location.href = `${window.publicUrl}/dashboard`;
+                        return;
+                    }
                     _this.question = response.question;
                     _this.options = response.question.options;
 
