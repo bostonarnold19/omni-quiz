@@ -31,7 +31,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subtopic</label>
-                                <input type="text" class="form-control" name="subtopic" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="subtopic" placeholder="Subtopic" required>
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Image Link</label>
-                                <input type="text" class="form-control" name="image_link" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="image_link" placeholder="Image Link">
                             </div>
                         </div>
                     </div>

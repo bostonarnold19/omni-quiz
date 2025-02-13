@@ -41,7 +41,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Image Link</label>
-                                <input type="text" class="form-control" name="image_link" v-model="question.image_link"  placeholder="Image Link" required>
+                                <input type="text" class="form-control" name="image_link" v-model="question.image_link"  placeholder="Image Link">
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                                     <span class="is_correct_btn active" v-if="getKeyArray(key, question.is_correct) != 'empty'"  data-text="#is_correct_edit" :data-id="key">Correct Answer</span>
                                     <span class="is_correct_btn " v-else data-text="#is_correct_edit" :data-id="key">Correct Answer</span>
                                     <span style="color:red;cursor:pointer" v-on:click="removeEditOption(key)">Remove</span>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                     </div>
