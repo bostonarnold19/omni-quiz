@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Auth\ChangePasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     ]);
 
     Route::match(['get', 'post'], '/import', 'HomeController@import')->name('import');
+
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/change-password', [ChangePasswordController::class, 'showChangePasswordForm'])->name('new-password.change');
+        Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])->name('new-password.update');
+    });
 
 
 });
