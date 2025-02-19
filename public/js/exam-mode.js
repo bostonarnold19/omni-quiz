@@ -239,7 +239,7 @@ const app = new Vue({
                             var grade = ((_this.score/_this.items) * 100) >= _this.passing;
                     var msg = 'Congrats';
                     var type = 'success';
-                    var ave = ((_this.score/_this.items) * 100) + "%";
+                    var ave = ((_this.score/_this.items) * 100).toFixed(2) + "%";
 
                     if(grade == false) {
                         msg = 'Failed';
