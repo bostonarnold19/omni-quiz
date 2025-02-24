@@ -151,9 +151,9 @@
     .water-mark {
         opacity: 0.1;
         position: absolute;
-        left: 0;
+        left: 15%;
         top: 50%;
-        width: 50%;
+        width: 75%;
         height: auto;
     }
 </style>
