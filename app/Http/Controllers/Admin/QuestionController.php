@@ -23,7 +23,7 @@ class QuestionController extends Controller {
 
     public function index(Request $request) {
         if ($request->ajax()) {
-            $questions = $this->question->whereNull('deleted');
+            $questions = $this->question->select(['id', 'question', 'subject', 'course',])->whereNull('deleted')->get();
             return Datatables::of($questions)
                 ->addColumn('question', function ($question) {
                     return $question->question;

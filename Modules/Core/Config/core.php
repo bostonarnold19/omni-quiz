@@ -6,7 +6,7 @@ return [
     'title_primary' => 'Omni',
     'title_extension' => 'Aviation',
 
-    'system_title' => 'Online Questionnaire',
+    'system_title' => 'Web Reviewer',
     'system_title_abbreviation' => 'OQ',
 
     'copyright' => '2024',

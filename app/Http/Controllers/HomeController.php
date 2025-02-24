@@ -248,11 +248,11 @@ class HomeController extends Controller {
         if (!$user->hasRole('student')) {
             return response()->json(['message' => 'ok!']);
         }
-       
+
         unset($data['_token']);
 
         $userArray = $user->toArray();
-        
+
         $auth = true;
 
         foreach ($data as $field => $value) {
