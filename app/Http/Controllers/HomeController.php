@@ -220,8 +220,15 @@ class HomeController extends Controller {
                     'expiration_date' => $column[7],
                     'password' => bcrypt($column[0]),
                 ];
-                $exist = $this->user->where('student_id', $insert['student_id'])->first();
+                $exist = $this->user->where(function($query) use ($insert) {
+                    $query->where('student_id', $insert['student_id'])
+                        ->orWhere('username', $insert['username']);
+                })->withTrashed()->first();
                 if ($exist) {
+
+                    $exist->restore();
+                    $exist->update($insert);
+
                     continue;
                 }
 
