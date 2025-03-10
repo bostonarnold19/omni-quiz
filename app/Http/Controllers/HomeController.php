@@ -155,6 +155,7 @@ class HomeController extends Controller {
                 //     $check = implode('.', $check);
                 // }
                 $check = $column[0];
+                $check = utf8_encode($column[0]); // Ensure proper encoding
                 $check = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $check);
                 $check = preg_replace('/[\x00-\x1F\x7F-\xA0\xAD]/u', '', $check);
                 $check = preg_replace( '/[^[:print:]]/', '',$check);
@@ -172,9 +173,12 @@ class HomeController extends Controller {
                     DB::beginTransaction();
                     $question = $this->question->create($insert);
                     foreach ($column as $key => $value) {
+                        
+                        $value = utf8_encode($value); // Ensure proper encoding
                         if ($key <= 4) {
                             continue;
                         }
+
                         if (empty($value)) {
                             continue;
                         }
