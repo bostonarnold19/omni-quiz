@@ -14,7 +14,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Subject</label>
-                                <select class="form-control js-select2" v-model="selectedSubject">
+                                <select class="form-control js-select2" v-model="selectedSubject" required>
                                     <option value=""></option>
                                     <option v-for="(subject, i) in subjects" :value="i">@{{i}}</option>
                                 </select>

@@ -16,7 +16,7 @@
                         <div class="col-xl-12">
                             <div class="form-group">
                                 <label>Questionnaire</label>
-                                <select name="select_subject" class="form-control js-select2">
+                                <select name="select_subject" class="form-control js-select2" required>
                                     <option value="">Select Question</option>
                                     @foreach($subjects as $subject)
                                     <option value="{{$subject}}">{{$subject}}</option>
