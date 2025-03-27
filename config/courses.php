@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'AMT' => 'Aircraft Maintenance Technician (AMT)',
-    'AMS' => 'Aircraft Maintenance Systems (AMS)',
+    'AMT' => 'Aviation Maintenance Technician (AMT)',
+    'AMS' => 'Aviation Maintenance Specialist (AMS)',
 ];

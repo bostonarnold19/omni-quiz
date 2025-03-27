@@ -8,6 +8,7 @@ use App\Question;
 use App\QuestionnaireCode;
 use App\QuestionOption;
 use DB;
+use DateTime;
 use Modules\User\Entities\User;
 use Modules\User\Entities\Role;
 
@@ -137,11 +138,13 @@ class HomeController extends Controller {
         }
         $counter = 0;
         $cleanedData = [];
+        $uploaded = [];
 
         while ($column = fgetcsv($file)) {
             if (!$column[0]) {
                 continue;
             }
+            $cleanedData[] = $column;
             // if ($column[0] == "1 + 1 ?") {
             //     continue;
             // }
@@ -221,17 +224,16 @@ class HomeController extends Controller {
                     'email'=> $column[4],
                     'username' => $column[5],
                     'course' => $column[6],
-                    'expiration_date' => $column[7],
+                    'expiration_date' => $this->formatDateToYMD($column[7]),
                     'password' => bcrypt($column[0]),
                 ];
                 $exist = $this->user->where(function($query) use ($insert) {
-                    $query->where('student_id', $insert['student_id'])
-                        ->orWhere('username', $insert['username']);
+                    $query->where('email', $insert['email']);
                 })->withTrashed()->first();
                 if ($exist) {
-
                     $exist->restore();
                     $exist->update($insert);
+                    $uploaded[] = $column;
 
                     continue;
                 }
@@ -240,18 +242,30 @@ class HomeController extends Controller {
                     DB::beginTransaction();
                     $user = $this->user->create($insert);
                     $user->roles()->attach($role->id);
+                    $uploaded[] = $column;
                     DB::commit();
                 } catch (\Exception $e) {
                     DB::rollBack();
                 }
 
             }
-            $cleanedData[] = $data;
         }
 
         return $cleanedData;
     }
 
+    private function formatDateToYMD($dateString)
+    {
+        // Replace slashes with dashes to standardize input
+        $dateString = str_replace('/', '-', $dateString);
+        
+        // Create DateTime object from the standardized format
+        $date = DateTime::createFromFormat('d-m-Y', $dateString);
+        
+        // Check if the conversion was successful
+        return $date ? $date->format('Y-m-d') : 'Invalid date format';
+    }
+    
     public function device(Request $request)
     {
         $data = $request->all();
