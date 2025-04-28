@@ -84,6 +84,20 @@ const app = new Vue({
                     _this.timer(_this.questionnaire_code.time_end);
                 }
             },
+            error: function(xhr, status, error) {
+                if (xhr.status === 404) {
+                    // Handle 403 error here
+                    Swal.fire(
+                        'Questionnaire not found',
+                    );
+
+                    // Optionally, you can also redirect the user
+                    // window.location.href = '/login';
+                } else {
+                    // Handle other errors
+                    console.error('AJAX Error:', error);
+                }
+            },
         });
 
     },
@@ -103,7 +117,7 @@ const app = new Vue({
                 jsonp: false,
                 success: function(response){
                     window.location = _this.url.routeDashboard
-                },
+                }
             });
         },
         selectAnswer(answer, alphabetAnswer) {
@@ -232,7 +246,7 @@ const app = new Vue({
                         _this.itemsLeft = response.items_left
                     }
                       if(response.done) {
-                            _this.done = response.done;
+                        _this.done = response.done;
                             _this.score = response.score;
                             _this.items = response.items;
                             _this.passing = response.passing;

@@ -63,13 +63,15 @@ class QuestionnaireController extends Controller {
 
             $questionnaire_code = $this->questionnaire_code
                 ->where('codes', $data['codes'])
+                ->whereNull('result')
                 ->where('user_id', $auth->id)
                 ->first();
 
-
+            if(empty($questionnaire_code)) {
+                return response()->json(['message' => 'questionnaire does not exist'], 404);
+            }
             $time_now = Carbon::now();
-
-            if (isset($questionnaire_code) && empty($questionnaire_code->time_start)) {
+            if ($questionnaire_code && empty($questionnaire_code->time_start)) {
                 $questionnaire_code->time_start = $time_now;
 
                 $time_q = explode(':', $questionnaire_code->questionnaire->time);
@@ -82,16 +84,8 @@ class QuestionnaireController extends Controller {
                 $questionnaire_code->time_end = Carbon::parse($time_end);
 
                 $questionnaire_code->update();
-
                 // dd('first if');
-
             }
-
-
-
-
-
-
             if ($questionnaire_code->time_end > Carbon::now()) {
                 $answers = $this->answer
                     ->where('user_id', $auth->id)
@@ -107,10 +101,29 @@ class QuestionnaireController extends Controller {
 
 
                 // dd('2nd if');
+            } else {
+                //SCORE
+                $answers = $this->answer
+                    ->where('user_id', $auth->id)
+                    ->where('questionnaire_code_id', $questionnaire_code->id)->get();
 
+                $score = 0;
+                foreach ($answers as $key => $v_answer) {
+                    if (isset($v_answer->answer) && $v_answer->answer->is_correct == 1) {
+                        $score++;
+                    }
+                }
+
+                $questionnaire_code->result = $score;
+                $questionnaire_code->update();
+                return response()->json([
+                    'done' => true,
+                    'score' => $score,
+                    'passing' => $questionnaire_code->questionnaire->passing,
+                    'items' => $questionnaire_code->questionnaire->questions->count(),
+                    // 'answers' => $answers,
+                ], 200);
             }
-
-
 
             if (!empty($question)) {
 
@@ -133,6 +146,7 @@ class QuestionnaireController extends Controller {
 
                 $XXXXXXXXXXX = $this->questionnaire_code
                     ->where('codes', $data['codes'])
+                    ->whereNull('result')
                     ->where('user_id', $auth->id)
                     ->first();
 
@@ -181,7 +195,6 @@ class QuestionnaireController extends Controller {
 
                 $questionnaire_code->result = $score;
                 $questionnaire_code->update();
-
                 return response()->json([
                     'done' => true,
                     'score' => $score,
@@ -229,10 +242,9 @@ class QuestionnaireController extends Controller {
         //     $answers = $data['answers'];
         // }
 
-        $questionnaire_code = $this->questionnaire_code->find($data['questionnaire_code']['id']);
+        $questionnaire_code = $this->questionnaire_code->find($data['questionnaire_code_id']);
 
         // dd($questionnaire_code);
-
         if ($questionnaire_code->time_end > Carbon::now()) {
             $question = null;
 
@@ -308,17 +320,14 @@ class QuestionnaireController extends Controller {
             $answers = $this->answer
                 ->where('user_id', $auth->id)
                 ->where('questionnaire_code_id', $questionnaire_code->id)->get();
-
             $score = 0;
             foreach ($answers as $key => $v_answer) {
                 if (isset($v_answer->answer) && $v_answer->answer->is_correct == 1) {
                     $score++;
                 }
             }
-
             $questionnaire_code->result = $score;
             $questionnaire_code->update();
-
             return response()->json([
                 'done' => true,
                 'score' => $score,

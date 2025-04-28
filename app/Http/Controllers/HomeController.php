@@ -58,13 +58,9 @@ class HomeController extends Controller {
             });
 
         // if mock exam exists
-        $questionnaire_code = $this->questionnaire_code->where('is_official', 0)->where('user_id', $user->id)
-            ->where(function($query) {
-                $query->where('time_start', '<=',date('Y-m-d H:i:s'))
-                ->where('time_end', '>=',date('Y-m-d H:i:s'))
-                ->orWhereNull('time_start')
-                ->orWhereNull('time_end');
-            })->whereNull('result')->first();
+        $questionnaire_code = $this->questionnaire_code
+        ->where('is_official', 0)
+        ->where('user_id', $user->id)->whereNull('result')->first();
 
         $qualifying = $this->questionnaire_code
                         ->where('user_id', $user->id)
