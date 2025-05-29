@@ -33,6 +33,10 @@ return [
         'minutes' => 40,
         'items' => 50,
     ],
+    'Powerplant Rating'  => [
+        'minutes' => 40,
+        'items' => 50,
+    ],
     'default'  => [
         'minutes' => 30,
         'items' => 30,
