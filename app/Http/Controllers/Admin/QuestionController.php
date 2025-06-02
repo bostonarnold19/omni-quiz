@@ -23,8 +23,20 @@ class QuestionController extends Controller {
 
     public function index(Request $request) {
         if ($request->ajax()) {
-            $questions = $this->question->select(['id', 'question', 'subject', 'course',])->whereNull('deleted')->get();
+            $data = $request->all();
+            $questions = $this->question->select(['id', 'question', 'subject', 'course',])
+                ->whereNull('deleted');
             return Datatables::of($questions)
+               ->filter(function ($query) use ($data) {
+                    if (isset($data['search']['value'])) {
+                        $search = $data['search']['value'];
+                        return $query->where(function($table) use ($search) {
+                            $table->where('question', 'like', "%$search%")
+                                ->orWhere('subject', 'like', "%$search%")
+                                ->orWhere('course', 'like', "%$search%");
+                        });
+                    }
+                })
                 ->addColumn('question', function ($question) {
                     return $question->question;
                 })
