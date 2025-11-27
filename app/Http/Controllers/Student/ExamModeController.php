@@ -93,6 +93,9 @@ class ExamModeController extends Controller
         $data['passing'] = 70;
 
         $course = auth()->user()->course;
+        $data['course'] = $course;
+        $data['type'] = 'Mock Exam';
+        $data['title'] = 'Mock Exam - ' . $subject;
 
         $questions = $this->question->query()
             ->where('subject', $data['subject'])

@@ -29,6 +29,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     ]);
 
     Route::resource('result', 'Student\ResultController');
+    Route::resource('mock-exam-result', 'Student\MockExamResultController');
     Route::resource('student-profile', 'Student\StudentProfileController');
     Route::resource('omni-questionnaire', 'Student\QuestionnaireController');
 

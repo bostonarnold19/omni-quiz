@@ -40,6 +40,12 @@ Breadcrumbs::for ('result.index', function ($trail) {
     $trail->push('Result', route('result.index'));
 });
 
+//------------ Mock Exam Result ------------//
+Breadcrumbs::for ('mock-exam-result.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Mock Exam Result', route('mock-exam-result.index'));
+});
+
 //------------ Result ------------//
 Breadcrumbs::for ('codes', function ($trail) {
     $trail->parent('dashboard');

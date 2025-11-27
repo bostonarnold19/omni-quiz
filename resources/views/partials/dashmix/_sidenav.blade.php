@@ -70,6 +70,12 @@
                 <span class="nav-main-link-name">Result</span>
             </a>
         </li>
+        <li class="nav-main-item">
+            <a class="nav-main-link {{ Request::is('mock-exam-result') ? 'active' : '' }}" href="{{ route('mock-exam-result.index') }}">
+                <i class="nav-main-link-icon far fa-dot-circle"></i>
+                <span class="nav-main-link-name">Mock Exam Result</span>
+            </a>
+        </li>
         @endpermission
         @permission('codes')
         <li class="nav-main-item">

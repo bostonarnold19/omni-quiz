@@ -1,0 +1,112 @@
+@extends('layouts.dashmix')
+@section('breadcrumbs')
+{{ Breadcrumbs::render('mock-exam-result.index') }}
+@endsection
+@section('content')
+<div class="content">
+    <div class="block block-rounded block-bordered">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Mock Exam Results</h3>
+        </div>
+        <div class="block-content block-content-full">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-vcenter" id="datatable">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Course</th>
+                            <th>EXAMINATION TYPE</th>
+                            <th>Subject</th>
+                            <th width="120">Rating</th>
+                            <th>CORRECT ANSWERS</th>
+                            <th>Result</th>
+                            <th>Latest Attempt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if($questionnaire_codes)
+
+                            @foreach($questionnaire_codes as $questionnaire_code)
+                            @php
+
+                            if(!$questionnaire_code->where('is_official', 0)->first()->user) {
+                                continue;
+                            }
+
+                            $items = @$questionnaire_code->first()->questionnaire->questions()->count();
+                            $latestAttempt = $questionnaire_code->first(); // Already sorted by created_at desc in controller
+                            @endphp
+                            <tr>
+                                <td>{{ @$questionnaire_code->where('is_official', 0)->first()->user->student_id }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 0)->first()->user->first_name }} {{ @$questionnaire_code->where('is_official', 0)->first()->user->last_name }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 0)->first()->questionnaire->course ?: @$questionnaire_code->where('is_official', 0)->first()->user->course }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 0)->first()->questionnaire->type ?: 'Mock Exam' }}</td>
+                                <td>{{ @$questionnaire_code->where('is_official', 0)->first()->questionnaire->subject }}</td>
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    @if($question->result != 0)
+                                    {{  number_format((($question->result / $items) * 100), 2) }} % <br>
+                                    @else
+                                    0 % <br>
+                                    @endif
+                                    @endforeach
+                                </td>
+
+
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    {{ $question->result == null ? 0 : $question->result }} <br>
+                                    @endforeach
+                                </td>
+
+
+                                <td>
+                                    @foreach($questionnaire_code as $question)
+                                    {{ $question->result != 0 ? $question->result : '0'}} / {{$items}}<br>
+                                    @endforeach
+                                </td>
+
+                                <td data-order="{{ $latestAttempt->created_at->timestamp }}">
+                                    {{ $latestAttempt->created_at->format('M d, Y h:i A') }}
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('styles')
+<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.css') }}">
+<link rel="stylesheet" href="{{ asset('themes/dashmix/assets/js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css')
+    }}">
+    <link rel="stylesheet" href="{{asset('css/datatable-button.css')}}">
+    @endsection
+    @section('scripts')
+    <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('themes/dashmix/assets/js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{asset('js/datatable-button.js')}}"></script>
+    <script src="{{asset('js/datatable-print.js')}}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    var table = $('#datatable').DataTable( {
+    dom: 'Bfrtip',
+    buttons: [
+    'print'
+    ],
+    order: [[8, 'desc']] // Sort by Latest Attempt column (index 8) in descending order
+    } );
+    $('#datatable input').attr('name', 'search_text');
+    // new $.fn.dataTable.FixedHeader( table );
+    } );
+    $(document).on('click', '#btn-print-report', function(){
+    var val = $(this).val();
+    var query = $('#dataTables_filter input.form-controlform-control-sm').val()
+    });
+    </script>
+    @endsection
+

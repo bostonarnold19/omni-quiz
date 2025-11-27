@@ -6,7 +6,15 @@
             <img class="img-fluid" src="{{ asset('img/OMNI LA Logo 2025 White.png') }}" alt="">
         </a>
     </div>
-    <div>
+    <div class="d-flex align-items-center">
+        <!-- Expiration Date Display -->
+        @if(auth()->user() && auth()->user()->expiration_date)
+        <div class="mr-3 text-white">
+            <i class="far fa-calendar-alt mr-1"></i>
+            <span class="font-size-sm">Valid Until: <strong>{{ \Carbon\Carbon::parse(auth()->user()->expiration_date)->format('M d, Y') }}</strong></span>
+        </div>
+        @endif
+        
         <div class="dropdown d-inline-block">
             <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="far fa-fw fa-user-circle"></i>
