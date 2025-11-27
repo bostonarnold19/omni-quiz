@@ -29,6 +29,7 @@ const app = new Vue({
             skipCount:0,
             itemsLeft:0,
             alphabetAnswer:'',
+            showScore: true, // Show real-time score
         }
     },
     mounted: function(){
@@ -79,6 +80,14 @@ const app = new Vue({
                     _this.answer = response.answer;
                     _this.questionnaire_code = response.questionnaire_code;
                     _this.itemsLeft = response.items_left
+                    
+                    // Update real-time score
+                    if (response.score !== undefined) {
+                        _this.score = response.score;
+                    }
+                    if (response.items !== undefined) {
+                        _this.items = response.items;
+                    }
 
                     // console.log(_this.questionnaire_code);
                     _this.timer(_this.questionnaire_code.time_end);
@@ -212,6 +221,14 @@ const app = new Vue({
                         _this.answer = response.answer;
                         _this.skip = response.skip
                         _this.itemsLeft = response.items_left
+                        
+                        // Update real-time score
+                        if (response.score !== undefined) {
+                            _this.score = response.score;
+                        }
+                        if (response.items !== undefined) {
+                            _this.items = response.items;
+                        }
                         // _this.timer(_this.answer.time_end.date);
                     }
 
@@ -283,7 +300,14 @@ const app = new Vue({
                             //         updated_at: '',
                             //     })
                             // } 
-                            _this.score = response.score;
+                            
+                            // Update real-time score
+                            if (response.score !== undefined) {
+                                _this.score = response.score;
+                            }
+                            if (response.items !== undefined) {
+                                _this.items = response.items;
+                            }
                             // _this.options = _this.fisherYates(response.options);
                             _this.answer = response.answer;
                             // _this.timer(_this.answer);

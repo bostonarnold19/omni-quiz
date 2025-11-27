@@ -160,6 +160,14 @@ class QuestionnaireController extends Controller {
                     ->whereNotNull('question_option_id')
                     ->count();
 
+                // Calculate current score in real-time
+                $currentScore = $this->answer
+                    ->where('user_id', $auth->id)
+                    ->where('questionnaire_code_id', $questionnaire_code->id)
+                    ->whereHas('answer', function($query) {
+                        $query->where('is_correct', 1);
+                    })
+                    ->count();
             
                 $options = $question->options()->where('description', '!=', 'None of the Above')->inRandomOrder()->get();
 
@@ -171,7 +179,8 @@ class QuestionnaireController extends Controller {
 
                 return response()->json([
                     'questionnaire_code' => $XXXXXXXXXXX,
-                    'score' => $XXXXXXXXXXX->score,
+                    'score' => $currentScore,
+                    'items' => $totalCount,
                     // 'answers' => $answers,
                     'question' => $question,
                     'options' => $options,
@@ -294,6 +303,15 @@ class QuestionnaireController extends Controller {
                 ->where('questionnaire_code_id', $questionnaire_code->id)
                 ->whereNotNull('question_option_id')
                 ->count();
+
+            // Calculate current score in real-time
+            $currentScore = $this->answer
+                ->where('user_id', $auth->id)
+                ->where('questionnaire_code_id', $questionnaire_code->id)
+                ->whereHas('answer', function($query) {
+                    $query->where('is_correct', 1);
+                })
+                ->count();
             
             $options = $question->options()->where('description', '!=', 'None of the Above')->inRandomOrder()->get();
 
@@ -305,7 +323,8 @@ class QuestionnaireController extends Controller {
 
             return response()->json([
                 'questionnaire_code' => $questionnaire_code,
-                'score' => $questionnaire_code->score,
+                'score' => $currentScore,
+                'items' => $totalCount,
                 // 'answers' => $answers,
                 'question' => $question,
                 'options' => $options,

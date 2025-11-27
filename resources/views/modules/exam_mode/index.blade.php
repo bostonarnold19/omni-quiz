@@ -27,7 +27,11 @@
                             <button v-on:click="exitMode" class="btn btn-danger accept-button">Exit</button>
                             <h1 style="font-size:1.5rem;font-weight: bold; text-align: right;" id="demo"></h1>
                             <center>
-                                <div style="text-align: center;font-weight: bold;font-size: 2rem;margin-top: -5%;margin-bottom: 5%;">Items Left: @{{itemsLeft}}</div>
+                                <div style="text-align: center;font-weight: bold;font-size: 2rem;margin-top: -5%;margin-bottom: 2%;">Items Left: @{{itemsLeft}}</div>
+                                <div v-if="showScore" style="text-align: center;font-weight: bold;font-size: 1.5rem;margin-bottom: 3%;color: #259ade;">
+                                    Current Score: @{{score}} / @{{items}} 
+                                    <span style="font-size: 1.2rem;color: #666;">(@{{ items > 0 ? ((score/items) * 100).toFixed(1) : 0 }}%)</span>
+                                </div>
                             </center>
                         </div>
                     </div>
