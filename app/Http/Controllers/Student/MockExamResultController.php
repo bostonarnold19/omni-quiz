@@ -59,7 +59,7 @@ class MockExamResultController extends Controller
 
     public function create()
     {
-        $users = $this->user_repository->select(['id', 'student_id', 'first_name', 'last_name', 'email', 'username', 'password_crack', 'profile_picture']);
+        $users = $this->user_repository->select(['id', 'student_id', 'first_name', 'last_name', 'email', 'username', 'password_crack', 'profile_picture', 'course']);
         return Datatables::of($users)
             ->filterColumn('name', function($query, $keyword) {
                 $sql = "CONCAT(users.first_name,'-',users.last_name)  like ?";
